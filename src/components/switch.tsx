@@ -5,6 +5,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { useDispatch } from 'react-redux';
+import { useTheme } from '@/theme/theme-provider';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -201,12 +203,20 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
     }),
   },
 }));
+interface CustomizedSwitchesProps {
+  toggleTheme: () => void;
+  theme: "light" | "dark";
+}
 
-export default function CustomizedSwitches({ toggleTheme, theme }) {
+export default function CustomizedSwitches({ toggleTheme, theme }: CustomizedSwitchesProps) {
+  const dispatch = useDispatch()
+  const { setTheme } = useTheme()
+
+
   return (
     <FormGroup>
       <FormControlLabel
-        control={<MaterialUISwitch checked={theme == "dark"} onClick={toggleTheme} sx={{ m: 1 }} />}
+        control={<MaterialUISwitch checked={theme == "dark"} onClick={() => { dispatch(toggleTheme()), setTheme(theme == "dark" ? "light" : "dark") }} sx={{ m: 1 }} />}
       />
 
     </FormGroup>

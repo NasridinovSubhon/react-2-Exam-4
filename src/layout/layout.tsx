@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom"
+import { Link, Outlet } from "react-router-dom"
 import logo from "@/assets/logo.png"
 import { ArrowDownUp, Facebook, Heart, Instagram, Menu, Search, SendHorizontal, ShoppingCart, Twitter } from "lucide-react"
 
@@ -12,22 +12,25 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 
-import CustomizedSwitches from "@/component/switch"
+import CustomizedSwitches from "@/components/switch"
 
-import useDarkSide from '@/config/useDarkMode';
-import TemporaryDrawer from './../component/menu';
+import TextField from "@mui/material/TextField"
+import TemporaryDrawer from "@/components/menu"
+import { useDispatch, useSelector } from "react-redux"
+import { toggleTheme } from "@/reducers/theme"
 
 
 
 
 const Layout = () => {
+    const theme = useSelector((state) => state.theme.mode);
 
-    const [theme, toggleTheme] = useDarkSide();
+
 
     return (
         <div className="" >
 
-            <div className="xl:w-[85%] m-auto mt-[20px] flex items-center justify-between sm:w-[90%]">
+            <div className="xl:w-[85%] m-auto mt-[20px] flex items-center justify-between sm:w-[90%] sticky top-0">
                 <div className="sm:flex items-center justify-between w-[25%] xl:hidden text-center">
                     <TemporaryDrawer toggleTheme={toggleTheme} theme={theme} />
                     <div className="sm:flex items-center justify-between w-[55%] xl:hidden">
@@ -41,7 +44,13 @@ const Layout = () => {
                         <h1>Home</h1>
                         <h1>Contact</h1>
                         <h1>About</h1>
-                        <h1>Sign Up</h1>
+                        <ul>
+                            <li>
+                                <Link to={"/"} >
+                                    sign up
+                                </Link>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div className="xl:w-[40%] flex items-center justify-between sm:w-[10%]">
@@ -79,10 +88,11 @@ const Layout = () => {
 
                 </div>
             </div>
-
             <Outlet />
 
-            <footer className="bg-black  border-white border-2  text-white xl:h-[35vh] mt-auto absolute bottom-0 w-full sm:h-[60vh] ">
+
+
+            <footer className="bg-black  border-white border-2  text-white py-10   w-full  xl:mb-0 sm:-mb-[200px]  ">
                 <div className="w-[90%] mt-[20px] m-auto py-[10px] flex  justify-between flex-wrap " >
                     <div className="xl:w-[20%] sm:w-[90%]">
                         <h1 className="xl:text-[24px] sm:text-[18px]"> Exclusive </h1>
@@ -93,27 +103,27 @@ const Layout = () => {
                             <SendHorizontal />
                         </div>
                     </div>
-                    <div className="xl:w-[20%] sm:w-[90%]">
+                    <div className="xl:w-[20%] sm:w-[90%] xl:mt-0 sm:mt-4 ">
                         <h1 className="xl:text-[24px] sm:text-[18px]"> Support </h1>
                         <h1 className="xl:text-[16px] mt-[11px] sm:text-[14px]"> 111 Bijoy sarani, Dhaka,  DH 1515, Bangladesh. </h1>
                         <h1 className="xl:text-[16px] mt-[7px] sm:text-[14px]"> exclusive@gmail.com </h1>
                         <h1 className="xl:text-[16px] mt-[7px] sm:text-[14px]"> +88015-88888-9999 </h1>
                     </div>
-                    <div className="xl:w-[15%] sm:w-[70%]" >
-                        <h1 className="xl:text-[24px] sm:text-[18px]"> Account </h1>
+                    <div className="xl:w-[15%] sm:w-[45%]" >
+                        <h1 className="xl:text-[24px] sm:text-[18px] xl:mt-0 sm:mt-5 "> Account </h1>
                         <h1 className="xl:text-[16px] mt-[11px] sm:text-[14px]"> My Account</h1>
                         <h1 className="xl:text-[16px] mt-[11px] sm:text-[14px]"> Cart </h1>
                         <h1 className="xl:text-[16px] mt-[11px] sm:text-[14px]"> Wishlist </h1>
                         <h1 className="xl:text-[16px] mt-[11px] sm:text-[14px]"> Shop </h1>
                     </div>
-                    <div className="xl:w-[15%] sm:w-[70%]" >
-                        <h1 className="xl:text-[24px] sm:text-[18px]"> Quick Link </h1>
+                    <div className="xl:w-[15%] sm:w-[45%]" >
+                        <h1 className="xl:text-[24px] sm:text-[18px] xl:mt-0 sm:mt-5 "> Quick Link </h1>
                         <h1 className="xl:text-[16px] mt-[11px] sm:text-[14px]"> Privacy Policy </h1>
                         <h1 className="xl:text-[16px] mt-[11px] sm:text-[14px]"> Terms Of Use </h1>
                         <h1 className="xl:text-[16px] mt-[11px] sm:text-[14px]"> FAQ </h1>
                         <h1 className="xl:text-[16px] mt-[11px] sm:text-[14px]"> Contact </h1>
                     </div>
-                    <div className="w-[15%]" >
+                    <div className="xl:w-[15%] sm:w-[100%] " >
                         <h1 className="xl:text-[24px] sm:text-[18px] "> Social  </h1>
                         <div className="flex items-center justify-between mt-[20px]">
                             <Facebook />

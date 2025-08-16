@@ -6,10 +6,13 @@ import Divider from '@mui/material/Divider';
 import { Menu } from 'lucide-react';
 import { useState } from 'react';
 import CustomizedSwitches from './switch';
+import { useSelector } from 'react-redux';
+
 
 
 
 export default function TemporaryDrawer({ toggleTheme, theme }) {
+    const theme1 = useSelector((state) => state.theme.mode)
     const [open, setOpen] = useState(false);
 
     const toggleDrawer = (newOpen) => () => {
