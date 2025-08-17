@@ -4,6 +4,8 @@ import Layout from "./layout/layout"
 import SignUp from "./layout/SignUp"
 import Theme from "./theme"
 import { ThemeProvider } from "./theme/theme-provider"
+import Home from "./components/home"
+import Login from "./components/login"
 
 const App = () => {
 
@@ -11,6 +13,8 @@ const App = () => {
     createRoutesFromElements(
       <Route path="/" element={<Layout />} >
         <Route index element={<SignUp />} />
+        <Route path="home" element={<Home />} />
+        <Route path="login" element={<Login />} />
       </Route>
     )
   )

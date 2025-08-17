@@ -1,11 +1,11 @@
 import { Link, Outlet } from "react-router-dom"
 import logo from "@/assets/logo.png"
-import { ArrowDownUp, Facebook, Heart, Instagram, Menu, Search, SendHorizontal, ShoppingCart, Twitter } from "lucide-react"
+import { ArrowDownUp, Facebook, Heart, Instagram, Search, SendHorizontal, ShoppingCart, Twitter, User } from "lucide-react"
 
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
+
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -14,37 +14,70 @@ import { Input } from "@/components/ui/input"
 
 import CustomizedSwitches from "@/components/switch"
 
-import TextField from "@mui/material/TextField"
 import TemporaryDrawer from "@/components/menu"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { toggleTheme } from "@/reducers/theme"
 
 
+const cart = [
+    {
+
+    }
+]
 
 
 const Layout = () => {
     const theme = useSelector((state) => state.theme.mode);
 
+    const DrawerList = (
 
+        <ul className={`w-[200px] dark:bg-[#000000ed] z-10 dark:text-white bg-white text-black h-[100vh]  -mt-[0.59px] ${theme == "dark" ? "border-[#c8d556] border-2 " : " border-[#180c85] border-2 "} `} >
+            <div className="flex items-center justify-baseline w-[100%] relative ">
+                <CustomizedSwitches toggleTheme={toggleTheme} theme={theme} />
+                <User className="absolute right-2" />
+            </div>
+            <li className="w-full mt-2 pl-4 py-2 rounded-lg  border-l-2 border-gray-800 dark:border-gray-200  dark:hover:bg-gray-600 bg-gray-100/80 dark:bg-gray-800/90  hover:bg-blue-600 hover:text-white  transition-colors duration-200 cursor-pointer">
+
+                <Link to={"home"} >
+                    Home
+                </Link>
+
+            </li>
+            <div className="w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80 dark:bg-gray-800/90 hover:bg-blue-600 hover:text-white transition-colors duration-200 cursor-pointer">
+                <h1 className="font-medium">Contact</h1>
+            </div>
+            <div className="w-full mt-2 pl-4 py-2 rounded-lg   border-l-2 border-gray-800 dark:border-gray-200   dark:hover:bg-gray-600  bg-gray-100/80 dark:bg-gray-800/90   hover:bg-blue-600 hover:text-white   transition-colors duration-200 cursor-pointer">
+                <h1 className="font-medium">About</h1>
+            </div>
+            <li className="w-full mt-2 pl-4 py-2 rounded-lg  border-l-2 border-gray-800 dark:border-gray-200  dark:hover:bg-gray-600 bg-gray-100/80 dark:bg-gray-800/90  hover:bg-blue-600 hover:text-white  transition-colors duration-200 cursor-pointer">
+                <Link to={"/"} >
+                    sign up
+                </Link>
+            </li>
+        </ul >
+
+    );
 
     return (
         <div className="" >
-
-            <div className="xl:w-[85%] m-auto mt-[20px] flex items-center justify-between sm:w-[90%] sticky top-0">
+            <div className="xl:w-[90%] m-auto mt-[20px] flex items-center justify-between sm:w-[90%]">
                 <div className="sm:flex items-center justify-between w-[25%] xl:hidden text-center">
-                    <TemporaryDrawer toggleTheme={toggleTheme} theme={theme} />
+                    <TemporaryDrawer toggleTheme={toggleTheme} theme={theme} DrawerList={DrawerList} />
                     <div className="sm:flex items-center justify-between w-[55%] xl:hidden">
                         <h1 className="xl:hidden sm:block text-[30px] "> Exclusive </h1>
                     </div>
                 </div>
-
                 <div className="w-[55%] flex items-center justify-between">
                     <img src={logo} alt="" className="xl:w-[230px] xl:block xl:h-[70px] sm:hidden" />
                     <div className="xl:w-[45%] xl:flex items-center justify-between sm:hidden ">
-                        <h1>Home</h1>
-                        <h1>Contact</h1>
-                        <h1>About</h1>
-                        <ul>
+                        <ul className="flex items-center justify-between w-[100%] ">
+                            <li>
+                                <Link to={"home"} >
+                                    Home
+                                </Link>
+                            </li>
+                            <h1>Contact</h1>
+                            <h1>About</h1>
                             <li>
                                 <Link to={"/"} >
                                     sign up
@@ -53,25 +86,24 @@ const Layout = () => {
                         </ul>
                     </div>
                 </div>
-                <div className="xl:w-[40%] flex items-center justify-between sm:w-[10%]">
+                <div className="xl:w-[45%] flex items-center justify-between sm:w-[10%] ml-5">
                     <Dialog>
-                        <DialogTrigger className="w-[60%]">
-                            <div className="xl:flex items-center justify-around bg-[#F5F5F5] xl:w-[100%] sm:hidden">
+                        <DialogTrigger className="w-[55%]">
+                            <div className="xl:flex items-center justify-around dark:bg-[#4779c5] bg-[#F5F5F5] xl:w-[100%] sm:hidden">
                                 <div className="py-[10px] text-gray-400 active:text-gray-600 cursor-pointer duration-100"> What are you looking for? </div>
                                 <Search className="mr-[15px] " />
+
                             </div>
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
 
                                 <DialogTitle>
-                                    <div className="flex bg-gray-300 dark:bg-gra items-center py-[3px] justify-between mt-[15px] rounded-xl">
+                                    <div className="flex  dark:bg-blue-500/40 bg-blue-500/30 dark:bg-gra items-center py-[3px] justify-between mt-[15px] rounded-xl">
                                         <Search className="mr-[15px]" />
                                         <Input className="w-[90%] border-none outline-none" placeholder="Search Cart" />
                                     </div>
                                 </DialogTitle>
-
-
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>
@@ -85,7 +117,13 @@ const Layout = () => {
                     <div className="xl:block sm:hidden">
                         <CustomizedSwitches toggleTheme={toggleTheme} theme={theme} />
                     </div>
-
+                    <ul className="xl:block sm:hidden"  >
+                        <li>
+                            <Link to={"login"} >
+                                <User />
+                            </Link>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <Outlet />
