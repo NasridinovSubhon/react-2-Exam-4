@@ -18,6 +18,9 @@ import kalonka from "@/assets/kalonka.png"
 import kal from "@/assets/kal.png"
 import ps5 from "@/assets/ps5.png"
 import dkhta from "@/assets/dkhta.png"
+import kal3 from "@/assets/3kalon.png"
+import dukhi from "@/assets/dukhi.png"
+import servKam from "@/assets/servisKam.png"
 
 
 import 'swiper/css';
@@ -27,7 +30,7 @@ import '@/style/style.css';
 
 
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import { useEffect, useRef, useState } from "react";
+import { lazy, useEffect, useRef, useState } from "react";
 import { Eye, Heart } from "lucide-react";
 import { Input } from "./ui/input";
 
@@ -109,7 +112,7 @@ const Home = () => {
     },
   };
 
-  const [slidesPerView, setSlidesPerView] = useState(
+  const [slidesPerView] = useState(
     window.innerWidth > 510 ? 3.6 : 1
   );
 
@@ -137,9 +140,9 @@ const Home = () => {
 
 
   return (
-    <div>
+    <div className="dark:text-white text-black" >
       <Input className="xl:hidden  sm:block w-[90%] m-auto mt-[10px]" placeholder="Search..." />
-      <div className="w-[85%] m-auto flex flex-wrap items-center justify-between xl:mt-[90px] sm:mt-0">
+      <div className="xl:w-[85%] sm:w-[95%] m-auto flex flex-wrap items-center justify-between xl:mt-[90px] sm:mt-0">
         <div className="xl:w-1/5 sm:w-[90%] mx-auto xl:mx-0 flex xl:block sm:flex flex-wrap items-start gap-2.5 xl:border-r sm:border-r-0 border-gray-200">
 
           <div className="flex xl:block sm:flex gap-2.5 w-full sm:justify-between">
@@ -288,7 +291,7 @@ const Home = () => {
           <div className="flex items-center xl:gap-4 sm:gap-2 flex-wrap xl:mt-0 sm:mt-4 ">
             <div className="flex flex-col items-center">
               <span className="text-sm font-medium">Days</span>
-              <span className="xl:text-lg sm:text-[16px] font-semibold">{dateNumber}—{dayName}</span>
+              <span className="xl:text-lg sm:text-[16px]">{dateNumber}—{dayName}</span>
             </div>
             <span className="text-xl font-bold">:</span>
             <div className="flex flex-col items-center">
@@ -560,13 +563,13 @@ const Home = () => {
             <div className="bg-white text-black xl:w-[65px] xl:h-[65px] sm:w-[50px] sm:h-[50px] rounded-full text-center flex items-center justify-center ">
               <div>
                 <button className=" " >{dateNumber}</button>
-                <h1 className="text-[10px]">Hours</h1>
+                <h1 className="text-[10px]"> Days</h1>
               </div>
             </div>
             <div className="bg-white text-black xl:w-[65px] xl:h-[65px] sm:w-[50px] sm:h-[50px] rounded-full text-center flex items-center justify-center">
               <div>
                 <button className=" " >{hours}</button>
-                <h1 className="text-[10px]">Days</h1>
+                <h1 className="text-[10px]"> Hours </h1>
               </div>
             </div>
             <div className="bg-white text-black xl:w-[65px] xl:h-[65px] sm:w-[50px] sm:h-[50px] rounded-full text-center flex items-center justify-center">
@@ -652,18 +655,63 @@ const Home = () => {
       </div>
       <h1 className="text-[36px] ml-[7.5%] mt-2" > New Arrival</h1>
 
-      <div className="w-[85%] m-auto flex gap-6 flex-wrap justify-between items-center mt-4 mb-20" >
+      <div className="xl:w-[85%] sm:w-[95%] m-auto flex gap-6 flex-wrap justify-between items-center mt-4 mb-20" >
         <div
-          className=" relative w-[47%] h-[80vh] bg-center bg-no-repeat bg-cover bg-black text-white"
+          className=" relative xl:w-[46%] sm:w-[100%] xl:h-[90vh] sm:h-[50vh] bg-center bg-no-repeat bg-cover bg-black text-white"
           style={{ backgroundImage: `url(${ps5})` }}
         >
-          <div className="absolute bottom-6 left-7" >
+          <div className="absolute xl:bottom-6 xl:left-7 sm:bottom-2 sm:left-4" >
             <h1 className="text-[24px]"> PlayStation 5 </h1>
             <h1 className="mt-4 mb-4" >Black and White version of the PS5 <br /> coming out on sale.</h1>
             <h1>Shop Now</h1>
           </div>
         </div>
-          
+        <div className="xl:w-[52%] sm:w-[100%]" >
+          <div className="relative bg-black w-[100%] h-[40vh] bg-no-repeat bg-cover bg-center text-white " style={{ backgroundImage: `url(${dkhta})` }} >
+            <div className="absolute xl:bottom-6 xl:left-7 sm:bottom-2 sm:left-4 xl:w-[45%] sm:w-[80%]" >
+              <h1 className="text-[24px]">Women’s Collections</h1>
+              <h1 className="text-[14px] mt-3 mb-3">Featured woman collections that give you another vibe.</h1>
+              <h1 className="text-[16px]">Shop Now.</h1>
+            </div>
+          </div>
+          <div className="flex gap-4 items-center justify-between flex-wrap  mt-3" >
+            <div className="xl:w-[48%] relative text-white sm:w-[100%] flex justify-center items-center py-6 bg-black " >
+              <img src={kal3} alt="" className="xl:w-[70%] sm:w-[74%] h-[300px] m-auto drop-shadow-[0px_0px_100px] drop-shadow-white " />
+              <div className="absolute xl:bottom-6 xl:left-7 sm:bottom-2 sm:left-4 " >
+                <h1 className="text-[24px]">Speakers</h1>
+                <h1 className="text-[14px] mt-3 mb-3">Amazon wireless speakers</h1>
+                <h1 className="text-[16px]">Shop Now.</h1>
+              </div>
+            </div>
+
+            <div className="xl:w-[48%] relative text-white sm:w-[100%] flex justify-center items-center py-6 bg-black " >
+              <img src={dukhi} alt="" className="xl:w-[70%] sm:w-[74%] h-[300px] m-auto drop-shadow-[0px_0px_10px] drop-shadow-white " />
+              <div className="absolute xl:bottom-6 xl:left-7 sm:bottom-2 sm:left-4 " >
+                <h1 className="text-[24px]">Perfume</h1>
+                <h1 className="text-[14px] mt-3 mb-3">GUCCI INTENSE OUD EDP</h1>
+                <h1 className="text-[16px]">Shop Now.</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="xl:w-[64%] sm:w-[80%] m-auto flex items-center justify-between flex-wrap gap-8 text-center mt-[140px] mb-[130px]" >
+        <div className="xl:w-[30%] sm:w-[100%]" >
+          <img src={servKam} alt="" className=" xl:w-[22%] sm:w-[30%] m-auto" />
+          <h1 className="text-[20px] mt-3">FREE AND FAST DELIVERY</h1>
+          <h1 className="text-[14px] mt-1">Free delivery for all orders over $140</h1>
+        </div>
+        <div className="xl:w-[30%] sm:w-[100%]" >
+          <img src={servKam} alt="" className=" xl:w-[22%] sm:w-[30%] m-auto" />
+          <h1 className="text-[20px] mt-3">FREE AND FAST DELIVERY</h1>
+          <h1 className="text-[14px] mt-1">Free delivery for all orders over $140</h1>
+        </div>
+        <div className="xl:w-[30%] sm:w-[100%]" >
+          <img src={servKam} alt="" className=" xl:w-[22%] sm:w-[30%] m-auto" />
+          <h1 className="text-[20px] mt-3">FREE AND FAST DELIVERY</h1>
+          <h1 className="text-[14px] mt-1">Free delivery for all orders over $140</h1>
+        </div>
       </div>
 
     </div >

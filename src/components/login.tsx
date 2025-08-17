@@ -15,9 +15,6 @@ const Login = () => {
           <button className="p-[15px] w-[100%] mt-[15px] text-white bg-[#DB4444] " > Log In </button>
         </form>
       </div>
-
-
-
     </div>
   )
 }

@@ -5,7 +5,6 @@ import { ArrowDownUp, Facebook, Heart, Instagram, Search, SendHorizontal, Shoppi
 import {
     Dialog,
     DialogContent,
-
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -34,7 +33,13 @@ const Layout = () => {
         <ul className={`w-[200px] dark:bg-[#000000ed] z-10 dark:text-white bg-white text-black h-[100vh]  -mt-[0.59px] ${theme == "dark" ? "border-[#c8d556] border-2 " : " border-[#180c85] border-2 "} `} >
             <div className="flex items-center justify-baseline w-[100%] relative ">
                 <CustomizedSwitches toggleTheme={toggleTheme} theme={theme} />
-                <User className="absolute right-2" />
+                <ul >
+                    <li>
+                        <Link to={"login"} >
+                            <User className="absolute right-2 top-3" />
+                        </Link>
+                    </li>
+                </ul>
             </div>
             <li className="w-full mt-2 pl-4 py-2 rounded-lg  border-l-2 border-gray-800 dark:border-gray-200  dark:hover:bg-gray-600 bg-gray-100/80 dark:bg-gray-800/90  hover:bg-blue-600 hover:text-white  transition-colors duration-200 cursor-pointer">
 
@@ -47,7 +52,11 @@ const Layout = () => {
                 <h1 className="font-medium">Contact</h1>
             </div>
             <div className="w-full mt-2 pl-4 py-2 rounded-lg   border-l-2 border-gray-800 dark:border-gray-200   dark:hover:bg-gray-600  bg-gray-100/80 dark:bg-gray-800/90   hover:bg-blue-600 hover:text-white   transition-colors duration-200 cursor-pointer">
-                <h1 className="font-medium">About</h1>
+                <li>
+                    <Link to={"about"} >
+                        About
+                    </Link>
+                </li>
             </div>
             <li className="w-full mt-2 pl-4 py-2 rounded-lg  border-l-2 border-gray-800 dark:border-gray-200  dark:hover:bg-gray-600 bg-gray-100/80 dark:bg-gray-800/90  hover:bg-blue-600 hover:text-white  transition-colors duration-200 cursor-pointer">
                 <Link to={"/"} >
@@ -59,7 +68,7 @@ const Layout = () => {
     );
 
     return (
-        <div className="" >
+        <div className="dark:text-white text-black" >
             <div className="xl:w-[90%] m-auto mt-[20px] flex items-center justify-between sm:w-[90%]">
                 <div className="sm:flex items-center justify-between w-[25%] xl:hidden text-center">
                     <TemporaryDrawer toggleTheme={toggleTheme} theme={theme} DrawerList={DrawerList} />
@@ -77,7 +86,11 @@ const Layout = () => {
                                 </Link>
                             </li>
                             <h1>Contact</h1>
-                            <h1>About</h1>
+                            <li>
+                                <Link to={"about"} >
+                                    About
+                                </Link>
+                            </li>
                             <li>
                                 <Link to={"/"} >
                                     sign up
@@ -126,6 +139,7 @@ const Layout = () => {
                     </ul>
                 </div>
             </div>
+            <hr className="mt-4" />
             <Outlet />
 
 

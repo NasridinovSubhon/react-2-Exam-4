@@ -1,11 +1,22 @@
+import { lazy, memo, Suspense } from "react"
 import { createRoutesFromElements, Route, RouterProvider } from "react-router-dom"
 import { createBrowserRouter } from "react-router-dom"
 import Layout from "./layout/layout"
 import SignUp from "./layout/SignUp"
 import Theme from "./theme"
 import { ThemeProvider } from "./theme/theme-provider"
-import Home from "./components/home"
+
+
+
+
+
+
 import Login from "./components/login"
+import About from "./components/about"
+const HomeLazy = lazy(() => import("@/components/home"));
+const Home = memo(HomeLazy);
+
+
 
 const App = () => {
 
@@ -13,8 +24,14 @@ const App = () => {
     createRoutesFromElements(
       <Route path="/" element={<Layout />} >
         <Route index element={<SignUp />} />
-        <Route path="home" element={<Home />} />
+        <Route path="home" element={
+          <Suspense fallback={"Loading..."}>
+            <Home />
+          </Suspense>
+
+        } />
         <Route path="login" element={<Login />} />
+        <Route path="about" element={<About />} />
       </Route>
     )
   )
