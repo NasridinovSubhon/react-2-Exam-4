@@ -1,16 +1,8 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+
 import iphone from "@/assets/iphone.png"
 import khdIph from "@/assets/iphTel.png"
 import { Swiper, SwiperSlide } from 'swiper/react';
-import josCa from "@/assets/jostickCard.png"
-import klav from "@/assets/klav.png"
-import drakon from "@/assets/dtakon.png"
+
 import stol from "@/assets/stol.png"
 import kurka from "@/assets/kurtka.png"
 import sumka from "@/assets/sumka.png"
@@ -99,14 +91,15 @@ const data2 = [
 ]
 
 
-import tel from "@/assets/tel.png"
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { GetCat, GetProd } from "@/app/productSl";
+import Skeleton from "@mui/material/Skeleton";
 
 
 const Home = () => {
 
+  const dataWish = JSON.parse(localStorage.getItem("wish"))
 
   const dispatch = useDispatch()
 
@@ -115,7 +108,7 @@ const Home = () => {
     dispatch(GetCat())
   }, [])
 
-  const { data, dataCat } = useSelector(state => state.prod)
+  const { data, dataCat, loading, loadingCat } = useSelector(state => state.prod)
 
   const pagination = {
     clickable: true,
@@ -133,7 +126,7 @@ const Home = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(new Date());
-    }, 1000);
+    }, 20000);
     return () => clearInterval(interval);
   }, []);
 
@@ -292,7 +285,6 @@ const Home = () => {
         </div>
       </div>
 
-
       <div className="w-[85%] m-auto flex gap-4 items-center xl:mt-[100px] sm:mt-[80px]">
         <div className="h-[40px] w-[20px] rounded-[4px] bg-[#DB4444] ">
         </div>
@@ -359,42 +351,59 @@ const Home = () => {
             },
           }}
           modules={[Autoplay]}
-          className="mySwiper"
-        >
-          {data.slice(0, 10).map((e) => {
-            return (
-              <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
-                <div className="relative p-2 w-[95%] ">
-                  <div className="bg-[#F5F5F5] h-[90%] rounded-2xl overflow-hidden group relative transition duration-300 hover:shadow-lg hover:-translate-y-1">
-                    <div className="flex justify-between items-start p-3">
-                      <button className="bg-[#DB4444] px-4 py-1 rounded text-white text-sm font-medium shadow">
-                        -{100}%
-                      </button>
-                      <div className="space-y-2">
-                        <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
-                          <Heart
-                            
-                          />
-                        </button>
-                        <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
-                          <Eye />
-                        </button>
-                      </div>
-                    </div>
-                    <img src={`http://37.27.29.18:8002/images/${e.image}`} alt={e.productName} className="w-[75%] mix-blend-multiply  mx-auto object-cover" style={{ height: "160px" }} />
-                    <button className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
-                      Add To Cart
-                    </button>
-                  </div>
-
-                  <div className="text-start mt-3">
-                    <h1>{e.productName}</h1>
-                    <span className="text-[red]">${e.price}</span>
+          className="mySwiper" >
+          {loading ?
+            Array.from({ length: 5 }).map((_, idx) => (
+              <SwiperSlide key={idx}>
+                <div className="flex mt-10 flex-col space-y-3 p-2 w-[95%]">
+                  <Skeleton className="h-[200px] w-[250px] rounded-xl" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[250px]" />
+                    <Skeleton className="h-4 w-[200px]" />
                   </div>
                 </div>
               </SwiperSlide>
-            )
-          })}
+            ))
+            : data.slice(0, 10).map((e) => {
+              return (
+                <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
+                  <div className="relative p-2 w-[95%] ">
+                    <div className="bg-[#F5F5F5] h-[90%] rounded-2xl overflow-hidden group relative transition duration-300 hover:shadow-lg hover:-translate-y-1">
+                      <div className="flex justify-between items-start p-3">
+                        <button className="bg-[#DB4444] px-4 py-1 rounded text-white text-sm font-medium shadow">
+                          -{100}%
+                        </button>
+                        <div className="space-y-2">
+                          <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
+                            <Heart
+                              onClick={() => {
+                                const id = dataWish.find((el) => el.id == e.id)
+                                if (!id) {
+                                  localStorage.setItem("wish", JSON.stringify([...dataWish, e]))
+                                  localStorage.getItem("wish")
+                                }
+                              }}
+                            />
+                          </button>
+                          <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
+                            <Eye />
+                          </button>
+                        </div>
+                      </div>
+                      <img src={`http://37.27.29.18:8002/images/${e.image}`} alt={e.productName} className="w-[75%] mix-blend-multiply  mx-auto object-cover" style={{ height: "160px" }} />
+                      <button className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
+                        Add To Cart
+                      </button>
+                    </div>
+
+                    <div className="text-start mt-3">
+                      <h1>{e.productName}</h1>
+                      <span className="text-[red]">${e.price}</span>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              )
+            })}
 
         </Swiper>
         <div className="xl:w-[12%] m-auto mt-3 sm:w-[45%]">
@@ -444,29 +453,38 @@ const Home = () => {
           pagination={{
             clickable: true,
           }}
+          slidesPerView={loadingCat ? 4 : 7}
+          spaceBetween={loadingCat ? 40 : 30}
           breakpoints={{
-            0: {
-              slidesPerView: 2,
-              spaceBetween: 27,
-            },
-            511: {
-              slidesPerView: 7,
-              spaceBetween: 30,
-            },
+            0: { slidesPerView: 2, spaceBetween: 27 },
+            511: { slidesPerView: 7, spaceBetween: 30 }, // optional for bigger screens
           }}
+
           modules={[Autoplay]}
           className="mySwiper"
         >
-          {dataCat.map((iCat, i) => {
-            return <SwiperSlide key={i} className="border text-center  rounded-xl duration-900  hover:bg-[#DB4444] hover:text-white " style={{ height: "150px", transition: "0.3s" }} >
-              <div className="w-[100px] m-auto">
-                <img src={`http://37.27.29.18:8002/images/${iCat.categoryImage}`} alt="" className="w-[100px] m-auto scale-65" />
-                {iCat.subCategories.map((iCatSyb, i) => {
-                  <h1 key={i} className=""> {iCatSyb.subCategoryName} </h1>
-                })}
-              </div>
-            </SwiperSlide>
-          })}
+          {loadingCat ?
+            Array.from({ length: 10 }).map((_, idx) => (
+              <SwiperSlide key={idx}>
+                <div className="flex flex-col space-y-3 p-2 w-[20%]">
+                  <Skeleton className="h-[200px] w-[250px] rounded-xl" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[250px]" />
+                    <Skeleton className="h-4 w-[200px]" />
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))
+            : dataCat.map((iCat, i) => {
+              return <SwiperSlide key={i} className="border text-center  rounded-xl duration-900  hover:bg-[#DB4444] hover:text-white " style={{ height: "150px", transition: "0.3s" }} >
+                <div className="w-[100px] m-auto">
+                  <img src={`http://37.27.29.18:8002/images/${iCat.categoryImage}`} alt="" className="w-[100px] m-auto scale-65" />
+                  {iCat.subCategories.map((iCatSyb, i) => {
+                    <h1 key={i} className=""> {iCatSyb.subCategoryName} </h1>
+                  })}
+                </div>
+              </SwiperSlide>
+            })}
 
         </Swiper>
       </div>
@@ -507,43 +525,54 @@ const Home = () => {
             },
           }}
           modules={[Autoplay]}
-          className="mySwiper"
-        >
-
-          {data.slice(4, 10).map((e) => {
-            return (
-              <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
-                <div className="relative p-2 w-[95%] ">
-                  <div className="bg-[#F5F5F5] h-[90%] rounded-2xl overflow-hidden group relative transition duration-300 hover:shadow-lg hover:-translate-y-1">
-                    <div className="flex relative xl:left-[270px] sm:left-[224px] justify-evenly items-start p-3" style={{ flexDirection: "column" }}>
-                      <button className="rounded-full block mb-4 bg-white p-2 shadow hover:bg-100 transition darkblack text-black">
-                        <Heart />
-                      </button>
-                      <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black
-                         ">
-                        <Eye />
-                      </button>
+          className="mySwiper">
+          {
+            loading ?
+              Array.from({ length: 5 }).map((_, idx) => (
+                <SwiperSlide key={idx}>
+                  <div className="flex mt-10 flex-col space-y-3 p-2 w-[95%]">
+                    <Skeleton className="h-[200px] w-[250px] rounded-xl" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-4 w-[250px]" />
+                      <Skeleton className="h-4 w-[200px]" />
                     </div>
-                    <img
-                      src={e.img}
-                      alt=""
-                      className="w-[75%] mx-auto object-cover"
-                      style={{ height: "140px" }}
-                    />
-                    <button className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
-                      Add To Cart
-                    </button>
                   </div>
-                  <div className="text-start mt-3">
-                    <h1>{e.name}</h1>
-                    <span className="text-[red]">${e.price}</span>
-                    <span className="text-[gray] ml-2">${e.kharid}</span>
-                  </div>
-                </div>
+                </SwiperSlide>
+              ))
+              : data.slice(4, 10).map((e) => {
+                return (
+                  <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
+                    <div className="relative p-2 w-[95%] ">
+                      <div className="bg-[#F5F5F5] h-[90%] rounded-2xl overflow-hidden group relative transition duration-300 hover:shadow-lg hover:-translate-y-1">
+                        <div className="flex relative xl:left-[270px] sm:left-[224px] justify-evenly items-start p-3" style={{ flexDirection: "column" }}>
+                          <button className="rounded-full block mb-4 bg-white p-2 shadow hover:bg-100 transition darkblack text-black">
+                            <Heart />
+                          </button>
+                          <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black
+                         ">
+                            <Eye />
+                          </button>
+                        </div>
+                        <img
+                          src={e.img}
+                          alt=""
+                          className="w-[75%] mx-auto object-cover"
+                          style={{ height: "140px" }}
+                        />
+                        <button className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
+                          Add To Cart
+                        </button>
+                      </div>
+                      <div className="text-start mt-3">
+                        <h1>{e.name}</h1>
+                        <span className="text-[red]">${e.price}</span>
+                        <span className="text-[gray] ml-2">${e.kharid}</span>
+                      </div>
+                    </div>
 
-              </SwiperSlide>
-            )
-          })}
+                  </SwiperSlide>
+                )
+              })}
 
         </Swiper>
       </div>

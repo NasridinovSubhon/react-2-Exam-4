@@ -5,6 +5,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 const initialState = {
   data: [],
   loading: false,
+  loadingCat: false,
   dataCat: []
 }
 
@@ -41,7 +42,11 @@ export const products = createSlice({
         state.loading = false,
           state.data = payload.data.products
       })
+      .addCase(GetCat.pending, (state) => {
+        state.loadingCat = true
+      })
       .addCase(GetCat.fulfilled, (state, { payload }) => {
+        state.loadingCat = false
         state.dataCat = payload.data
       })
   }

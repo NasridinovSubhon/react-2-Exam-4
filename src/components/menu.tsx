@@ -1,29 +1,26 @@
 
+import { useTheme } from '@/theme/theme-provider';
 import Drawer from '@mui/material/Drawer';
 
-import Divider from '@mui/material/Divider';
 
 import { Menu } from 'lucide-react';
 import { useState } from 'react';
-import CustomizedSwitches from './switch';
-import { useSelector } from 'react-redux';
-import { Link, Outlet } from 'react-router-dom';
 
 
 
 
-export default function TemporaryDrawer({ toggleTheme, theme, DrawerList }) {
-    const theme1 = useSelector((state) => state.theme.mode)
+export default function TemporaryDrawer({ DrawerList }) {
     const [open, setOpen] = useState(false);
+    const { theme } = useTheme()
 
-    const toggleDrawer = (newOpen) => () => {
+    const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
     };
     return (
         <>
             <Menu className='dark:text-white text-black ' onClick={toggleDrawer(true)}></Menu>
             <Drawer open={open} onClose={toggleDrawer(false)} PaperProps={{
-                sx: { width:220 }
+                sx: { width: 220 }
             }} >
                 {DrawerList}
             </Drawer>

@@ -14,16 +14,8 @@ import { Input } from "@/components/ui/input"
 import CustomizedSwitches from "@/components/switch"
 
 import TemporaryDrawer from "@/components/menu"
-import { useSelector } from "react-redux"
-import { toggleTheme } from "@/reducers/theme"
 import { useState } from "react"
-
-
-
-const cart = [
-    {
-    }
-]
+import { useTheme } from "@/theme/theme-provider"
 
 const Layout = () => {
 
@@ -32,35 +24,30 @@ const Layout = () => {
     const [N_Con_Med, Set_Nav_Con_Me] = useState(false)
     const [N_Abo_Med, Set_Nav_Abo_Me] = useState(false)
     const [N_Sig_Med, Set_Nav_Sig_Me] = useState(false)
-
-    const theme = useSelector((state) => state.theme.mode);
+    const { theme, setTheme: toggleTheme } = useTheme()
 
     const DrawerList = (
-
-        <ul className={`h-[100vh] w-[100%] m-auto -mt-[0.59px] ${theme == "dark" ? "border-[#c8d556] border-2 " : " border-[#180c85] border-2 "} `} >
-            <div className="flex w-[95%] items-center justify-baseline  relative">
-                <CustomizedSwitches toggleTheme={toggleTheme} theme={theme} />
+        <ul className={`h-[100vh] dark:bg-black bg-white dark:text-white text-black  w-[100%] m-auto -mt-[0.59px] ${theme == "dark" ? "border-[#c8d556] border-2 " : " border-[#180c85] border-2"} `} >
+            <div className="flex w-[90%] items-center mt-4 justify-baseline  relative m-auto">
+                <CustomizedSwitches theme={theme} />
                 <NavLink to={"login"} className={({ isActive }) => `${isActive ? SetNav(true) : SetNav(false)} dark:bg-[#000000ed] z-10 dark:text-white bg-white text-black `}>
                     <li>
-                        <User className={` ${nav ? "dark:border-white border-3 border-black w-[25px] h-[25px] " : ""} rounded-full absolute right-2 top-3`} />
+                        <User className={` ${nav ? "dark:border-white border-3 border-black w-[25px] h-[25px] " : ""} rounded-full absolute right-2 -top-1`} />
                     </li>
                 </NavLink>
             </div>
             <div className="w-[95%] m-auto">
-
                 <NavLink to={"/"} className={({ isActive }) => `${isActive ? Set_Nav_Hom_Me(true) : Set_Nav_Hom_Me(false)}`}  >
                     <li className={` ${N_Hom_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500" : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer  `}>
                         Home
                     </li>
                 </NavLink>
                 <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Con_Me(true) : Set_Nav_Con_Me(false)}`} to={"contact"} >
-
                     <li className={` ${N_Con_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500" : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer  `} >
                         <h1 className="font-medium">
                             Contact
                         </h1>
                     </li>
-
                 </NavLink>
                 <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Abo_Me(true) : Set_Nav_Abo_Me(false)}`} to={"about"} >
                     <div
@@ -73,15 +60,16 @@ const Layout = () => {
 
             </div>
         </ul >
+);
 
-    );
+    const wishLength = JSON.parse(localStorage.getItem("wish")).length
 
     return (
         <div className="text-black" >
             <div className="dark:text-white text-black" >
                 <div className="xl:w-[90%] m-auto mt-[20px] flex items-center justify-between sm:w-[90%]">
                     <div className="sm:flex items-center justify-between w-[25%] xl:hidden text-center">
-                        <TemporaryDrawer toggleTheme={toggleTheme} theme={theme} DrawerList={DrawerList} />
+                        <TemporaryDrawer DrawerList={DrawerList} />
                         <div className="sm:flex items-center justify-between w-[55%] xl:hidden">
                             <h1 className="xl:hidden sm:block text-[30px] "> Exclusive </h1>
                         </div>
@@ -89,7 +77,6 @@ const Layout = () => {
                     <div className="w-[55%] flex items-center justify-between">
                         <img src={logo} alt="" className="xl:w-[230px] xl:block xl:h-[70px] sm:hidden" />
                         <div className="xl:w-[45%] xl:flex items-center justify-between sm:hidden ">
-
                             <ul className="flex items-center justify-between w-[100%] ">
                                 <li>
                                     <NavLink to={"/"} className={({ isActive }) => `${isActive ? "border-b-2 border-black  dark:border-white "
@@ -141,23 +128,23 @@ const Layout = () => {
                             </DialogContent>
                         </Dialog>
 
-                        <div className="relative">
+                        <div className="relative xl:ml-0 sm:-ml-20">
                             <Link to={"wishlist"} >
                                 <div className="bg-[#DB4444] dark:bg-white dark:text-black text-white w-[20px] h-[20px] rounded-full absolute -top-2 -right-2.5 flex items-center justify-center text-center">
-                                    0
+                                    {wishLength}
                                 </div>
-                                <Heart className="xl:block sm:hidden" />
+                                <Heart />
                             </Link>
                         </div>
 
-                        <div className="relative">
+                        <div className="relative xl:ml-0 sm:ml-4 ">
                             <div className="bg-[#DB4444] dark:bg-white dark:text-black text-white w-[20px] h-[20px] rounded-full absolute -top-2 -right-2 flex items-center justify-center text-center">
                                 0
                             </div>
                             <ShoppingCart />
                         </div>
                         <div className="xl:block sm:hidden">
-                            <CustomizedSwitches toggleTheme={toggleTheme} theme={theme} />
+                            <CustomizedSwitches theme={theme} />
                         </div>
                         <ul className="xl:block sm:hidden"  >
                             <li>

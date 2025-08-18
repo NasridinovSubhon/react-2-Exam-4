@@ -1,9 +1,7 @@
-import { lazy, memo, Suspense } from "react"
+import { lazy, memo, Suspense, useState } from "react"
 import { createRoutesFromElements, Route, RouterProvider } from "react-router-dom"
 import { createBrowserRouter } from "react-router-dom"
 import Layout from "./layout/layout"
-
-import Theme from "./theme"
 import { ThemeProvider } from "./theme/theme-provider"
 
 
@@ -29,26 +27,19 @@ const Products = memo(ProductsLazy)
 
 
 const App = () => {
+
+
+
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Layout />} >
-        <Route index element={
-          <Suspense fallback={"Loading..."}>
-            <Home />
-          </Suspense>
-        } />
+      <Route path="/" element={<Layout/>} >
+        <Route index element={<Suspense fallback={"Loading..."}>  <Home  /></Suspense>} />
         <Route path="login" element={<Login />} />
         <Route path="about" element={<About />} />
-        <Route path="contact" element={
-          <Suspense fallback={"Loading..."} >
-            <Contact />
-          </Suspense>
-        } />
-        <Route path="signUp" element={<Suspense fallback={"Loading..."} > <SignUp /> </Suspense>} />
-        <Route path="products" element={<Suspense fallback={"Loading..."} > <Products /></Suspense>} />
-        <Route path="wishlist" element={<Suspense fallback={"Loading..."}  >  <Wishlist />  </Suspense>} />
-
-
+        <Route path="contact" element={<Suspense fallback={"Loading..."} >    <Contact />  </Suspense>} />
+        <Route path="signUp" element={<Suspense fallback={"Loading..."} >     <SignUp /> </Suspense>} />
+        <Route path="products" element={<Suspense fallback={"Loading..."} >   <Products />  </Suspense>} />
+        <Route path="wishlist" element={<Suspense fallback={"Loading..."}  >  <Wishlist  />  </Suspense>} />
       </Route>
     )
   )
@@ -57,7 +48,7 @@ const App = () => {
     <div>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
 
-        <Theme> <RouterProvider router={router} /></Theme>
+      <RouterProvider router={router} />
       </ThemeProvider>
 
     </div>

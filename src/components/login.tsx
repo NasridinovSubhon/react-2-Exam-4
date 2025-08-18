@@ -1,49 +1,69 @@
-import { Api } from "@/utils/config"
-import TextField from "@mui/material/TextField"
-import { Link, useNavigate } from "react-router-dom"
-
+import { Api } from "@/utils/config";
+import { Link, useNavigate } from "react-router-dom";
+import { Input } from "./ui/input";
 
 const Login = () => {
+  const navigate = useNavigate();
 
-  let navigate = useNavigate()
-
-  async function login(userName: any, password: any) {
-    const { data } = await Api.post("Account/login", { userName, password })
-    if (data.data) {
-      localStorage.setItem("accessToken", data.data)
-      navigate("/")
+  async function login(userName: string, password: string) {
+    try {
+      const { data } = await Api.post("Account/login", { userName, password });
+      if (data.data) {
+        localStorage.setItem("accessToken", data.data);
+        navigate("/");
+      }
+      return data;
+    } catch (err) {
+      console.error("Login failed:", err);
     }
-    return data
   }
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault()
-    let userName = e.target["Name"].value
-    let password = e.target["Password"].value
-    login(userName, password)
-  }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const userName = (form.elements.namedItem("Name") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("Password") as HTMLInputElement).value;
+    login(userName, password);
+  };
 
   return (
-    <div>
-      <div className="xl:w-[35%] m-auto flex items-center justify-between overflow-y-auto h-[90vh] sm:w-[90%]">
-        <form onSubmit={handleSubmit} >
-          <h1 className="xl:text-[45px] sm:text-[29px] mb-[10px] " > Log in to Exclusive </h1>
-          <h1 className="xl:text-[18px] sm:text-[14px] ">Enter your details below</h1>
-          <TextField name='Name' id="standard-basic" label="Name" variant="outlined" sx={{ width: "100%", marginBottom: "15px", marginTop: "20px" }} />
-          <TextField name='Password' type="password" id="standard-basic" label="Password" variant="outlined" sx={{ width: "100%", marginBottom: "15px" }} />
-          <button className="p-[15px] w-[100%] mt-[15px] text-[#DB4444]  " > Forget Password? </button>
-          <button type="submit" className="p-[15px] w-[100%] mt-[15px] text-white bg-[#DB4444] " > Log In </button>
-          <ul>
-            <li>
-              <Link to={"/signUp"} >
-                signUp
-              </Link>
-            </li>
-          </ul>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
+      <div className="xl:w-[35%] sm:w-full max-w-md bg-white dark:bg-gray-800 shadow-xl rounded-xl p-8 space-y-6">
+        <h1 className="text-3xl xl:text-4xl font-bold text-gray-900 dark:text-white">Log in to Exclusive</h1>
+        <p className="text-gray-500 dark:text-gray-300">Enter your details below</p>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
+            name="Name"
+            placeholder="Name"
+            className="w-full"
+          />
+          <Input
+            name="Password"
+            type="password"
+            placeholder="Password"
+            className="w-full"
+          />
+
+          
+
+          <button
+            type="submit"
+            className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition-colors duration-300"
+          >
+            Log In
+          </button>
+
+          <p className="text-center text-gray-500 dark:text-gray-300">
+            Don't have an account?{" "}
+            <Link to="/signUp" className="text-red-600 hover:underline">
+              Sign Up
+            </Link>
+          </p>
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
