@@ -4,7 +4,7 @@ import gogle from "@/assets/gogle.png"
 const SignUp = () => {
     return (
         <div>
-            <div className="xl:w-[35%] m-auto flex items-center justify-between h-[90vh] max:h-[100vh] sm:w-[90%]">
+            <div className="xl:w-[35%] m-auto flex items-center justify-between h-[90vh] max-h-[100vh] sm:w-[90%]">
                 <form className="" >
                     <h1 className="xl:text-[45px] sm:text-[29px] mb-[10px] " > Log in to Exclusive </h1>
                     <h1 className="xl:text-[18px] sm:text-[14px] ">Enter your details below</h1>
