@@ -2,7 +2,7 @@ import { lazy, memo, Suspense } from "react"
 import { createRoutesFromElements, Route, RouterProvider } from "react-router-dom"
 import { createBrowserRouter } from "react-router-dom"
 import Layout from "./layout/layout"
-import SignUp from "./layout/SignUp"
+
 import Theme from "./theme"
 import { ThemeProvider } from "./theme/theme-provider"
 
@@ -22,13 +22,13 @@ const Home = memo(HomeLazy);
 const ProductsLazy = lazy(() => import("@/components/products"))
 const Products = memo(ProductsLazy)
 
-const App = () => {
+const Wishlist = lazy(() => import("@/components/wishlist"))
 
+const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Layout />} >
-        <Route index element={<SignUp />} />
-        <Route path="home" element={
+        <Route index element={
           <Suspense fallback={"Loading..."}>
             <Home />
           </Suspense>
@@ -40,12 +40,10 @@ const App = () => {
             <Contact />
           </Suspense>
         } />
-        <Route path="products" element={
-          <Suspense fallback={"Loading..."} >
-            <Products />
-          </Suspense>
-        }
-        />
+        <Route path="products" element={<Suspense fallback={"Loading..."} > <Products /></Suspense>} />
+        <Route path="wishlist" element={<Suspense fallback={"Loading..."}  >  <Wishlist />  </Suspense>} />
+
+
       </Route>
     )
   )

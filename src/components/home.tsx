@@ -34,37 +34,37 @@ import { Input } from "./ui/input";
 
 const categoryBtn = "w-full dark:bg-[#aaa8c097] dark:hover:bg-[#1f5ab4] hover:bg-blue-100 active:scale-95 bg-gray-50 py-2 rounded-md xl:px-5 sm:px-2 transition-all duration-200 text-sm font-medium text-center";
 
-const data = [
-  {
-    aksiya: 40,
-    name: "HAVIT HV-G92 Gamepad",
-    price: 120,
-    kharid: 88,
-    img: josCa
-  },
+// const data = [
+//   {
+//     aksiya: 40,
+//     name: "HAVIT HV-G92 Gamepad",
+//     price: 120,
+//     kharid: 88,
+//     img: josCa
+//   },
 
-  {
-    aksiya: 35,
-    name: "AK-900 Wired Keyboard",
-    price: 960,
-    kharid: 75,
-    img: klav
-  },
-  {
-    aksiya: 30,
-    name: "IPS LCD Gaming Monitor",
-    price: 370,
-    kharid: 98,
-    img: drakon
-  },
-  {
-    aksiya: 30,
-    name: "IPS LCD Gaming Monitor",
-    price: 375,
-    kharid: 98,
-    img: stol
-  },
-]
+//   {
+//     aksiya: 35,
+//     name: "AK-900 Wired Keyboard",
+//     price: 960,
+//     kharid: 75,
+//     img: klav
+//   },
+//   {
+//     aksiya: 30,
+//     name: "IPS LCD Gaming Monitor",
+//     price: 370,
+//     kharid: 98,
+//     img: drakon
+//   },
+//   {
+//     aksiya: 30,
+//     name: "IPS LCD Gaming Monitor",
+//     price: 375,
+//     kharid: 98,
+//     img: stol
+//   },
+// ]
 
 const data2 = [
   {
@@ -101,9 +101,21 @@ const data2 = [
 
 import tel from "@/assets/tel.png"
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { GetCat, GetProd } from "@/app/productSl";
 
 
 const Home = () => {
+
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(GetProd())
+    dispatch(GetCat())
+  }, [])
+
+  const { data, dataCat } = useSelector(state => state.prod)
 
   const pagination = {
     clickable: true,
@@ -122,7 +134,6 @@ const Home = () => {
     const interval = setInterval(() => {
       setTime(new Date());
     }, 1000);
-
     return () => clearInterval(interval);
   }, []);
 
@@ -138,65 +149,68 @@ const Home = () => {
   const swiperRef = useRef(null);
   const swiperRef2 = useRef(null);
 
-
-
   return (
     <div className="dark:text-white text-black" >
       <Input className="xl:hidden  sm:block w-[90%] m-auto mt-[10px]" placeholder="Search..." />
       <div className="xl:w-[85%] sm:w-[95%] m-auto flex flex-wrap items-center justify-between xl:mt-[90px] sm:mt-0">
         <div className="xl:w-1/5 sm:w-[90%] mx-auto xl:mx-0 flex xl:block sm:flex flex-wrap items-start gap-2.5 xl:border-r sm:border-r-0 border-gray-200">
 
-          {/* <div className="flex xl:block sm:flex gap-2.5 w-full sm:justify-between">
-            <div className="relative">
-              <Popover>
-                <PopoverTrigger>Woman’s Fashion</PopoverTrigger>
-                <PopoverContent></PopoverContent>
-              </Popover>
-            </div>
-            <Select>
-              <SelectTrigger className="w-full xl:w-[180px] sm:w-[48%] mt-3.5">
-                <SelectValue placeholder="Men’s Fashion" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">Men</SelectItem>
-              </SelectContent>
-            </Select>
-          </div> */}
-          <div className="w-full grid sm:grid-cols-2 xl:grid-cols-1 gap-2.5 mt-2.5">
-            <button className={categoryBtn}>
-              Woman’s Fashion
-            </button>
-            <button className={categoryBtn}>
-              Men’s Fashion
-            </button>
-            <button className={categoryBtn}>
-              Electronics
-            </button>
 
-            <button className={categoryBtn}>
-              Home & Lifestyle
-            </button>
+          <ul className="w-full grid sm:grid-cols-2 xl:grid-cols-1 gap-2.5 mt-2.5">
+            <Link to={"products"} >
+              <button className={categoryBtn}>
+                Woman’s Fashion
+              </button>
+            </Link>
+            <Link to={"products"}>
+              <button className={categoryBtn}>
+                Men’s Fashion
+              </button>
+            </Link>
+            <Link to={"products"}>
+              <button className={categoryBtn}>
+                Electronics
+              </button>
+            </Link>
 
-            <button className={categoryBtn}>
-              Medicine
-            </button>
+            <Link to={"products"}>
+              <button className={categoryBtn}>
+                Home & Lifestyle
+              </button>
+            </Link>
 
-            <button className={categoryBtn}>
-              Sports & Outdoor
-            </button>
+            <Link to={"products"}>
+              <button className={categoryBtn}>
+                Medicine
+              </button>
+            </Link>
 
-            <button className={categoryBtn}>
-              Baby's & Toys
-            </button>
+            <Link to={"products"}>
+              <button className={categoryBtn}>
+                Sports & Outdoor
+              </button>
+            </Link>
 
-            <button className={categoryBtn}>
-              Groceries & Pets
-            </button>
+            <Link to={"products"}>
+              <button className={categoryBtn}>
+                Baby's & Toys
+              </button>
+            </Link>
 
-            <button className={categoryBtn}>
-              Health & Beauty
-            </button>
-          </div>
+            <Link to={"products"}>
+              <button className={categoryBtn}>
+                Groceries & Pets
+              </button>
+            </Link>
+
+            <Link to={"products"}>
+              <button className={categoryBtn}>
+                Health & Beauty
+              </button>
+            </Link>
+
+
+          </ul>
         </div>
 
         <div className="xl:w-[75%] sm:w-[100%]  ">
@@ -347,40 +361,35 @@ const Home = () => {
           modules={[Autoplay]}
           className="mySwiper"
         >
-          {data.map((e) => {
+          {data.slice(0, 10).map((e) => {
             return (
               <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                 <div className="relative p-2 w-[95%] ">
                   <div className="bg-[#F5F5F5] h-[90%] rounded-2xl overflow-hidden group relative transition duration-300 hover:shadow-lg hover:-translate-y-1">
                     <div className="flex justify-between items-start p-3">
                       <button className="bg-[#DB4444] px-4 py-1 rounded text-white text-sm font-medium shadow">
-                        -{e.aksiya}%
+                        -{100}%
                       </button>
                       <div className="space-y-2">
                         <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
-                          <Heart />
+                          <Heart
+                            
+                          />
                         </button>
                         <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
                           <Eye />
                         </button>
                       </div>
                     </div>
-                    <img
-                      src={e.img}
-                      alt=""
-                      className="w-[75%] mx-auto object-cover"
-                      style={{ height: "140px" }}
-                    />
-
+                    <img src={`http://37.27.29.18:8002/images/${e.image}`} alt={e.productName} className="w-[75%] mix-blend-multiply  mx-auto object-cover" style={{ height: "160px" }} />
                     <button className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
                       Add To Cart
                     </button>
                   </div>
 
                   <div className="text-start mt-3">
-                    <h1>{e.name}</h1>
+                    <h1>{e.productName}</h1>
                     <span className="text-[red]">${e.price}</span>
-                    <span className="text-[gray] ml-2">${e.kharid}</span>
                   </div>
                 </div>
               </SwiperSlide>
@@ -448,43 +457,16 @@ const Home = () => {
           modules={[Autoplay]}
           className="mySwiper"
         >
-
-          <SwiperSlide className="border text-center hover:bg-[#DB4444] hover:text-white " style={{ height: "150px" }} >
-            <div className="w-[100px] m-auto">
-              <img src={tel} alt="" className="w-[100px] m-auto scale-65" />
-              <h1 className="p-0 m-0">Phones</h1>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="border text-center hover:bg-[#DB4444] hover:text-white " style={{ height: "150px" }} >
-            <div className="w-[100px] m-auto">
-              <img src={tel} alt="" className="w-[100px] m-auto scale-65" />
-              <h1 className="p-0 m-0">Phones</h1>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="border text-center hover:bg-[#DB4444] hover:text-white " style={{ height: "150px" }} >
-            <div className="w-[100px] m-auto">
-              <img src={tel} alt="" className="w-[100px] m-auto scale-65" />
-              <h1 className="p-0 m-0">Phones</h1>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="border text-center hover:bg-[#DB4444] hover:text-white " style={{ height: "150px" }} >
-            <div className="w-[100px] m-auto">
-              <img src={tel} alt="" className="w-[100px] m-auto scale-65" />
-              <h1 className="p-0 m-0">Phones</h1>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="border text-center hover:bg-[#DB4444] hover:text-white " style={{ height: "150px" }} >
-            <div className="w-[100px] m-auto">
-              <img src={tel} alt="" className="w-[100px] m-auto scale-65" />
-              <h1 className="p-0 m-0">Phones</h1>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="border text-center hover:bg-[#DB4444] hover:text-white " style={{ height: "150px" }} >
-            <div className="w-[100px] m-auto">
-              <img src={tel} alt="" className="w-[100px] m-auto scale-65" />
-              <h1 className="p-0 m-0">Phones</h1>
-            </div>
-          </SwiperSlide>
+          {dataCat.map((iCat, i) => {
+            return <SwiperSlide key={i} className="border text-center  rounded-xl duration-900  hover:bg-[#DB4444] hover:text-white " style={{ height: "150px", transition: "0.3s" }} >
+              <div className="w-[100px] m-auto">
+                <img src={`http://37.27.29.18:8002/images/${iCat.categoryImage}`} alt="" className="w-[100px] m-auto scale-65" />
+                {iCat.subCategories.map((iCatSyb, i) => {
+                  <h1 key={i} className=""> {iCatSyb.subCategoryName} </h1>
+                })}
+              </div>
+            </SwiperSlide>
+          })}
 
         </Swiper>
       </div>
@@ -524,11 +506,11 @@ const Home = () => {
               spaceBetween: 30,
             },
           }}
-
           modules={[Autoplay]}
           className="mySwiper"
         >
-          {data2.map((e) => {
+
+          {data.slice(4, 10).map((e) => {
             return (
               <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                 <div className="relative p-2 w-[95%] ">
@@ -615,7 +597,7 @@ const Home = () => {
       <div className="w-[85%] m-auto mt-[20px] mb-[90px] " >
         <div className="flex justify-between items-center flex-wrap" >
 
-          {data.map((e) => {
+          {/* {data.map((e) => {
             return (
               <div className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                 <div className="relative p-2 py-4 w-[95%] m-auto xl:ml-0 sm:ml-[40px]  ">
@@ -654,7 +636,7 @@ const Home = () => {
               </div>
 
             )
-          })}
+          })} */}
         </div>
       </div>
 
@@ -726,7 +708,7 @@ const Home = () => {
         </div>
       </div>
 
-    </div>
+    </div >
   )
 }
 
