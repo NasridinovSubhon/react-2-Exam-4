@@ -21,8 +21,10 @@ export default function TemporaryDrawer({ toggleTheme, theme, DrawerList }) {
     };
     return (
         <>
-            <Menu onClick={toggleDrawer(true)}></Menu>
-            <Drawer open={open} onClose={toggleDrawer(false)} className=''>
+            <Menu className='dark:text-white text-black ' onClick={toggleDrawer(true)}></Menu>
+            <Drawer open={open} onClose={toggleDrawer(false)} PaperProps={{
+                sx: { width:220 }
+            }} >
                 {DrawerList}
             </Drawer>
         </>

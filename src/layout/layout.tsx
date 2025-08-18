@@ -37,8 +37,8 @@ const Layout = () => {
 
     const DrawerList = (
 
-        <ul className={`h-[100vh] w-[200px] -mt-[0.59px] ${theme == "dark" ? "border-[#c8d556] border-2 " : " border-[#180c85] border-2 "} `} >
-            <div className="flex items-center justify-baseline w-[100%] relative">
+        <ul className={`h-[100vh] w-[100%] m-auto -mt-[0.59px] ${theme == "dark" ? "border-[#c8d556] border-2 " : " border-[#180c85] border-2 "} `} >
+            <div className="flex w-[95%] items-center justify-baseline  relative">
                 <CustomizedSwitches toggleTheme={toggleTheme} theme={theme} />
                 <NavLink to={"login"} className={({ isActive }) => `${isActive ? SetNav(true) : SetNav(false)} dark:bg-[#000000ed] z-10 dark:text-white bg-white text-black `}>
                     <li>
@@ -46,34 +46,37 @@ const Layout = () => {
                     </li>
                 </NavLink>
             </div>
-            <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Hom_Me(true) : Set_Nav_Hom_Me(false)}`} to={"home"} >
-                <li className={` ${N_Hom_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500" : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer`}>
-                    Home
-                </li>
-            </NavLink>
-            <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Con_Me(true) : Set_Nav_Con_Me(false)}`} to={"contact"} >
-                <div
-                    className={` ${N_Con_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500" : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer`}>
-                    <li>
-                        <h1 className="font-medium">
-                            Contact
-                        </h1>
+            <div className="w-[95%] m-auto" >
+
+                <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Hom_Me(true) : Set_Nav_Hom_Me(false)}`} to={"home"} >
+                    <li className={` ${N_Hom_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500" : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer  `}>
+                        Home
                     </li>
-                </div>
-            </NavLink>
-            <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Abo_Me(true) : Set_Nav_Abo_Me(false)}`} to={"about"} >
-                <div
-                    className={` ${N_Abo_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500 " : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer`}>
-                    <li>
-                        About
+                </NavLink>
+                <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Con_Me(true) : Set_Nav_Con_Me(false)}`} to={"contact"} >
+                    <div
+                        className={` ${N_Con_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500" : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer  `}>
+                        <li>
+                            <h1 className="font-medium">
+                                Contact
+                            </h1>
+                        </li>
+                    </div>
+                </NavLink>
+                <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Abo_Me(true) : Set_Nav_Abo_Me(false)}`} to={"about"} >
+                    <div
+                        className={` ${N_Abo_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500 " : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer  `}>
+                        <li>
+                            About
+                        </li>
+                    </div>
+                </NavLink>
+                <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Sig_Me(true) : Set_Nav_Sig_Me(false)}`} to={"/"} >
+                    <li className={` ${N_Sig_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500" : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer  `}>
+                        sign up
                     </li>
-                </div>
-            </NavLink>
-            <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Sig_Me(true) : Set_Nav_Sig_Me(false)}`} to={"/"} >
-                <li className={` ${N_Sig_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500" : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer`}>
-                    sign up
-                </li>
-            </NavLink>
+                </NavLink>
+            </div>
         </ul >
 
     );
