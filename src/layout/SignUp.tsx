@@ -2,9 +2,7 @@ import TextField from "@mui/material/TextField"
 
 import gogle from "@/assets/gogle.png"
 const SignUp = () => {
-
     return (
-
         <div>
             <div className="xl:w-[35%] m-auto flex items-center justify-between h-[90vh] sm:w-[90%]">
                 <form>

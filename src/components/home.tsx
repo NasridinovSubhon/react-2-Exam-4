@@ -22,15 +22,13 @@ import kal3 from "@/assets/3kalon.png"
 import dukhi from "@/assets/dukhi.png"
 import servKam from "@/assets/servisKam.png"
 
-
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import '@/style/style.css';
 
-
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import { lazy, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { Eye, Heart } from "lucide-react";
 import { Input } from "./ui/input";
 
@@ -102,6 +100,8 @@ const data2 = [
 
 
 import tel from "@/assets/tel.png"
+import { Link } from "react-router-dom";
+
 
 const Home = () => {
 
@@ -134,6 +134,7 @@ const Home = () => {
   const minutes = time.getMinutes().toString().padStart(2, "0");
   const seconds = time.getSeconds().toString().padStart(2, "0");
 
+
   const swiperRef = useRef(null);
   const swiperRef2 = useRef(null);
 
@@ -145,16 +146,13 @@ const Home = () => {
       <div className="xl:w-[85%] sm:w-[95%] m-auto flex flex-wrap items-center justify-between xl:mt-[90px] sm:mt-0">
         <div className="xl:w-1/5 sm:w-[90%] mx-auto xl:mx-0 flex xl:block sm:flex flex-wrap items-start gap-2.5 xl:border-r sm:border-r-0 border-gray-200">
 
-          <div className="flex xl:block sm:flex gap-2.5 w-full sm:justify-between">
-            <Select>
-              <SelectTrigger className="w-full xl:w-[180px] sm:w-[48%] mt-3.5">
-                <SelectValue placeholder="Woman’s Fashion" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">Women</SelectItem>
-              </SelectContent>
-            </Select>
-
+          {/* <div className="flex xl:block sm:flex gap-2.5 w-full sm:justify-between">
+            <div className="relative">
+              <Popover>
+                <PopoverTrigger>Woman’s Fashion</PopoverTrigger>
+                <PopoverContent></PopoverContent>
+              </Popover>
+            </div>
             <Select>
               <SelectTrigger className="w-full xl:w-[180px] sm:w-[48%] mt-3.5">
                 <SelectValue placeholder="Men’s Fashion" />
@@ -163,9 +161,14 @@ const Home = () => {
                 <SelectItem value="1">Men</SelectItem>
               </SelectContent>
             </Select>
-          </div>
-
+          </div> */}
           <div className="w-full grid sm:grid-cols-2 xl:grid-cols-1 gap-2.5 mt-2.5">
+            <button className={categoryBtn}>
+              Woman’s Fashion
+            </button>
+            <button className={categoryBtn}>
+              Men’s Fashion
+            </button>
             <button className={categoryBtn}>
               Electronics
             </button>
@@ -273,7 +276,6 @@ const Home = () => {
             </SwiperSlide>
           </Swiper>
         </div>
-
       </div>
 
 
@@ -325,7 +327,6 @@ const Home = () => {
         <Swiper
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           slidesPerView={slidesPerView}
-          centeredSlides={true}
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,
@@ -343,7 +344,6 @@ const Home = () => {
               spaceBetween: 30,
             },
           }}
-
           modules={[Autoplay]}
           className="mySwiper"
         >
@@ -357,10 +357,10 @@ const Home = () => {
                         -{e.aksiya}%
                       </button>
                       <div className="space-y-2">
-                        <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition">
+                        <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
                           <Heart />
                         </button>
-                        <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition">
+                        <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
                           <Eye />
                         </button>
                       </div>
@@ -383,14 +383,17 @@ const Home = () => {
                     <span className="text-[gray] ml-2">${e.kharid}</span>
                   </div>
                 </div>
-
               </SwiperSlide>
             )
           })}
 
         </Swiper>
         <div className="xl:w-[12%] m-auto mt-3 sm:w-[45%]">
-          <button className="w-[100%] m-auto py-3 xl:text-[16px] sm:text-[14px] text-white bg-[#DB4444] rounded-[6px]"> View All Products </button>
+          <ul>
+            <Link to={"/products"} >
+              <button className="w-[100%] m-auto py-3 xl:text-[16px] sm:text-[14px] text-white bg-[#DB4444] rounded-[6px]"> View All Products </button>
+            </Link>
+          </ul>
         </div>
       </div>
 
@@ -403,20 +406,28 @@ const Home = () => {
           </h1>
         </div>
         <div className="w-[10%] xl:flex items-center justify-between sm:hidden">
-          <button className="bg-[#dadddf] p-[10px_15px] rounded-full"
-            onClick={() => swiperRef2.current?.slidePrev()}
-          > ⏮ </button>
-          <button
-            onClick={() => swiperRef2.current?.slideNext()}
-            className="bg-[#dadddf] p-[10px_15px] rounded-full" > ⏭ </button>
+          <button onClick={() => {
+            console.log("Prev clicked, swiperRef2:", swiperRef2.current); // Логирование
+            swiperRef2.current?.slidePrev();
+          }}>
+            ⏮
+          </button>
+
+          <button onClick={() => {
+            console.log("Next clicked, swiperRef2:", swiperRef2.current); // Логирование
+            swiperRef2.current?.slideNext();
+          }}>
+            ⏭
+          </button>
         </div>
       </div>
 
       <div className="w-[85%] m-auto">
         <Swiper
-          onSwiper={(swiper) => (swiperRef2.current = swiper)}
+          onSwiper={(swiper) => {
+            swiperRef2.current = swiper;
+          }}
           slidesPerView={slidesPerView}
-          centeredSlides={true}
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,
@@ -434,7 +445,6 @@ const Home = () => {
               spaceBetween: 30,
             },
           }}
-
           modules={[Autoplay]}
           className="mySwiper"
         >
@@ -491,14 +501,12 @@ const Home = () => {
         <h1 className="xl:text-[36px] sm:text-[32px]">
           Best Selling Products
         </h1>
+
         <button className="bg-[#DB4444] p-[10px_35px] text-white rounded-[3px] xl:block sm:hidden" > View All </button>
       </div>
 
       <div className="w-[85%] m-auto mt-[20px] mb-[90px] " >
         <Swiper
-          onSwiper={(swiper) => (swiperRef.current = swiper)}
-          slidesPerView={slidesPerView}
-          centeredSlides={true}
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,
@@ -526,10 +534,11 @@ const Home = () => {
                 <div className="relative p-2 w-[95%] ">
                   <div className="bg-[#F5F5F5] h-[90%] rounded-2xl overflow-hidden group relative transition duration-300 hover:shadow-lg hover:-translate-y-1">
                     <div className="flex relative xl:left-[270px] sm:left-[224px] justify-evenly items-start p-3" style={{ flexDirection: "column" }}>
-                      <button className="rounded-full block mb-4 bg-white p-2 shadow hover:bg-gray-100 transition">
+                      <button className="rounded-full block mb-4 bg-white p-2 shadow hover:bg-100 transition darkblack text-black">
                         <Heart />
                       </button>
-                      <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition">
+                      <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black
+                         ">
                         <Eye />
                       </button>
                     </div>
@@ -539,8 +548,10 @@ const Home = () => {
                       className="w-[75%] mx-auto object-cover"
                       style={{ height: "140px" }}
                     />
+                    <button className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
+                      Add To Cart
+                    </button>
                   </div>
-
                   <div className="text-start mt-3">
                     <h1>{e.name}</h1>
                     <span className="text-[red]">${e.price}</span>
@@ -587,8 +598,8 @@ const Home = () => {
           </div>
         </div>
         <img src={kal} alt="" className="xl:w-[47%] xl:mt-0 sm:mt-10 drop-shadow-[0px_0px_24px] drop-shadow-white " />
-
       </div>
+
 
       <div className="w-[85%]  flex  m-auto gap-4 " >
         <div className="h-[40px] xl:w-[20px] sm:w=[30px] rounded-[4px] bg-[#DB4444] ">
@@ -613,10 +624,11 @@ const Home = () => {
                       <button className="bg-[#DB4444] rounded text-white text-sm font-medium shadow">
                       </button>
                       <div className="space-y-2">
-                        <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition">
+                        <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
                           <Heart />
                         </button>
-                        <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition">
+                        <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black
+                         ">
                           <Eye />
                         </button>
                       </div>
@@ -714,9 +726,9 @@ const Home = () => {
         </div>
       </div>
 
-    </div >
+    </div>
   )
 }
 
 
-export default Home
+export default memo(Home)

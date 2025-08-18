@@ -13,10 +13,14 @@ import { ThemeProvider } from "./theme/theme-provider"
 
 import Login from "./components/login"
 import About from "./components/about"
+const ContactLazy = lazy(() => import("./components/contact"))
+const Contact = memo(ContactLazy)
+
 const HomeLazy = lazy(() => import("@/components/home"));
 const Home = memo(HomeLazy);
 
-
+const ProductsLazy = lazy(() => import("@/components/products"))
+const Products = memo(ProductsLazy)
 
 const App = () => {
 
@@ -28,10 +32,20 @@ const App = () => {
           <Suspense fallback={"Loading..."}>
             <Home />
           </Suspense>
-
         } />
         <Route path="login" element={<Login />} />
         <Route path="about" element={<About />} />
+        <Route path="contact" element={
+          <Suspense fallback={"Loading..."} >
+            <Contact />
+          </Suspense>
+        } />
+        <Route path="products" element={
+          <Suspense fallback={"Loading..."} >
+            <Products />
+          </Suspense>
+        }
+        />
       </Route>
     )
   )

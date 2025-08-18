@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom"
+import { Link, NavLink, Outlet } from "react-router-dom"
 import logo from "@/assets/logo.png"
 import { ArrowDownUp, Facebook, Heart, Instagram, Search, SendHorizontal, ShoppingCart, Twitter, User } from "lucide-react"
 
@@ -16,53 +16,64 @@ import CustomizedSwitches from "@/components/switch"
 import TemporaryDrawer from "@/components/menu"
 import { useSelector } from "react-redux"
 import { toggleTheme } from "@/reducers/theme"
+import { useState } from "react"
+
 
 
 const cart = [
     {
-
     }
 ]
 
-
 const Layout = () => {
+
+    const [nav, SetNav] = useState(false)
+    const [N_Hom_Med, Set_Nav_Hom_Me] = useState(false)
+    const [N_Con_Med, Set_Nav_Con_Me] = useState(false)
+    const [N_Abo_Med, Set_Nav_Abo_Me] = useState(false)
+    const [N_Sig_Med, Set_Nav_Sig_Me] = useState(false)
+
     const theme = useSelector((state) => state.theme.mode);
 
     const DrawerList = (
 
-        <ul className={`w-[200px] dark:bg-[#000000ed] z-10 dark:text-white bg-white text-black h-[100vh]  -mt-[0.59px] ${theme == "dark" ? "border-[#c8d556] border-2 " : " border-[#180c85] border-2 "} `} >
-            <div className="flex items-center justify-baseline w-[100%] relative ">
+        <ul className={`h-[100vh] w-[200px] -mt-[0.59px] ${theme == "dark" ? "border-[#c8d556] border-2 " : " border-[#180c85] border-2 "} `} >
+            <div className="flex items-center justify-baseline w-[100%] relative">
                 <CustomizedSwitches toggleTheme={toggleTheme} theme={theme} />
-                <ul >
+                <NavLink to={"login"} className={({ isActive }) => `${isActive ? SetNav(true) : SetNav(false)} dark:bg-[#000000ed] z-10 dark:text-white bg-white text-black `}>
                     <li>
-                        <Link to={"login"} >
-                            <User className="absolute right-2 top-3" />
-                        </Link>
+                        <User className={` ${nav ? "dark:border-white border-3 border-black w-[25px] h-[25px] " : ""} rounded-full absolute right-2 top-3`} />
                     </li>
-                </ul>
+                </NavLink>
             </div>
-            <li className="w-full mt-2 pl-4 py-2 rounded-lg  border-l-2 border-gray-800 dark:border-gray-200  dark:hover:bg-gray-600 bg-gray-100/80 dark:bg-gray-800/90  hover:bg-blue-600 hover:text-white  transition-colors duration-200 cursor-pointer">
-
-                <Link to={"home"} >
+            <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Hom_Me(true) : Set_Nav_Hom_Me(false)}`} to={"home"} >
+                <li className={` ${N_Hom_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500" : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer`}>
                     Home
-                </Link>
-
-            </li>
-            <div className="w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80 dark:bg-gray-800/90 hover:bg-blue-600 hover:text-white transition-colors duration-200 cursor-pointer">
-                <h1 className="font-medium">Contact</h1>
-            </div>
-            <div className="w-full mt-2 pl-4 py-2 rounded-lg   border-l-2 border-gray-800 dark:border-gray-200   dark:hover:bg-gray-600  bg-gray-100/80 dark:bg-gray-800/90   hover:bg-blue-600 hover:text-white   transition-colors duration-200 cursor-pointer">
-                <li>
-                    <Link to={"about"} >
-                        About
-                    </Link>
                 </li>
-            </div>
-            <li className="w-full mt-2 pl-4 py-2 rounded-lg  border-l-2 border-gray-800 dark:border-gray-200  dark:hover:bg-gray-600 bg-gray-100/80 dark:bg-gray-800/90  hover:bg-blue-600 hover:text-white  transition-colors duration-200 cursor-pointer">
-                <Link to={"/"} >
+            </NavLink>
+            <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Con_Me(true) : Set_Nav_Con_Me(false)}`} to={"contact"} >
+                <div
+                    className={` ${N_Con_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500" : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer`}>
+                    <li>
+                        <h1 className="font-medium">
+                            Contact
+                        </h1>
+                    </li>
+                </div>
+            </NavLink>
+            <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Abo_Me(true) : Set_Nav_Abo_Me(false)}`} to={"about"} >
+                <div
+                    className={` ${N_Abo_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500 " : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer`}>
+                    <li>
+                        About
+                    </li>
+                </div>
+            </NavLink>
+            <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Sig_Me(true) : Set_Nav_Sig_Me(false)}`} to={"/"} >
+                <li className={` ${N_Sig_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500" : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer`}>
                     sign up
-                </Link>
-            </li>
+                </li>
+            </NavLink>
         </ul >
 
     );
@@ -79,47 +90,64 @@ const Layout = () => {
                 <div className="w-[55%] flex items-center justify-between">
                     <img src={logo} alt="" className="xl:w-[230px] xl:block xl:h-[70px] sm:hidden" />
                     <div className="xl:w-[45%] xl:flex items-center justify-between sm:hidden ">
+
                         <ul className="flex items-center justify-between w-[100%] ">
                             <li>
-                                <Link to={"home"} >
+                                <NavLink className={({ isActive }) => `${isActive ? "border-b-2 border-black"
+                                    : ""}`} to={"home"} >
                                     Home
-                                </Link>
+                                </NavLink>
                             </li>
-                            <h1>Contact</h1>
                             <li>
-                                <Link to={"about"} >
+                                <NavLink className={({ isActive }) => `
+                                ${isActive ? "border-b-2 border-black" : ""}
+                                `} to={"contact"} >
+                                    Contact
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink className={({ isActive }) =>
+                                    `${isActive ? "border-b-2 border-black" : ""}`
+                                } to={"about"} >
                                     About
-                                </Link>
+                                </NavLink>
                             </li>
                             <li>
-                                <Link to={"/"} >
+                                <NavLink className={({ isActive }) =>
+                                    `${isActive ? "border-b-2 border-black" : ""}`} to={"/"} >
                                     sign up
-                                </Link>
+                                </NavLink>
                             </li>
                         </ul>
+
                     </div>
                 </div>
                 <div className="xl:w-[45%] flex items-center justify-between sm:w-[10%] ml-5">
                     <Dialog>
                         <DialogTrigger className="w-[55%]">
-                            <div className="xl:flex items-center justify-around dark:bg-[#4779c5] bg-[#F5F5F5] xl:w-[100%] sm:hidden">
-                                <div className="py-[10px] text-gray-400 active:text-gray-600 cursor-pointer duration-100"> What are you looking for? </div>
-                                <Search className="mr-[15px] " />
-
+                            <div className="xl:flex items-center justify-between dark:bg-[#4779c5] bg-[#F5F5F5] xl:w-full sm:hidden px-4 py-2 rounded-lg cursor-pointer hover:shadow-md transition-shadow duration-200">
+                                <div className="text-gray-400 active:text-gray-600 duration-100">
+                                    What are you looking for?
+                                </div>
+                                <Search className="ml-2 text-gray-500 dark:text-gray-200" />
                             </div>
                         </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
 
+                        <DialogContent className="p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+                            <DialogHeader>
                                 <DialogTitle>
-                                    <div className="flex  dark:bg-blue-500/40 bg-blue-500/30 dark:bg-gra items-center py-[3px] justify-between mt-[15px] rounded-xl">
-                                        <Search className="mr-[15px]" />
-                                        <Input className="w-[90%] border-none outline-none" placeholder="Search Cart" />
+                                    <div className="flex items-center gap-3 py-2 px-3 bg-blue-500/20 dark:bg-blue-500/40 rounded-xl">
+                                        <Search className="text-gray-500 dark:text-gray-200" />
+                                        <Input
+                                            className="w-full border-none outline-none bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-300"
+                                            placeholder="Search Cart"
+                                        />
                                     </div>
                                 </DialogTitle>
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>
+
                     <Heart className="xl:block sm:hidden" />
                     <div className="relative">
                         <div className="bg-[#DB4444] dark:bg-white dark:text-black text-white w-[20px] h-[20px] rounded-full absolute -top-2 -right-2 flex items-center justify-center text-center">
@@ -140,6 +168,7 @@ const Layout = () => {
                 </div>
             </div>
             <hr className="mt-4" />
+
             <Outlet />
 
 
@@ -187,7 +216,7 @@ const Layout = () => {
                 </div>
             </footer>
 
-        </div>
+        </div >
     )
 }
 
