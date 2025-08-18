@@ -46,8 +46,8 @@ const Layout = () => {
                     </li>
                 </NavLink>
             </div>
-            <div className="w-[95%] m-auto" >
-
+            <div className="w-[95%] m-auto">
+      
                 <NavLink className={({ isActive }) => `${isActive ? Set_Nav_Hom_Me(true) : Set_Nav_Hom_Me(false)}`} to={"home"} >
                     <li className={` ${N_Hom_Med ? "bg-cyan-500/20 dark:bg-white-100/30  dark:hover:bg-violet-500" : "bg-gray-100/80 dark:bg-gray-800/90 "}  w-full mt-2 pl-4 py-2 rounded-lg border-l-2 border-gray-800 dark:border-gray-200 dark:hover:bg-gray-600bg-gray-100/80  hover:bg-blue-600/40 dark:hover:bg-white dark:hover:text-black hover:text-white transition-colors duration-200 cursor-pointer  `}>
                         Home
