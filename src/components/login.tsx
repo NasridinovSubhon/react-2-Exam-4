@@ -1,6 +1,6 @@
 import { Api } from "@/utils/config"
 import TextField from "@mui/material/TextField"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 
 const Login = () => {
@@ -33,6 +33,13 @@ const Login = () => {
           <TextField name='Password' type="password" id="standard-basic" label="Password" variant="outlined" sx={{ width: "100%", marginBottom: "15px" }} />
           <button className="p-[15px] w-[100%] mt-[15px] text-[#DB4444]  " > Forget Password? </button>
           <button type="submit" className="p-[15px] w-[100%] mt-[15px] text-white bg-[#DB4444] " > Log In </button>
+          <ul>
+            <li>
+              <Link to={"/signUp"} >
+                signUp
+              </Link>
+            </li>
+          </ul>
         </form>
       </div>
     </div>

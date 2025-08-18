@@ -14,15 +14,19 @@ import { ThemeProvider } from "./theme/theme-provider"
 import Login from "./components/login"
 import About from "./components/about"
 const ContactLazy = lazy(() => import("./components/contact"))
-const Contact = memo(ContactLazy)
 
 const HomeLazy = lazy(() => import("@/components/home"));
-const Home = memo(HomeLazy);
 
 const ProductsLazy = lazy(() => import("@/components/products"))
-const Products = memo(ProductsLazy)
 
 const Wishlist = lazy(() => import("@/components/wishlist"))
+const SignUp = lazy(() => import("@/components/signUp"))
+
+
+const Contact = memo(ContactLazy)
+const Home = memo(HomeLazy);
+const Products = memo(ProductsLazy)
+
 
 const App = () => {
   const router = createBrowserRouter(
@@ -40,6 +44,7 @@ const App = () => {
             <Contact />
           </Suspense>
         } />
+        <Route path="signUp" element={<Suspense fallback={"Loading..."} > <SignUp /> </Suspense>} />
         <Route path="products" element={<Suspense fallback={"Loading..."} > <Products /></Suspense>} />
         <Route path="wishlist" element={<Suspense fallback={"Loading..."}  >  <Wishlist />  </Suspense>} />
 
