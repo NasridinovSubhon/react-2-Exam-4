@@ -287,13 +287,13 @@ const Home = () => {
         </h1>
       </div>
 
-      <div className="xl:w-[85%] mx-auto my-5 flex flex-wrap items-center justify-between sm:w-[90%]">
+      <div className="xl:w-[85%] mx-auto my-5 flex flex-wrap items-center justify-between  sm:w-[90%]">
         <div className="xl:w-[55%] flex items-center justify-between flex-wrap sm:w-[100%]">
-          <h1 className="text-4xl font-bold">Flash Sales</h1>
+          <h1 className="xl:text-4xl sm:text-3xl font-bold">Flash Sales</h1>
           <div className="flex items-center xl:gap-4 sm:gap-2 flex-wrap xl:mt-0 sm:mt-4 ">
             <div className="flex flex-col items-center">
               <span className="text-sm font-medium">Days</span>
-              <span className="xl:text-lg sm:text-[16px]">{dateNumber}—{dayName}</span>
+              <span className="xl:text-lg sm:text-[14px]">{dateNumber}—{dayName}</span>
             </div>
             <span className="text-xl font-bold">:</span>
             <div className="flex flex-col items-center">
@@ -313,7 +313,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="w-[10%] flex items-center justify-between">
+        <div className="xl:w-[10%] sm:w-[90%]  m-auto xl:mt-0 sm:mt-4 flex items-center justify-between">
           <button className="bg-[#dadddf] p-[10px_15px] rounded-full"
             onClick={() => swiperRef.current?.slidePrev()}
           > ⏮ </button>

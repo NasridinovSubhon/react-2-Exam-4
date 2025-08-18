@@ -72,7 +72,7 @@ const Products = () => {
   return (
     <div>
       <div className="flex xl:w-[85%] sm:w-[95%] m-auto  gap-10 sm:mt-[60px] xl:mt-[120px] mb-[120px] flex-wrap" >
-        <div className="xl:w-[25%] sm:w-[100%]" >
+        <div className="xl:w-[20%] sm:w-[100%]" >
           <Select>
             <SelectTrigger className="w-[180px] m-auto">
               <SelectValue placeholder="Theme" />
@@ -86,7 +86,7 @@ const Products = () => {
             </SelectContent>
           </Select>
         </div>
-        <div className="xl:w-[80%] sm:w-[85%] m-auto" >
+        <div className="xl:w-[76%] sm:w-[85%] m-auto" >
           <div className="flex items-center justify-start gap-8 flex-wrap " >
             {dataProd.map((e, i) => {
               return <div key={i} className="xl:w-[31%] group sm:w-[100%]" >
