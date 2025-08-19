@@ -34,7 +34,7 @@ export const getByIdData = createAsyncThunk(
   "counter/getById",
   async ({ catId, subId }) => {
     try {
-      const { data } = await Api.get(`get-products?CategoryId=${catId}&SubcategoryId=${subId}`)
+      const { data } = await Api.get(`Product/get-products?CategoryId=${catId}&SubcategoryId=${subId}`)
       return data
     } catch (error) { console.error(error) }
   }

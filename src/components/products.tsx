@@ -2,7 +2,7 @@ import { memo, useEffect, useState } from "react";
 import { Eye, Heart, Loader2, Search, Filter } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { getByIdData } from "@/app/productSl";
+import { getByIdData, GetCat } from "@/app/productSl";
 
 
 // Define TypeScript interfaces
@@ -24,63 +24,29 @@ const Products = () => {
   const location = useLocation();
   const { categoryId, subCategoryId } = location.state as LocationState;
   const dispatch = useDispatch<AppDispatch>();
-  const { dataById, loading, error } = useSelector((state: RootState) => state.prod);
-  const [selectedCategory, setSelectedCategory] = useState("All products");
+
+  const { dataById: products, dataCat: categories } = useSelector((state: RootState) => state.prod);
+
+  const [selectedCategory, setSelectedCategory] = useState(categoryId || "");
+  const [selectedSubCategory, setSelectedSubCategory] = useState(subCategoryId || "");
+
   const [sortBy, setSortBy] = useState<string>("default");
+
   const [searchQuery, setSearchQuery] = useState<string>("");
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(getByIdData({ catId: categoryId, subId: subCategoryId }));
-  }, [categoryId, subCategoryId]);
+    dispatch(getByIdData({ catId: selectedCategory, subId: selectedSubCategory }));
+    dispatch(GetCat())
+  }, [categoryId, subCategoryId, selectedCategory, selectedSubCategory]);
 
-  const filteredProducts = dataById?.filter((product: Product) => {
-    const matchesSearch = product.productName.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === "All products" || product.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  }) || [];
 
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch (sortBy) {
-      case "price-low":
-        return a.price - b.price;
-      case "price-high":
-        return b.price - a.price;
-      case "name":
-        return a.productName.localeCompare(b.productName);
-      default:
-        return 0;
-    }
-  });
-
-  // Handle loading state
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
-        <span className="ml-2 text-gray-600">Loading products...</span>
-      </div>
-    );
-  }
-
-  // Handle error state
-  if (error) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-red-500 text-center">
-          <p className="text-xl font-semibold">Error loading products</p>
-          <p className="mt-2">{error}</p>
-        </div>
-      </div>
-    );
-  }
-
-  const categories = ["All products", "Electronics", "Home & Lifestyle", "Sports & Outdoor", "See all"];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="flex xl:w-[85%] sm:w-[95%] m-auto gap-10 sm:mt-[60px] xl:mt-[120px] mb-[120px] flex-wrap">
-        {/* Mobile filter toggle */}
+
         <div className="sm:w-full xl:hidden flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Our Products</h2>
           <button
@@ -92,11 +58,11 @@ const Products = () => {
           </button>
         </div>
 
-        {/* Sidebar Categories - Hidden on mobile unless toggled */}
+
         <div className={`xl:w-[20%] sm:w-full space-y-3 xl:block ${isFilterOpen ? 'block' : 'hidden'}`}>
           <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Categories</h2>
 
-          {/* Search input */}
+
           <div className="relative mb-4">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
             <input
@@ -108,25 +74,9 @@ const Products = () => {
             />
           </div>
 
-          {/* Sort dropdown */}
-          <div className="mb-6">
-            <label htmlFor="sort" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Sort by
-            </label>
-            <select
-              id="sort"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
-            >
-              <option value="default">Default</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="name">Name</option>
-            </select>
-          </div>
 
-          {/* Category list */}
+         
+
           <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Categories</h3>
           {categories.map((cat, i) => (
             <div
@@ -135,9 +85,9 @@ const Products = () => {
                 ? "bg-blue-100 text-blue-700 font-medium dark:bg-blue-900 dark:text-blue-100"
                 : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
                 }`}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => { setSelectedCategory(cat.id), setSelectedSubCategory("") }}
             >
-              {cat}
+              {cat.categoryName}
             </div>
           ))}
         </div>
@@ -149,17 +99,17 @@ const Products = () => {
           {/* Results count */}
           <div className="mb-6 flex justify-between items-center">
             <p className="text-gray-600 dark:text-gray-400">
-              Showing {sortedProducts.length} of {dataById?.length} products
+              Showing {products.length} of {products?.length} products
             </p>
           </div>
 
-          {sortedProducts.length === 0 ? (
+          {products.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-gray-500 dark:text-gray-400">No products found. Try adjusting your filters.</p>
             </div>
           ) : (
             <div className="grid xl:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-6">
-              {sortedProducts.map((product) => (
+              {products.map((product) => (
                 <div
                   key={product.id}
                   className="group relative bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
