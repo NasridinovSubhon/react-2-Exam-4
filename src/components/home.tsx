@@ -21,10 +21,9 @@ import { memo, useEffect, useRef, useState } from "react";
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Input } from "./ui/input";
 
-const categoryBtn = "w-full dark:bg-[#aaa8c097] dark:hover:bg-[#1f5ab4] hover:bg-blue-100 active:scale-95 bg-gray-50 py-2 rounded-md xl:px-5 sm:px-2 transition-all duration-200 text-sm font-medium text-center";
+// const categoryBtn = "w-full dark:bg-[#aaa8c097] dark:hover:bg-[#1f5ab4] hover:bg-blue-100 active:scale-95 bg-gray-50 py-2 rounded-md xl:px-5 sm:px-2 transition-all duration-200 text-sm font-medium text-center";
 
 import { GetCat, GetProd } from "@/app/productSl";
-import Skeleton from "@mui/material/Skeleton";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -73,23 +72,28 @@ const Home = ({ setWish, wish }) => {
     <div className="dark:text-white text-black" >
       <Input className="xl:hidden xl:mb-0 sm:mb-6  sm:block w-[90%] m-auto mt-[10px]" placeholder="Search..." />
       <div className="xl:w-[85%]  sm:w-[95%] m-auto flex flex-wrap items-center justify-between xl:mt-[90px] sm:mt-0">
-        <div className="xl:w-1/5 pr-3 sm:w-[90%] mx-auto xl:mx-0 flex xl:block sm:flex flex-wrap items-start gap-2.5 xl:border-r sm:border-r-0 border-gray-200 max-h-[400px] overflow-y-auto" style={{ scrollbarColor:"transparent transparent"}} >
+        <div className="xl:w-1/5 pr-3 sm:w-[90%] mx-auto xl:mx-0 flex xl:block sm:flex flex-wrap items-start gap-2.5 xl:border-r sm:border-r-0 border-gray-200 max-h-[400px] overflow-y-auto" style={{ scrollbarColor: "transparent transparent" }} >
           <ul className="w-full grid sm:grid-cols-2 xl:grid-cols-1 gap-2.5 mt-2.">
             {dataCat.slice(0, 4).map((f) => {
               return <>
-                {f.subCategories.slice(0, 4).map((sub, i) => {
-                  return <div key={i} className="relative group w-full" onMouseEnter={() => setOpen(sub.id)} onMouseLeave={() => setOpen(null)} >
-                    <button className={` px-4 py-2 rounded-lg transition-colors duration-300 w-full ${open === sub.id ? "bg-blue-600 text-white shadow-md" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`} >
-                      {sub.subCategoryName}
-                    </button>
-
-                    <div className={` absolute top-full w-40 p-3 bg-white rounded-xl shadow-lg border border-gray-100 z-50 transition-all duration-200 text-center ${open === sub.id ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"} ${i % 2 === 0 ? "xl:left-[40px]  absolute sm:-left-2 -translate-x-2" : "xl:left-[32px] sm:-left-[10px] translate-x-2"} `} >
-                      <p className="text-sm text-gray-700 text-[10px]">
+                {loadingCat ?
+                  <>
+                    <div className="h-4 w-[80%] rounded-md bg-gray-200 animate-pulse"></div>
+                    <div className="h-4 w-[60%] rounded-md bg-gray-200 animate-pulse"></div>
+                  </>
+                  : f.subCategories.slice(0, 4).map((sub, i) => {
+                    return <div key={i} className="relative group w-full" onMouseEnter={() => setOpen(sub.id)} onMouseLeave={() => setOpen(null)} >
+                      <button className={` px-4 py-2 rounded-lg transition-colors duration-300 w-full ${open === sub.id ? "bg-blue-600 text-white shadow-md" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`} >
                         {sub.subCategoryName}
-                      </p>
+                      </button>
+
+                      <div className={` absolute top-full w-40 p-3 bg-white rounded-xl shadow-lg border border-gray-100 z-50 transition-all duration-200 text-center ${open === sub.id ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"} ${i % 2 === 0 ? "xl:left-[40px]  absolute sm:-left-2 -translate-x-2" : "xl:left-[32px] sm:-left-[10px] translate-x-2"} `} >
+                        <p className="text-sm text-gray-700 text-[10px]">
+                          {sub.subCategoryName}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                })}
+                  })}
               </>
             })}
           </ul>
@@ -246,12 +250,11 @@ const Home = ({ setWish, wish }) => {
           {loading ?
             Array.from({ length: 5 }).map((_, idx) => (
               <SwiperSlide key={idx}>
-                <div className="flex mt-10 flex-col space-y-3 p-2 w-[95%]">
-                  <Skeleton className="h-[200px] w-[250px] rounded-xl" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-[250px]" />
-                    <Skeleton className="h-4 w-[200px]" />
-                  </div>
+                <div className="flex flex-col mt-10 space-y-3 w-full">
+                  <div className="h-4 w-[80%] rounded-md bg-gray-200 animate-pulse"></div>
+                  <div className="h-4 w-[70%] rounded-md bg-gray-200 animate-pulse"></div>
+                  <div className="h-4 w-[50%] rounded-md bg-gray-200 animate-pulse"></div>
+                  <div className="h-4 w-[34%] rounded-md bg-gray-200 animate-pulse"></div>
                 </div>
               </SwiperSlide>
             ))
@@ -361,12 +364,11 @@ const Home = ({ setWish, wish }) => {
           {loadingCat ?
             Array.from({ length: 10 }).map((_, idx) => (
               <SwiperSlide key={idx}>
-                <div className="flex flex-col space-y-3 p-2 w-[20%]">
-                  <Skeleton className="h-[200px] w-[250px] rounded-xl" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-[250px]" />
-                    <Skeleton className="h-4 w-[200px]" />
-                  </div>
+                <div className="flex flex-col mt-10 space-y-3 w-full">
+                  <div className="h-4 w-[80%] rounded-md bg-gray-200 animate-pulse"></div>
+                  <div className="h-4 w-[70%] rounded-md bg-gray-200 animate-pulse"></div>
+                  <div className="h-4 w-[50%] rounded-md bg-gray-200 animate-pulse"></div>
+                  <div className="h-4 w-[34%] rounded-md bg-gray-200 animate-pulse"></div>
                 </div>
               </SwiperSlide>
             ))
@@ -425,12 +427,11 @@ const Home = ({ setWish, wish }) => {
             loading ?
               Array.from({ length: 5 }).map((_, idx) => (
                 <SwiperSlide key={idx}>
-                  <div className="flex mt-10 flex-col space-y-3 p-2 w-[95%]">
-                    <Skeleton className="h-[200px] w-[250px] rounded-xl" />
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-[250px]" />
-                      <Skeleton className="h-4 w-[200px]" />
-                    </div>
+                  <div className="flex flex-col mt-10 space-y-3 w-full">
+                    <div className="h-4 w-[80%] rounded-md bg-gray-200 animate-pulse"></div>
+                    <div className="h-4 w-[70%] rounded-md bg-gray-200 animate-pulse"></div>
+                    <div className="h-4 w-[50%] rounded-md bg-gray-200 animate-pulse"></div>
+                    <div className="h-4 w-[34%] rounded-md bg-gray-200 animate-pulse"></div>
                   </div>
                 </SwiperSlide>
               ))

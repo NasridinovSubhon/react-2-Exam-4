@@ -6,6 +6,7 @@ const initialState = {
   data: [],
   loading: false,
   loadingCat: false,
+  loadingCattt: false,
   dataCat: [],
   dataById: []
 }
