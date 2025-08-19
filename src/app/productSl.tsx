@@ -32,15 +32,15 @@ export const GetCat = createAsyncThunk(
 
 export const getById = createAsyncThunk(
   "counter/getById",
-  async () => {
+  async (id) => {
     try {
-      const { data } = await Api.get(`Cart/get-products-from-cart`)
+      const { data } = await Api.get(`Product/get-products?SubcategoryId=${id}`)
       return data
-    } catch (error) {
-
-    }
+    } catch (error) { console.error(error) }
   }
 )
+
+
 
 export const products = createSlice({
   name: 'counter',
@@ -67,7 +67,7 @@ export const products = createSlice({
       .addCase(getById.fulfilled, (state, { payload }) => {
         state.dataById = payload.data
       })
-    
+
   }
 })
 

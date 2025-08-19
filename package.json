@@ -12,7 +12,9 @@
   "dependencies": {
     "@mui/lab": "^7.0.0-beta.16",
     "@mui/x-data-grid": "^8.10.1",
+    "@mui/x-tree-view": "^8.10.0",
     "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-menubar": "^1.1.16",
     "@radix-ui/react-popover": "^1.1.15",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-switch": "^1.2.6",
