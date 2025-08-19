@@ -17,7 +17,9 @@ import TemporaryDrawer from "@/components/menu"
 import { useState } from "react"
 import { useTheme } from "@/theme/theme-provider"
 
-const Layout = () => {
+const Layout = ({wish}) => {
+
+
 
     const [nav, SetNav] = useState(false)
     const [N_Hom_Med, Set_Nav_Hom_Me] = useState(false)
@@ -60,9 +62,8 @@ const Layout = () => {
 
             </div>
         </ul >
-);
+    );
 
-    const wishLength = JSON.parse(localStorage.getItem("wish")).length
 
     return (
         <div className="text-black" >
@@ -131,7 +132,7 @@ const Layout = () => {
                         <div className="relative xl:ml-0 sm:-ml-20">
                             <Link to={"wishlist"} >
                                 <div className="bg-[#DB4444] dark:bg-white dark:text-black text-white w-[20px] h-[20px] rounded-full absolute -top-2 -right-2.5 flex items-center justify-center text-center">
-                                    {wishLength}
+                                    {wish.length || 0}
                                 </div>
                                 <Heart />
                             </Link>

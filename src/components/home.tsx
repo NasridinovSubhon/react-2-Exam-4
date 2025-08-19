@@ -97,9 +97,7 @@ import { GetCat, GetProd } from "@/app/productSl";
 import Skeleton from "@mui/material/Skeleton";
 
 
-const Home = () => {
-
-  const dataWish = JSON.parse(localStorage.getItem("wish"))
+const Home = ({ setWish, wish }) => {
 
   const dispatch = useDispatch()
 
@@ -137,10 +135,11 @@ const Home = () => {
   const hours = time.getHours().toString().padStart(2, "0");
   const minutes = time.getMinutes().toString().padStart(2, "0");
   const seconds = time.getSeconds().toString().padStart(2, "0");
-
-
   const swiperRef = useRef(null);
   const swiperRef2 = useRef(null);
+
+  const WISHLIST_LIMIT = parseInt(import.meta.env.VITE_WISHLIST_LIMIT || "5");
+
 
   return (
     <div className="dark:text-white text-black" >
@@ -377,10 +376,11 @@ const Home = () => {
                           <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
                             <Heart
                               onClick={() => {
-                                const id = dataWish.find((el) => el.id == e.id)
-                                if (!id) {
-                                  localStorage.setItem("wish", JSON.stringify([...dataWish, e]))
-                                  localStorage.getItem("wish")
+                                const id = wish.find((el) => el.id === e.id);
+                                if (!id && wish.length < WISHLIST_LIMIT) {
+                                  const update = [...wish, e];
+                                  setWish(update);
+                                  localStorage.setItem("wish", JSON.stringify(update));
                                 }
                               }}
                             />
@@ -544,21 +544,15 @@ const Home = () => {
                   <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                     <div className="relative p-2 w-[95%] ">
                       <div className="bg-[#F5F5F5] h-[90%] rounded-2xl overflow-hidden group relative transition duration-300 hover:shadow-lg hover:-translate-y-1">
-                        <div className="flex relative xl:left-[270px] sm:left-[224px] justify-evenly items-start p-3" style={{ flexDirection: "column" }}>
+                        <div className="flex relative xl:left-[255px] sm:left-[224px] justify-evenly items-start p-3" style={{ flexDirection: "column" }}>
                           <button className="rounded-full block mb-4 bg-white p-2 shadow hover:bg-100 transition darkblack text-black">
                             <Heart />
                           </button>
-                          <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black
-                         ">
+                          <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black">
                             <Eye />
                           </button>
                         </div>
-                        <img
-                          src={e.img}
-                          alt=""
-                          className="w-[75%] mx-auto object-cover"
-                          style={{ height: "140px" }}
-                        />
+                        <img src={`http://37.27.29.18:8002/images/${e.image}`} alt={e.productName} className="w-[75%] mix-blend-multiply  mx-auto object-cover" style={{ height: "160px" }} />
                         <button className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
                           Add To Cart
                         </button>

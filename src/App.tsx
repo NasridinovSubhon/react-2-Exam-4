@@ -28,18 +28,26 @@ const Products = memo(ProductsLazy)
 
 const App = () => {
 
-
+  const [wish, setWish] = useState(() => {
+    try {
+      const stored = localStorage.getItem("wish");
+      return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+      console.error("Invalid wish data in localStorage:", e);
+      return [];
+    }
+  });
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Layout/>} >
-        <Route index element={<Suspense fallback={"Loading..."}>  <Home  /></Suspense>} />
+      <Route path="/" element={<Layout wish={wish} />} >
+        <Route index element={<Suspense fallback={"Loading..."}>  <Home setWish={setWish} wish={wish} /></Suspense>} />
         <Route path="login" element={<Login />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Suspense fallback={"Loading..."} >    <Contact />  </Suspense>} />
         <Route path="signUp" element={<Suspense fallback={"Loading..."} >     <SignUp /> </Suspense>} />
         <Route path="products" element={<Suspense fallback={"Loading..."} >   <Products />  </Suspense>} />
-        <Route path="wishlist" element={<Suspense fallback={"Loading..."}  >  <Wishlist  />  </Suspense>} />
+        <Route path="wishlist" element={<Suspense fallback={"Loading..."}  >  <Wishlist setWish={setWish} wish={wish} />  </Suspense>} />
       </Route>
     )
   )
@@ -47,8 +55,7 @@ const App = () => {
   return (
     <div>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-
-      <RouterProvider router={router} />
+        <RouterProvider router={router} />
       </ThemeProvider>
 
     </div>

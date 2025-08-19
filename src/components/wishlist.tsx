@@ -11,15 +11,16 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { ShoppingCart, Trash2 } from 'lucide-react';
 
 
-const Wishlist = () => {
+const Wishlist = ({ setWish, wish }) => {
 
-  const dataWish = JSON.parse(localStorage.getItem("wish"))
+
+
 
   return (
     <div className="h-[100vh]" >
       <div className="flex items-center justify-between w-[85%] m-auto mt-[100px] mb-16" >
         <h1 className="xl:text-3xl sm:text-xl " >
-          Wishlist ({dataWish.length})
+          Wishlist ({wish?.length})
         </h1>
         <button className="border-2 border-black p-[13px_40px] rounded-md " > Move All To Bag </button>
       </div>
@@ -45,7 +46,7 @@ const Wishlist = () => {
           modules={[Autoplay]}
           className="mySwiper" >
 
-          {dataWish?.map((el) => {
+          {wish?.map((el) => {
             return <SwiperSlide style={{ width: "300px", height: "390px" }}>
               <div className="w-full text-start h-full flex flex-col">
                 <div className="bg-[#F5F5F5] py-8 relative w-full rounded-xl flex-1 flex flex-col">
@@ -53,7 +54,13 @@ const Wishlist = () => {
                     className="absolute right-3 top-3 p-2 rounded-full bg-white text-black shadow-sm hover:bg-gray-100 transition-colors"
                     aria-label="Remove item"
                   >
-                    <Trash2 size={18} />
+                    <Trash2 size={18}
+                      onClick={() => {
+                        const update = wish.filter((e) => e.id !== el.id);
+                        setWish(update);
+                        localStorage.setItem("wish", JSON.stringify(update));
+                      }}
+                    />
                   </button>
 
                   <div className="flex-1 flex items-center justify-center">
