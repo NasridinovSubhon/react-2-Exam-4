@@ -6,7 +6,6 @@ const initialState = {
   data: [],
   loading: false,
   loadingCat: false,
-  loadingCattt: false,
   dataCat: [],
   dataById: []
 }
@@ -31,15 +30,17 @@ export const GetCat = createAsyncThunk(
 )
 
 
-export const getById = createAsyncThunk(
+export const getByIdData = createAsyncThunk(
   "counter/getById",
-  async (id) => {
+  async ({ catId, subId }) => {
     try {
-      const { data } = await Api.get(`Product/get-products?SubcategoryId=${id}`)
+      const { data } = await Api.get(`get-products?CategoryId=${catId}&SubcategoryId=${subId}`)
       return data
     } catch (error) { console.error(error) }
   }
 )
+
+
 
 
 
@@ -65,10 +66,9 @@ export const products = createSlice({
         state.dataCat = payload.data
       })
 
-      .addCase(getById.fulfilled, (state, { payload }) => {
-        state.dataById = payload.data
+      .addCase(getByIdData.fulfilled, (state, { payload }) => {
+        state.dataById = payload.data.products
       })
-
   }
 })
 

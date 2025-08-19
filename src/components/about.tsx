@@ -43,11 +43,11 @@ const About = () => {
       </div>
 
       <div className="flex items-center justify-between flex-wrap xl:w-[80%] sm:w-[90%] m-auto gap-6">
-        <div className="xl:w-[31%] sm:w-full bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 text-center">
+        <div className="xl:w-[31%] sm:w-ful  bg-white dark:bg-gray-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 text-center">
           <img
             src={bot}
             alt="profile"
-            className="w-[80%] xl:h-[400px] sm:h-[260px] object-cover rounded-xl m-auto shadow-md"
+            className="w-[80%]  xl:h-[400px] sm:h-[260px] object-cover rounded-xl m-auto shadow-md"
           />
           <h1 className="text-[26px] font-semibold mt-4 text-gray-800">Tom Cruise</h1>
           <p className="mt-2 text-gray-500">Founder & Chairman</p>
@@ -60,7 +60,7 @@ const About = () => {
             </button>
           </div>
         </div>
-        <div className="xl:w-[31%] sm:w-full bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 text-center">
+        <div className="xl:w-[31%] sm:w-full bg-white dark:bg-gray-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 text-center">
           <img
             src={dkhta}
             alt="profile"
@@ -77,11 +77,11 @@ const About = () => {
             </button>
           </div>
         </div>
-        <div className="xl:w-[31%] sm:w-full bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 text-center">
+        <div className="xl:w-[31%] sm:w-full bg-white dark:bg-gray-900  rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 text-center">
           <img
             src={bot}
             alt="profile"
-            className="w-[80%] xl:h-[400px] sm:h-[260px] object-cover rounded-xl m-auto shadow-md"
+            className="w-[80%]  xl:h-[400px] sm:h-[260px] object-cover rounded-xl m-auto shadow-md"
           />
           <h1 className="text-[26px] font-semibold mt-4 text-gray-800">Tom Cruise</h1>
           <p className="mt-2 text-gray-500">Founder & Chairman</p>
@@ -102,7 +102,7 @@ const About = () => {
           <h1 className="text-[27px] mt-3  font-bold ">10.5k  </h1>
           <h1 className="text-[14px] mt-1">Free delivery for all orders over $140</h1>
         </div>
-        <div className="xl:w-[30%] border py-10  sm:w-[100%]" >
+        <div className="xl:w-[30%] border py-10  sm:w-[100%] " >
           <img src={servKam} alt="" className=" xl:w-[22%] sm:w-[30%] m-auto" />
           <h1 className="text-[27px] mt-3  font-bold ">33k</h1>
           <h1 className="text-[14px] mt-1">Free delivery for all orders over $140</h1>

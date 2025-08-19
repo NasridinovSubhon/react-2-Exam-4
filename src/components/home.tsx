@@ -49,7 +49,7 @@ const Home = ({ setWish, wish }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(new Date());
-    }, 1000);
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -68,6 +68,7 @@ const Home = ({ setWish, wish }) => {
   const [open, setOpen] = useState(false)
 
 
+
   return (
     <div className="dark:text-white text-black" >
       <Input className="xl:hidden xl:mb-0 sm:mb-6  sm:block w-[90%] m-auto mt-[10px]" placeholder="Search..." />
@@ -76,22 +77,24 @@ const Home = ({ setWish, wish }) => {
           <ul className="w-full grid sm:grid-cols-2 xl:grid-cols-1 gap-2.5 mt-2.">
             {dataCat.slice(0, 4).map((f) => {
               return <>
-                {loadingCat ?
-                  <>
-                    <div className="h-4 w-[80%] rounded-md bg-gray-200 animate-pulse"></div>
+                {loading == true ?
+                  <div>
+                    <div className="h-4 w-[80%] rounded-md mb-4 bg-gray-200 animate-pulse"></div>
                     <div className="h-4 w-[60%] rounded-md bg-gray-200 animate-pulse"></div>
-                  </>
+                  </div>
                   : f.subCategories.slice(0, 4).map((sub, i) => {
                     return <div key={i} className="relative group w-full" onMouseEnter={() => setOpen(sub.id)} onMouseLeave={() => setOpen(null)} >
                       <button className={` px-4 py-2 rounded-lg transition-colors duration-300 w-full ${open === sub.id ? "bg-blue-600 text-white shadow-md" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`} >
                         {sub.subCategoryName}
                       </button>
 
-                      <div className={` absolute top-full w-40 p-3 bg-white rounded-xl shadow-lg border border-gray-100 z-50 transition-all duration-200 text-center ${open === sub.id ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"} ${i % 2 === 0 ? "xl:left-[40px]  absolute sm:-left-2 -translate-x-2" : "xl:left-[32px] sm:-left-[10px] translate-x-2"} `} >
-                        <p className="text-sm text-gray-700 text-[10px]">
-                          {sub.subCategoryName}
-                        </p>
-                      </div>
+                      <Link to={`products`} state={{ categoryId: f.id, subCategoryId: sub.id }}>
+                        <div className={` absolute top-full w-40 sm:p-3 xl:p-[10px_50px] bg-white  rounded-xl shadow-lg border border-gray-100 z-50 transition-all duration-200 text-center ${open === sub.id ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"} ${i % 2 === 0 ? "xl:left-[40px]  absolute sm:-left-2 -translate-x-2" : "xl:left-[32px] sm:-left-[10px] translate-x-2"} `} >
+                          <p className=" text-gray-700 sm:text-[10px] xl:text-[15px]">
+                            {sub.subCategoryName}
+                          </p>
+                        </div>
+                      </Link>
                     </div>
                   })}
               </>
@@ -270,6 +273,8 @@ const Home = ({ setWish, wish }) => {
                         <div className="space-y-2">
                           <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
                             <Heart
+                              className={`${wish.some((el) => el.id === e.id) ? "text-red-800 border-3  border-red-700 rounded-full  " : "text-black "
+                                }`}
                               onClick={() => {
                                 const id = wish.find((el) => el.id === e.id);
                                 if (!id && wish.length < WISHLIST_LIMIT) {
@@ -612,7 +617,7 @@ const Home = ({ setWish, wish }) => {
           </div>
           <div className="flex gap-4 items-center justify-between flex-wrap  mt-3" >
             <div className="xl:w-[48%] relative text-white sm:w-[100%] flex justify-center items-center py-6 bg-black " >
-              <img src={kal3} alt="" className="xl:w-[70%] sm:w-[74%] h-[300px] m-auto drop-shadow-[0px_0px_100px] drop-shadow-white " />
+              <img src={kal3} alt="" className="xl:w-[70%] sm:w-[74%] h-[300px] m-auto drop-shadow-[0px_0px_20px] drop-shadow-white " />
               <div className="absolute xl:bottom-6 xl:left-7 sm:bottom-2 sm:left-4 " >
                 <h1 className="text-[24px]">Speakers</h1>
                 <h1 className="text-[14px] mt-3 mb-3">Amazon wireless speakers</h1>

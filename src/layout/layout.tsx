@@ -183,7 +183,7 @@ const Layout = ({ wish }) => {
 
 
 
-                <footer className="bg-black  border-white border-2  text-white py-10   w-full  xl:mb-0 sm:-mb-[200px]  ">
+                <footer className="dark:bg-gray-900 bg-black  border-white border-2  text-white py-10   w-full  xl:mb-0 sm:-mb-[200px]  ">
                     <div className="w-[90%] mt-[20px] m-auto py-[10px] flex  justify-between flex-wrap " >
                         <div className="xl:w-[20%] sm:w-[90%]">
                             <h1 className="xl:text-[24px] sm:text-[18px]"> Exclusive </h1>
