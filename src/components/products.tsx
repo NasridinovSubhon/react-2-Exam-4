@@ -1,13 +1,5 @@
 import { memo } from "react"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 
-import sagPr from "@/assets/sagProd.png"
 import { Eye, Heart } from "lucide-react"
 import { useSelector } from "react-redux"
 
@@ -16,7 +8,7 @@ import { useSelector } from "react-redux"
 const Products = () => {
 
   const { data } = useSelector(state => state.prod)
-
+  
   return (
     <div>
       <div className="flex xl:w-[85%] sm:w-[95%] m-auto  gap-10 sm:mt-[60px] xl:mt-[120px] mb-[120px] flex-wrap" >

@@ -144,11 +144,9 @@ const Home = ({ setWish, wish }) => {
   return (
     <div className="dark:text-white text-black" >
       <Input className="xl:hidden  sm:block w-[90%] m-auto mt-[10px]" placeholder="Search..." />
-      <div className="xl:w-[85%] sm:w-[95%] m-auto flex flex-wrap items-center justify-between xl:mt-[90px] sm:mt-0">
-        <div className="xl:w-1/5 sm:w-[90%] mx-auto xl:mx-0 flex xl:block sm:flex flex-wrap items-start gap-2.5 xl:border-r sm:border-r-0 border-gray-200">
-
-
-          <ul className="w-full grid sm:grid-cols-2 xl:grid-cols-1 gap-2.5 mt-2.5">
+      <div className="xl:w-[85%]  sm:w-[95%] m-auto flex flex-wrap items-center justify-between xl:mt-[90px] sm:mt-0">
+        <div className="xl:w-1/5 pr-3 sm:w-[90%] mx-auto xl:mx-0 flex xl:block sm:flex flex-wrap items-start gap-2.5 xl:border-r sm:border-r-0 border-gray-200">
+          <ul className="w-full grid sm:grid-cols-2 xl:grid-cols-1 gap-2.5 mt-2.">
             <Link to={"products"} >
               <button className={categoryBtn}>
                 Woman’s Fashion
@@ -453,11 +451,11 @@ const Home = ({ setWish, wish }) => {
           pagination={{
             clickable: true,
           }}
-          slidesPerView={loadingCat ? 4 : 7}
+          slidesPerView={loadingCat ? 1 : 2}
           spaceBetween={loadingCat ? 40 : 30}
           breakpoints={{
             0: { slidesPerView: 2, spaceBetween: 27 },
-            511: { slidesPerView: 7, spaceBetween: 30 }, // optional for bigger screens
+            511: { slidesPerView: 7, spaceBetween: 30 },
           }}
 
           modules={[Autoplay]}

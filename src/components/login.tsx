@@ -27,8 +27,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
-      <div className="xl:w-[35%] sm:w-full max-w-md bg-white dark:bg-gray-800 shadow-xl rounded-xl p-8 space-y-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-black px-4">
+      <div className="xl:w-[35%] sm:w-full max-w-md bg-white dark:bg-gray-700 shadow-xl rounded-xl p-8 space-y-6">
         <h1 className="text-3xl xl:text-4xl font-bold text-gray-900 dark:text-white">Log in to Exclusive</h1>
         <p className="text-gray-500 dark:text-gray-300">Enter your details below</p>
 
@@ -44,9 +44,6 @@ const Login = () => {
             placeholder="Password"
             className="w-full"
           />
-
-          
-
           <button
             type="submit"
             className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition-colors duration-300"
