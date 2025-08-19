@@ -1,5 +1,6 @@
 import gogle from "@/assets/gogle.png";
 import { Input } from "./ui/input";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   return (
@@ -56,6 +57,10 @@ const SignUp = () => {
             Already have an account?
           </button>
         </form>
+        <Link to={"/login"}>
+          <h1 > Login </h1>
+        </Link>
+
       </div>
     </div>
   );

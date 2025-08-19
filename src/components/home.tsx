@@ -1,100 +1,33 @@
 
-import iphone from "@/assets/iphone.png"
-import khdIph from "@/assets/iphTel.png"
+import iphone from "@/assets/iphone.png";
+import khdIph from "@/assets/iphTel.png";
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import stol from "@/assets/stol.png"
-import kurka from "@/assets/kurtka.png"
-import sumka from "@/assets/sumka.png"
-import kalonka from "@/assets/kalonka.png"
-import kal from "@/assets/kal.png"
-import ps5 from "@/assets/ps5.png"
-import dkhta from "@/assets/dkhta.png"
-import kal3 from "@/assets/3kalon.png"
-import dukhi from "@/assets/dukhi.png"
-import servKam from "@/assets/servisKam.png"
+import kal3 from "@/assets/3kalon.png";
+import dkhta from "@/assets/dkhta.png";
+import dukhi from "@/assets/dukhi.png";
+import kal from "@/assets/kal.png";
+import ps5 from "@/assets/ps5.png";
+import servKam from "@/assets/servisKam.png";
 
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 import '@/style/style.css';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import { memo, useEffect, useRef, useState } from "react";
 import { Eye, Heart } from "lucide-react";
+import { memo, useEffect, useRef, useState } from "react";
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Input } from "./ui/input";
 
 const categoryBtn = "w-full dark:bg-[#aaa8c097] dark:hover:bg-[#1f5ab4] hover:bg-blue-100 active:scale-95 bg-gray-50 py-2 rounded-md xl:px-5 sm:px-2 transition-all duration-200 text-sm font-medium text-center";
 
-// const data = [
-//   {
-//     aksiya: 40,
-//     name: "HAVIT HV-G92 Gamepad",
-//     price: 120,
-//     kharid: 88,
-//     img: josCa
-//   },
-
-//   {
-//     aksiya: 35,
-//     name: "AK-900 Wired Keyboard",
-//     price: 960,
-//     kharid: 75,
-//     img: klav
-//   },
-//   {
-//     aksiya: 30,
-//     name: "IPS LCD Gaming Monitor",
-//     price: 370,
-//     kharid: 98,
-//     img: drakon
-//   },
-//   {
-//     aksiya: 30,
-//     name: "IPS LCD Gaming Monitor",
-//     price: 375,
-//     kharid: 98,
-//     img: stol
-//   },
-// ]
-
-const data2 = [
-  {
-    aksiya: 40,
-    name: "HAVIT HV-G92 Gamepad",
-    price: 120,
-    kharid: 88,
-    img: kurka
-  },
-
-  {
-    aksiya: 35,
-    name: "AK-900 Wired Keyboard",
-    price: 960,
-    kharid: 75,
-    img: sumka
-  },
-  {
-    aksiya: 30,
-    name: "IPS LCD Gaming Monitor",
-    price: 370,
-    kharid: 98,
-    img: kalonka
-  },
-  {
-    aksiya: 30,
-    name: "IPS LCD Gaming Monitor",
-    price: 375,
-    kharid: 98,
-    img: stol
-  },
-]
 
 
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { GetCat, GetProd } from "@/app/productSl";
 import Skeleton from "@mui/material/Skeleton";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 
 const Home = ({ setWish, wish }) => {
@@ -108,12 +41,7 @@ const Home = ({ setWish, wish }) => {
 
   const { data, dataCat, loading, loadingCat } = useSelector(state => state.prod)
 
-  const pagination = {
-    clickable: true,
-    renderBullet: function (index, className) {
-      return '<span class="' + className + '">' + (index + 1) + '</span>';
-    },
-  };
+
 
   const [slidesPerView] = useState(
     window.innerWidth > 510 ? 3.6 : 1
@@ -124,7 +52,7 @@ const Home = ({ setWish, wish }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(new Date());
-    }, 20000);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -143,7 +71,7 @@ const Home = ({ setWish, wish }) => {
 
   return (
     <div className="dark:text-white text-black" >
-      <Input className="xl:hidden  sm:block w-[90%] m-auto mt-[10px]" placeholder="Search..." />
+      <Input className="xl:hidden xl:mb-0 sm:mb-6  sm:block w-[90%] m-auto mt-[10px]" placeholder="Search..." />
       <div className="xl:w-[85%]  sm:w-[95%] m-auto flex flex-wrap items-center justify-between xl:mt-[90px] sm:mt-0">
         <div className="xl:w-1/5 pr-3 sm:w-[90%] mx-auto xl:mx-0 flex xl:block sm:flex flex-wrap items-start gap-2.5 xl:border-r sm:border-r-0 border-gray-200">
           <ul className="w-full grid sm:grid-cols-2 xl:grid-cols-1 gap-2.5 mt-2.">
@@ -198,10 +126,9 @@ const Home = ({ setWish, wish }) => {
                 Health & Beauty
               </button>
             </Link>
-
-
           </ul>
         </div>
+
 
         <div className="xl:w-[75%] sm:w-[100%]  ">
           <Swiper
@@ -388,7 +315,7 @@ const Home = ({ setWish, wish }) => {
                           </button>
                         </div>
                       </div>
-                      <img src={`http://37.27.29.18:8002/images/${e.image}`} alt={e.productName} className="w-[75%] mix-blend-multiply  mx-auto object-cover" style={{ height: "160px" }} />
+                      <img src={`http://37.27.29.18:8002/images/${e.image}`} alt={e.productName} className="w-[75%]   mix-blend-multiply  mx-auto object-cover" style={{ height: "160px" }} />
                       <button className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
                         Add To Cart
                       </button>
@@ -451,13 +378,16 @@ const Home = ({ setWish, wish }) => {
           pagination={{
             clickable: true,
           }}
-          slidesPerView={loadingCat ? 1 : 2}
-          spaceBetween={loadingCat ? 40 : 30}
           breakpoints={{
-            0: { slidesPerView: 2, spaceBetween: 27 },
-            511: { slidesPerView: 7, spaceBetween: 30 },
+            0: {
+              slidesPerView: 1,
+              spaceBetween: 27,
+            },
+            511: {
+              slidesPerView: 6,
+              spaceBetween: 30,
+            },
           }}
-
           modules={[Autoplay]}
           className="mySwiper"
         >
@@ -475,7 +405,7 @@ const Home = ({ setWish, wish }) => {
             ))
             : dataCat.map((iCat, i) => {
               return <SwiperSlide key={i} className="border text-center  rounded-xl duration-900  hover:bg-[#DB4444] hover:text-white " style={{ height: "150px", transition: "0.3s" }} >
-                <div className="w-[100px] m-auto">
+                <div className="xl:w-[100px]  sm:w-[10px] m-auto">
                   <img src={`http://37.27.29.18:8002/images/${iCat.categoryImage}`} alt="" className="w-[100px] m-auto scale-65" />
                   {iCat.subCategories.map((iCatSyb, i) => {
                     <h1 key={i} className=""> {iCatSyb.subCategoryName} </h1>
@@ -542,23 +472,37 @@ const Home = ({ setWish, wish }) => {
                   <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                     <div className="relative p-2 w-[95%] ">
                       <div className="bg-[#F5F5F5] h-[90%] rounded-2xl overflow-hidden group relative transition duration-300 hover:shadow-lg hover:-translate-y-1">
-                        <div className="flex relative xl:left-[255px] sm:left-[224px] justify-evenly items-start p-3" style={{ flexDirection: "column" }}>
-                          <button className="rounded-full block mb-4 bg-white p-2 shadow hover:bg-100 transition darkblack text-black">
-                            <Heart />
+                        <div className="flex justify-between items-start p-3">
+                          <button className="bg-[#DB4444] px-4 py-1 rounded text-white text-sm font-medium shadow">
+                            -{100}%
                           </button>
-                          <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black">
-                            <Eye />
-                          </button>
+                          <div className="space-y-2">
+                            <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
+                              <Heart
+                                onClick={() => {
+                                  const id = wish.find((el) => el.id === e.id);
+                                  if (!id && wish.length < WISHLIST_LIMIT) {
+                                    const update = [...wish, e];
+                                    setWish(update);
+                                    localStorage.setItem("wish", JSON.stringify(update));
+                                  }
+                                }}
+                              />
+                            </button>
+                            <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
+                              <Eye />
+                            </button>
+                          </div>
                         </div>
-                        <img src={`http://37.27.29.18:8002/images/${e.image}`} alt={e.productName} className="w-[75%] mix-blend-multiply  mx-auto object-cover" style={{ height: "160px" }} />
+                        <img src={`http://37.27.29.18:8002/images/${e.image}`} alt={e.productName} className="w-[75%]   mix-blend-multiply  mx-auto object-cover" style={{ height: "160px" }} />
                         <button className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
                           Add To Cart
                         </button>
                       </div>
+
                       <div className="text-start mt-3">
-                        <h1>{e.name}</h1>
+                        <h1>{e.productName}</h1>
                         <span className="text-[red]">${e.price}</span>
-                        <span className="text-[gray] ml-2">${e.kharid}</span>
                       </div>
                     </div>
 
@@ -618,46 +562,55 @@ const Home = ({ setWish, wish }) => {
       <div className="w-[85%] m-auto mt-[20px] mb-[90px] " >
         <div className="flex justify-between items-center flex-wrap" >
 
-          {/* {data.map((e) => {
+          {data.slice(0, 1).map((e) => {
             return (
-              <div className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
-                <div className="relative p-2 py-4 w-[95%] m-auto xl:ml-0 sm:ml-[40px]  ">
-                  <div className="bg-[#F5F5F5] h-[90%] rounded-2xl overflow-hidden group relative transition duration-300 hover:shadow-lg hover:-translate-y-1">
+              <div className="mr-12 h-[370px] w-[310px]">
+                <div className="relative p-2 py-4 w-[95%] mx-auto xl:ml-0 sm:ml-10">
+                  <div className="bg-[#F5F5F5] h-[90%] rounded-2xl overflow-hidden group relative transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
+
+
                     <div className="flex justify-between items-start p-3">
-                      <button className="bg-[#DB4444] rounded text-white text-sm font-medium shadow">
+                      <button className="bg-[#DB4444] rounded text-white text-sm font-medium shadow px-3 py-1">
+
                       </button>
-                      <div className="space-y-2">
-                        <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
+                      <div className="space-y-2 flex flex-col">
+                        <button className="rounded-full bg-white p-2 shadow hover:bg-gray-100 transition text-black">
                           <Heart />
                         </button>
-                        <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black
-                         ">
+                        <button className="rounded-full bg-white p-2 shadow hover:bg-gray-100 transition text-black">
                           <Eye />
                         </button>
                       </div>
                     </div>
+
+
                     <img
-                      src={e.img}
-                      alt=""
-                      className="w-[75%] mx-auto object-cover"
-                      style={{ height: "140px" }}
+                      src={`http://37.27.29.18:8002/images/${e.image}`}
+                      alt={e.productName}
+                      className="w-3/4 mx-auto object-cover mix-blend-multiply"
+                      style={{ height: "160px" }}
                     />
 
-                    <button className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
+
+                    <button className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       Add To Cart
                     </button>
                   </div>
 
+
                   <div className="text-start mt-3">
-                    <h1>{e.name}</h1>
-                    <span className="text-[red]">${e.price}</span>
-                    <span className="text-[gray] ml-2">${e.kharid}</span>
+                    <h1 className="font-semibold text-lg">{e.name}</h1>
+                    <div className="flex items-center gap-2">
+                      <span className="text-red-500 font-medium">${e.price}</span>
+                      <span className="text-gray-400 line-through">${e.kharid}</span>
+                    </div>
                   </div>
                 </div>
               </div>
 
+
             )
-          })} */}
+          })}
         </div>
       </div>
 
