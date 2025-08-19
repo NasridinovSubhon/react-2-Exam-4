@@ -9,9 +9,11 @@ import { useState } from 'react';
 
 
 
-export default function TemporaryDrawer({ DrawerList }) {
+export default function TemporaryDrawer({ DrawerList }: any) {
     const [open, setOpen] = useState(false);
     const { theme } = useTheme()
+    console.log(theme);
+
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);

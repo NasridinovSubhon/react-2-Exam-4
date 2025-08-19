@@ -2,6 +2,7 @@
 import iphone from "@/assets/iphone.png";
 import khdIph from "@/assets/iphTel.png";
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper as SwiperType } from 'swiper';
 
 import kal3 from "@/assets/3kalon.png";
 import dkhta from "@/assets/dkhta.png";
@@ -11,11 +12,11 @@ import ps5 from "@/assets/ps5.png";
 import servKam from "@/assets/servisKam.png";
 
 
-import '@/style/style.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
+import '@/style/style.css';
 import { Eye, Heart } from "lucide-react";
 import { memo, useEffect, useRef, useState } from "react";
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
@@ -24,21 +25,21 @@ import { Input } from "./ui/input";
 // const categoryBtn = "w-full dark:bg-[#aaa8c097] dark:hover:bg-[#1f5ab4] hover:bg-blue-100 active:scale-95 bg-gray-50 py-2 rounded-md xl:px-5 sm:px-2 transition-all duration-200 text-sm font-medium text-center";
 
 import { GetCat, GetProd } from "@/app/productSl";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/app/hook";
 
 
 
 
 
-const Home = ({ setWish, wish }) => {
-  const dispatch = useDispatch()
+const Home = ({ setWish, wish }: any) => {
+  const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(GetProd())
     dispatch(GetCat())
   }, [])
 
-  const { data, dataCat, loading, loadingCat } = useSelector(state => state.prod)
+  const { data, dataCat, loading, loadingCat } = useAppSelector(state => state.prod)
 
   const [slidesPerView] = useState(
     window.innerWidth > 510 ? 3.6 : 1
@@ -60,12 +61,12 @@ const Home = ({ setWish, wish }) => {
   const hours = time.getHours().toString().padStart(2, "0");
   const minutes = time.getMinutes().toString().padStart(2, "0");
   const seconds = time.getSeconds().toString().padStart(2, "0");
-  const swiperRef = useRef(null);
-  const swiperRef2 = useRef(null);
+  const swiperRef = useRef<SwiperType | null>(null);
+  const swiperRef2 = useRef<SwiperType | null>(null);
 
   const WISHLIST_LIMIT = parseInt(import.meta.env.VITE_WISHLIST_LIMIT || "5");
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState<boolean | null>(false)
 
 
 
@@ -82,7 +83,7 @@ const Home = ({ setWish, wish }) => {
                     <div className="h-4 w-[80%] rounded-md mb-4 bg-gray-200 animate-pulse"></div>
                     <div className="h-4 w-[60%] rounded-md bg-gray-200 animate-pulse"></div>
                   </div>
-                  : f.subCategories.slice(0, 4).map((sub, i) => {
+                  : f.subCategories.slice(0, 4).map((sub: any, i: number) => {
                     return <div key={i} className="relative group w-full" onMouseEnter={() => setOpen(sub.id)} onMouseLeave={() => setOpen(null)} >
                       <button className={` px-4 py-2 rounded-lg transition-colors duration-300 w-full ${open === sub.id ? "bg-blue-600 text-white shadow-md" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`} >
                         {sub.subCategoryName}
@@ -273,10 +274,10 @@ const Home = ({ setWish, wish }) => {
                         <div className="space-y-2">
                           <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
                             <Heart
-                              className={`${wish.some((el) => el.id === e.id) ? "text-red-800 border-3  border-red-700 rounded-full  " : "text-black "
+                              className={`${wish.some((el:any) => el.id === e.id) ? "text-red-800 border-3  border-red-700 rounded-full  " : "text-black "
                                 }`}
                               onClick={() => {
-                                const id = wish.find((el) => el.id === e.id);
+                                const id = wish.find((el:any) => el.id === e.id);
                                 if (!id && wish.length < WISHLIST_LIMIT) {
                                   const update = [...wish, e];
                                   setWish(update);
@@ -381,7 +382,7 @@ const Home = ({ setWish, wish }) => {
               return <SwiperSlide key={i} className="border text-center  rounded-xl duration-900  hover:bg-[#DB4444] hover:text-white " style={{ height: "150px", transition: "0.3s" }} >
                 <div className="xl:w-[100px]  sm:w-[10px] m-auto">
                   <img src={`http://37.27.29.18:8002/images/${iCat.categoryImage}`} alt="" className="w-[100px] m-auto scale-65" />
-                  {iCat.subCategories.map((iCatSyb, i) => {
+                  {iCat.subCategories.map((iCatSyb:any, i:number) => {
                     <h1 key={i} className=""> {iCatSyb.subCategoryName} </h1>
                   })}
                 </div>
@@ -453,7 +454,7 @@ const Home = ({ setWish, wish }) => {
                             <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
                               <Heart
                                 onClick={() => {
-                                  const id = wish.find((el) => el.id === e.id);
+                                  const id = wish.find((el:any) => el.id === e.id);
                                   if (!id && wish.length < WISHLIST_LIMIT) {
                                     const update = [...wish, e];
                                     setWish(update);

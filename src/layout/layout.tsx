@@ -1,6 +1,6 @@
 import { Link, NavLink, Outlet } from "react-router-dom"
 import logo from "@/assets/logo.png"
-import { ArrowDownUp, Box, Facebook, Heart, Instagram, ListOrdered, LogOut, Search, SendHorizontal, ShoppingCart, Twitter, User } from "lucide-react"
+import { ArrowDownUp, Box, Facebook, Heart, Instagram,  LogOut, Search, SendHorizontal, ShoppingCart, Twitter, User } from "lucide-react"
 
 import {
     Dialog,
@@ -24,14 +24,13 @@ import {
 } from "@/components/ui/popover"
 
 
-const Layout = ({ wish }) => {
+const Layout = ({ wish }:any) => {
 
     const [nav, SetNav] = useState(false)
     const [N_Hom_Med, Set_Nav_Hom_Me] = useState(false)
     const [N_Con_Med, Set_Nav_Con_Me] = useState(false)
     const [N_Abo_Med, Set_Nav_Abo_Me] = useState(false)
-    const [N_Sig_Med, Set_Nav_Sig_Me] = useState(false)
-    const { theme, setTheme: toggleTheme } = useTheme()
+    const { theme, } = useTheme()
 
     const DrawerList = (
         <ul className={`h-[100vh] dark:bg-black bg-white dark:text-white text-black  w-[100%] m-auto -mt-[0.59px] ${theme == "dark" ? "border-[#86b9d6] border-2 " : " border-[#180c85] border-2"} `} >

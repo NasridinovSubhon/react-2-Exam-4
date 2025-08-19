@@ -1,19 +1,11 @@
 import { memo, useEffect, useState } from "react";
-import { Eye, Heart, Loader2, Search, Filter } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
+import { Eye, Heart, Search, Filter } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { getByIdData, GetCat } from "@/app/productSl";
+import { useAppDispatch, useAppSelector } from "@/app/hook";
 
 
 // Define TypeScript interfaces
-interface Product {
-  id: string;
-  productName: string;
-  price: number;
-  image: string;
-  category?: string;
-  // Add other product properties as needed
-}
 
 interface LocationState {
   categoryId: string;
@@ -23,14 +15,13 @@ interface LocationState {
 const Products = () => {
   const location = useLocation();
   const { categoryId, subCategoryId } = location.state as LocationState;
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
-  const { dataById: products, dataCat: categories } = useSelector((state: RootState) => state.prod);
+  const { dataById: products, dataCat: categories } = useAppSelector((state) => state.prod);
 
-  const [selectedCategory, setSelectedCategory] = useState(categoryId || "");
-  const [selectedSubCategory, setSelectedSubCategory] = useState(subCategoryId || "");
+  const [selectedCategory, setSelectedCategory] = useState<any>(categoryId || "");
+  const [selectedSubCategory, setSelectedSubCategory] = useState<any>(subCategoryId || "");
 
-  const [sortBy, setSortBy] = useState<string>("default");
 
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -75,7 +66,7 @@ const Products = () => {
           </div>
 
 
-         
+
 
           <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Categories</h3>
           {categories.map((cat, i) => (

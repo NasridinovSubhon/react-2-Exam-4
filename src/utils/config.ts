@@ -1,5 +1,4 @@
 import axios from "axios"
-import Login from './../components/login';
 
 
 export const Api = axios.create({

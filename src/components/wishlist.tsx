@@ -1,17 +1,15 @@
+import { Swiper, SwiperSlide } from "swiper/react";
 
-import { Swiper, SwiperSlide } from 'swiper/react';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
+import { Autoplay } from "swiper/modules";
 
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import '@/style/style.css';
-
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { ShoppingCart, Trash2 } from 'lucide-react';
 
 
-const Wishlist = ({ setWish, wish }) => {
+const Wishlist = ({ setWish, wish }:any) => {
 
 
 
@@ -46,7 +44,7 @@ const Wishlist = ({ setWish, wish }) => {
           modules={[Autoplay]}
           className="mySwiper" >
 
-          {wish?.map((el) => {
+          {wish?.map((el:any) => {
             return <SwiperSlide style={{ width: "300px", height: "390px" }}>
               <div className="w-full text-start h-full flex flex-col">
                 <div className="bg-[#F5F5F5] py-8 relative w-full rounded-xl flex-1 flex flex-col">
@@ -56,7 +54,7 @@ const Wishlist = ({ setWish, wish }) => {
                   >
                     <Trash2 size={18}
                       onClick={() => {
-                        const update = wish.filter((e) => e.id !== el.id);
+                        const update = wish.filter((e:any) => e.id !== el.id);
                         setWish(update);
                         localStorage.setItem("wish", JSON.stringify(update));
                       }}

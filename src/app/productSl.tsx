@@ -1,8 +1,36 @@
+// src/store/productsSlice.ts
+import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { Api } from '@/utils/config'
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
+// ---------------------
+// Types
+// ---------------------
+export interface Product {
+  id: string | number
+  productName: string
+  price: number
+  image: string
+  [key: string]: any
+}
 
-const initialState = {
+export interface Category {
+  id: string | number
+  name: string
+  [key: string]: any
+}
+
+export interface ProductState {
+  data: Product[]
+  loading: boolean
+  loadingCat: boolean
+  dataCat: Category[]
+  dataById: Product[]
+}
+
+// ---------------------
+// Initial State
+// ---------------------
+const initialState: ProductState = {
   data: [],
   loading: false,
   loadingCat: false,
@@ -10,68 +38,87 @@ const initialState = {
   dataById: []
 }
 
-export const GetProd = createAsyncThunk(
+// ---------------------
+// Async Thunks
+// ---------------------
+export const GetProd = createAsyncThunk<Product[], void>(
   "products/GetProd",
   async () => {
     try {
       const { data } = await Api.get(`Product/get-products`)
-      return data
-    } catch (error) { console.error(error) }
-  })
+      return data.products as Product[]
+    } catch (error) {
+      console.error(error)
+      return []
+    }
+  }
+)
 
-export const GetCat = createAsyncThunk(
+export const GetCat = createAsyncThunk<Category[], void>(
   "category/GetCat",
   async () => {
     try {
       const { data } = await Api.get(`Category/get-categories`)
-      return data
-    } catch (error) { console.error(error) }
+      return data as Category[]
+    } catch (error) {
+      console.error(error)
+      return []
+    }
   }
 )
 
-
-export const getByIdData = createAsyncThunk(
-  "counter/getById",
+export const getByIdData = createAsyncThunk<Product[], { catId: string | number, subId: string | number }>(
+  "products/getById",
   async ({ catId, subId }) => {
     try {
       const { data } = await Api.get(`Product/get-products?CategoryId=${catId}&SubcategoryId=${subId}`)
-      return data
-    } catch (error) { console.error(error) }
+      return data.products as Product[]
+    } catch (error) {
+      console.error(error)
+      return []
+    }
   }
 )
 
-
-
-
-
-export const products = createSlice({
-  name: 'counter',
+// ---------------------
+// Slice
+// ---------------------
+export const productsSlice = createSlice({
+  name: 'products',
   initialState,
-  reducers: {},
-
+  reducers: {
+    // Агар лозим бошад, local reducers ҳам илова кун
+    clearDataById(state) {
+      state.dataById = []
+    }
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(GetProd.pending, (state) => {
-        state.loading = true
+      // GetProd
+      .addCase(GetProd.pending, (state) => { state.loading = true })
+      .addCase(GetProd.fulfilled, (state, action: PayloadAction<Product[]>) => {
+        state.loading = false
+        state.data = action.payload
       })
-      .addCase(GetProd.fulfilled, (state, { payload }) => {
-        state.loading = false,
-          state.data = payload.data.products
-      })
-      .addCase(GetCat.pending, (state) => {
-        state.loadingCat = true
-      })
-      .addCase(GetCat.fulfilled, (state, { payload }) => {
-        state.loadingCat = false
-        state.dataCat = payload.data
-      })
+      .addCase(GetProd.rejected, (state) => { state.loading = false })
 
-      .addCase(getByIdData.fulfilled, (state, { payload }) => {
-        state.dataById = payload.data.products
+      // GetCat
+      .addCase(GetCat.pending, (state) => { state.loadingCat = true })
+      .addCase(GetCat.fulfilled, (state, action: PayloadAction<Category[]>) => {
+        state.loadingCat = false
+        state.dataCat = action.payload
+      })
+      .addCase(GetCat.rejected, (state) => { state.loadingCat = false })
+
+      // getByIdData
+      .addCase(getByIdData.fulfilled, (state, action: PayloadAction<Product[]>) => {
+        state.dataById = action.payload
       })
   }
 })
 
-export const { } = products.actions
-
-export default products.reducer
+// ---------------------
+// Export
+// ---------------------
+export const { clearDataById } = productsSlice.actions
+export default productsSlice.reducer

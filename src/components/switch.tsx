@@ -1,6 +1,5 @@
 import { useTheme } from '@/theme/theme-provider';
 import { Switch } from "@/components/ui/switch"; // ShadCN Switch
-import { Sun, Moon } from "lucide-react";
 
 interface ThemeSwitcherProps {
   theme: "light" | "dark" | "system";
