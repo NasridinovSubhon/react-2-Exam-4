@@ -12,7 +12,7 @@ interface LocationState {
   subCategoryId: string;
 }
 
-const Products = () => {
+const Products = ({ setWish, wish }) => {
   const location = useLocation();
   const { categoryId, subCategoryId } = location.state as LocationState;
   const dispatch = useAppDispatch();
@@ -32,6 +32,7 @@ const Products = () => {
     dispatch(GetCat())
   }, [categoryId, subCategoryId, selectedCategory, selectedSubCategory]);
 
+  const WISHLIST_LIMIT = parseInt(import.meta.env.VITE_WISHLIST_LIMIT || "5");
 
 
   return (
@@ -55,7 +56,8 @@ const Products = () => {
 
 
           <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+            <Search
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
             <input
               type="text"
               placeholder="Search products..."
@@ -68,19 +70,22 @@ const Products = () => {
 
 
 
-          <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Categories</h3>
-          {categories.map((cat, i) => (
-            <div
-              key={i}
-              className={`cursor-pointer py-2 px-3 rounded-lg transition ${selectedCategory === cat
-                ? "bg-blue-100 text-blue-700 font-medium dark:bg-blue-900 dark:text-blue-100"
-                : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
-                }`}
-              onClick={() => { setSelectedCategory(cat.id), setSelectedSubCategory("") }}
-            >
-              {cat.categoryName}
-            </div>
-          ))}
+          <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ">Categories</h3>
+          <div className="overflow-y-auto h-[200px]" style={{ scrollbarColor: "transparent transparent" }} >
+
+            {categories.map((cat, i) => (
+              <div
+                key={i}
+                className={`cursor-pointer py-2 px-3 rounded-lg transition ${selectedCategory === cat
+                  ? "bg-blue-100 text-blue-700 font-medium dark:bg-blue-900 dark:text-blue-100"
+                  : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+                  }`}
+                onClick={() => { setSelectedCategory(cat.id), setSelectedSubCategory("") }}
+              >
+                {cat.categoryName}
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Products Grid */}
@@ -115,10 +120,25 @@ const Products = () => {
                       }}
                     />
 
-                    {/* Action Buttons */}
+
                     <div className="absolute top-3 right-3 flex flex-col gap-2">
                       <button className="rounded-full bg-white p-2 shadow hover:bg-gray-100 transition text-black dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-                        <Heart className="w-5 h-5" />
+                        <Heart
+                          className={`${wish.some((el: any) => el.id === product.id) ? "text-red-800 border-3  border-red-700 rounded-full  " : ""
+                            }`}
+                          onClick={() => {
+                            const id = wish.find((el: any) => el.id === product.id);
+                            if (!id && wish.length < WISHLIST_LIMIT) {
+                              const update = [...wish, product];
+                              setWish(update);
+                              localStorage.setItem("wish", JSON.stringify(update));
+                            }
+                            else  {
+                              alert("U tebya uzhe est ")
+                            }
+                          }}
+
+                        />
                       </button>
                       <button className="rounded-full bg-white p-2 shadow hover:bg-gray-100 transition text-black dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
                         <Eye className="w-5 h-5" />

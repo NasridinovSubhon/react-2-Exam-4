@@ -24,9 +24,10 @@ import { Input } from "./ui/input";
 
 // const categoryBtn = "w-full dark:bg-[#aaa8c097] dark:hover:bg-[#1f5ab4] hover:bg-blue-100 active:scale-95 bg-gray-50 py-2 rounded-md xl:px-5 sm:px-2 transition-all duration-200 text-sm font-medium text-center";
 
-import { GetCat, GetProd } from "@/app/productSl";
+import { adToCart, GetCat, getId, GetProd } from "@/app/productSl";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hook";
+import GetId from "./getId";
 
 
 
@@ -39,7 +40,7 @@ const Home = ({ setWish, wish }: any) => {
     dispatch(GetCat())
   }, [])
 
-  const { data, dataCat, loading, loadingCat } = useAppSelector(state => state.prod)
+  const { data, dataCat, loading, loadingCat, dataId } = useAppSelector(state => state.prod)
 
   const [slidesPerView] = useState(
     window.innerWidth > 510 ? 3.6 : 1
@@ -64,9 +65,11 @@ const Home = ({ setWish, wish }: any) => {
   const swiperRef = useRef<SwiperType | null>(null);
   const swiperRef2 = useRef<SwiperType | null>(null);
 
-  const WISHLIST_LIMIT = parseInt(import.meta.env.VITE_WISHLIST_LIMIT || "5");
+  const WISHLIST_LIMIT = parseInt(import.meta.env.VITE_WISHLIST_LIMIT || "3");
 
   const [open, setOpen] = useState<boolean | null>(false)
+
+
 
 
 
@@ -76,7 +79,7 @@ const Home = ({ setWish, wish }: any) => {
       <div className="xl:w-[85%]  sm:w-[95%] m-auto flex flex-wrap items-center justify-between xl:mt-[90px] sm:mt-0">
         <div className="xl:w-1/5 pr-3 sm:w-[90%] mx-auto xl:mx-0 flex xl:block sm:flex flex-wrap items-start gap-2.5 xl:border-r sm:border-r-0 border-gray-200 max-h-[400px] overflow-y-auto" style={{ scrollbarColor: "transparent transparent" }} >
           <ul className="w-full grid sm:grid-cols-2 xl:grid-cols-1 gap-2.5 mt-2.">
-            {dataCat.slice(0, 4).map((f) => {
+            {dataCat?.slice(0, 4)?.map((f) => {
               return <>
                 {loading == true ?
                   <div>
@@ -187,7 +190,7 @@ const Home = ({ setWish, wish }: any) => {
       <div className="w-[85%] m-auto flex gap-4 items-center xl:mt-[100px] sm:mt-[80px]">
         <div className="h-[40px] w-[20px] rounded-[4px] bg-[#DB4444] ">
         </div>
-        <h1 className="text-[#DB4444]" >
+        <h1 className="text-[#DB4444] font-bold " >
           Today’s
         </h1>
       </div>
@@ -262,7 +265,7 @@ const Home = ({ setWish, wish }: any) => {
                 </div>
               </SwiperSlide>
             ))
-            : data.slice(0, 10).map((e) => {
+            : data?.slice(0, 10)?.map((e) => {
               return (
                 <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                   <div className="relative p-2 w-[95%] ">
@@ -274,15 +277,22 @@ const Home = ({ setWish, wish }: any) => {
                         <div className="space-y-2">
                           <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
                             <Heart
-                              className={`${wish.some((el:any) => el.id === e.id) ? "text-red-800 border-3  border-red-700 rounded-full  " : "text-black "
+                              className={`${wish.some((el: any) => el.id === e.id) ? "text-red-800 border-3  border-red-700 rounded-full  " : "text-black "
                                 }`}
                               onClick={() => {
-                                const id = wish.find((el:any) => el.id === e.id);
+                                const id = wish.find((el: any) => el.id === e.id);
                                 if (!id && wish.length < WISHLIST_LIMIT) {
                                   const update = [...wish, e];
                                   setWish(update);
                                   localStorage.setItem("wish", JSON.stringify(update));
                                 }
+                                else if (id) {
+                                  alert("U tebya Ushe est etot Produkt")
+                                }
+                                else if (wish.length < WISHLIST_LIMIT) {
+                                  alert("Di dostig limita")
+                                }
+
                               }}
                             />
                           </button>
@@ -292,7 +302,9 @@ const Home = ({ setWish, wish }: any) => {
                         </div>
                       </div>
                       <img src={`http://37.27.29.18:8002/images/${e.image}`} alt={e.productName} className="w-[75%]   mix-blend-multiply  mx-auto object-cover" style={{ height: "160px" }} />
-                      <button className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
+                      <button
+                        onClick={() => { dispatch(adToCart(e.id)) }}
+                        className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
                         Add To Cart
                       </button>
                     </div>
@@ -317,11 +329,12 @@ const Home = ({ setWish, wish }: any) => {
       </div>
 
       <div className="xl:w-[85%] sm:w-[70%] m-auto flex gap-4 justify-between items-center xl:mt-[100px] sm:mt-[80px] mb-6">
-        <div className="xl:w-[15%] sm:w-[20%]  flex items-center justify-between" >
-          <div className="h-[40px] xl:w-[20px] sm:w=[30px] rounded-[4px] bg-[#DB4444] ">
+
+        <div className=" flex items-center gap-4 " >
+          <div className="h-[40px] xl:w-[20px] sm:w-[20px] rounded-[4px] bg-[#DB4444] ">
           </div>
-          <h1 className="text-[#DB4444]" >
-            Categories
+          <h1 className="text-[#DB4444] font-bold " >
+            categories
           </h1>
         </div>
         <div className="w-[10%] xl:flex items-center justify-between sm:hidden">
@@ -378,11 +391,11 @@ const Home = ({ setWish, wish }: any) => {
                 </div>
               </SwiperSlide>
             ))
-            : dataCat.map((iCat, i) => {
+            : dataCat?.map((iCat, i) => {
               return <SwiperSlide key={i} className="border text-center  rounded-xl duration-900  hover:bg-[#DB4444] hover:text-white " style={{ height: "150px", transition: "0.3s" }} >
                 <div className="xl:w-[100px]  sm:w-[10px] m-auto">
-                  <img src={`http://37.27.29.18:8002/images/${iCat.categoryImage}`} alt="" className="w-[100px] m-auto scale-65" />
-                  {iCat.subCategories.map((iCatSyb:any, i:number) => {
+                  <img src={`http://37.27.29.18:8002/images/${iCat.categoryImage}`} alt="" className="w-[100px] mix-blend-multiply m-auto scale-65" />
+                  {iCat.subCategories.map((iCatSyb: any, i: number) => {
                     <h1 key={i} className=""> {iCatSyb.subCategoryName} </h1>
                   })}
                 </div>
@@ -393,9 +406,9 @@ const Home = ({ setWish, wish }: any) => {
       </div>
 
       <div className="w-[85%]  flex items-center m-auto gap-4 " >
-        <div className="h-[40px] xl:w-[20px] sm:w=[30px] rounded-[4px] bg-[#DB4444] ">
+        <div className="h-[40px] xl:w-[20px] sm:w-[20px] rounded-[4px] bg-[#DB4444] ">
         </div>
-        <h1 className="text-[#DB4444]" >
+        <h1 className="text-[#DB4444] bold " >
           This Month
         </h1>
       </div>
@@ -441,7 +454,7 @@ const Home = ({ setWish, wish }: any) => {
                   </div>
                 </SwiperSlide>
               ))
-              : data.slice(4, 10).map((e) => {
+              : data?.slice(4, 10)?.map((e) => {
                 return (
                   <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                     <div className="relative p-2 w-[95%] ">
@@ -453,8 +466,10 @@ const Home = ({ setWish, wish }: any) => {
                           <div className="space-y-2">
                             <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
                               <Heart
+                                className={`${wish.some((el: any) => el.id === e.id) ? "text-red-800 border-3  border-red-700 rounded-full  " : "text-black "
+                                  }`}
                                 onClick={() => {
-                                  const id = wish.find((el:any) => el.id === e.id);
+                                  const id = wish.find((el: any) => el.id === e.id);
                                   if (!id && wish.length < WISHLIST_LIMIT) {
                                     const update = [...wish, e];
                                     setWish(update);
@@ -468,8 +483,10 @@ const Home = ({ setWish, wish }: any) => {
                             </button>
                           </div>
                         </div>
-                        <img src={`http://37.27.29.18:8002/images/${e.image}`} alt={e.productName} className="w-[75%]   mix-blend-multiply  mx-auto object-cover" style={{ height: "160px" }} />
-                        <button className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
+                        <img src={`http://37.27.29.18:8002/images/${e.image}`} alt={e.productName} className="w-[75%]   mix-blend-multiply  mx-auto object-cover  " style={{ height: "160px" }} />
+                        <button
+                          onClick={() => dispatch(adToCart(e.id))}
+                          className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
                           Add To Cart
                         </button>
                       </div>
@@ -526,7 +543,7 @@ const Home = ({ setWish, wish }: any) => {
         <div className="h-[40px] xl:w-[20px] sm:w=[30px] rounded-[4px] bg-[#DB4444] ">
         </div>
         <div>
-          <h1 className="text-[#DB4444]" >
+          <h1 className="text-[#DB4444] font-bold " >
             This Month
           </h1>
           <h1 className="text-[36px]" > Explore Our Products </h1>
@@ -536,7 +553,7 @@ const Home = ({ setWish, wish }: any) => {
       <div className="w-[85%] m-auto mt-[20px] mb-[90px] " >
         <div className="flex justify-between items-center flex-wrap" >
 
-          {data.slice(0, 1).map((e) => {
+          {data?.slice(0, 1)?.map((e) => {
             return (
               <div className="mr-12 h-[370px] w-[310px]">
                 <div className="relative p-2 py-4 w-[95%] mx-auto xl:ml-0 sm:ml-10">
@@ -544,12 +561,23 @@ const Home = ({ setWish, wish }: any) => {
 
 
                     <div className="flex justify-between items-start p-3">
-                      <button className="bg-[#DB4444] rounded text-white text-sm font-medium shadow px-3 py-1">
+                      <button className="bg-[#DB4444] rounded text-white text-sm font-medium shadow ">
 
                       </button>
                       <div className="space-y-2 flex flex-col">
                         <button className="rounded-full bg-white p-2 shadow hover:bg-gray-100 transition text-black">
-                          <Heart />
+                          <Heart
+                            className={`${wish.some((el: any) => el.id === e.id) ? "text-red-800 border-3  border-red-700 rounded-full  " : "text-black "
+                              }`}
+                            onClick={() => {
+                              const id = wish.find((el: any) => el.id === e.id);
+                              if (!id && wish.length < WISHLIST_LIMIT) {
+                                const update = [...wish, e];
+                                setWish(update);
+                                localStorage.setItem("wish", JSON.stringify(update));
+                              }
+                            }}
+                          />
                         </button>
                         <button className="rounded-full bg-white p-2 shadow hover:bg-gray-100 transition text-black">
                           <Eye />
@@ -566,7 +594,9 @@ const Home = ({ setWish, wish }: any) => {
                     />
 
 
-                    <button className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <button
+                      onClick={() => dispatch(adToCart(e.id))}
+                      className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       Add To Cart
                     </button>
                   </div>

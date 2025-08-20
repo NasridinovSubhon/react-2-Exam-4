@@ -1,124 +1,109 @@
-// src/store/productsSlice.ts
-import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { Api } from '@/utils/config'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-// ---------------------
-// Types
-// ---------------------
-export interface Product {
-  id: string | number
-  productName: string
-  price: number
-  image: string
-  [key: string]: any
-}
 
-export interface Category {
-  id: string | number
-  name: string
-  [key: string]: any
-}
-
-export interface ProductState {
-  data: Product[]
-  loading: boolean
-  loadingCat: boolean
-  dataCat: Category[]
-  dataById: Product[]
-}
-
-// ---------------------
-// Initial State
-// ---------------------
-const initialState: ProductState = {
+const initialState = {
   data: [],
   loading: false,
   loadingCat: false,
   dataCat: [],
-  dataById: []
+  dataById: [],
+  dataId: []
 }
 
-// ---------------------
-// Async Thunks
-// ---------------------
-export const GetProd = createAsyncThunk<Product[], void>(
+export const GetProd = createAsyncThunk(
   "products/GetProd",
   async () => {
     try {
       const { data } = await Api.get(`Product/get-products`)
-      return data.products as Product[]
-    } catch (error) {
-      console.error(error)
-      return []
-    }
-  }
-)
+      return data
+    } catch (error) { console.error(error) }
+  })
 
-export const GetCat = createAsyncThunk<Category[], void>(
+export const GetCat = createAsyncThunk(
   "category/GetCat",
   async () => {
     try {
       const { data } = await Api.get(`Category/get-categories`)
-      return data as Category[]
-    } catch (error) {
-      console.error(error)
-      return []
-    }
+      return data
+    } catch (error) { console.error(error) }
   }
 )
 
-export const getByIdData = createAsyncThunk<Product[], { catId: string | number, subId: string | number }>(
-  "products/getById",
-  async ({ catId, subId }) => {
+
+export const getByIdData = createAsyncThunk(
+  "counter/getById",
+  async ({ catId, subId }: { catId: string | number, subId: string | number }) => {
     try {
       const { data } = await Api.get(`Product/get-products?CategoryId=${catId}&SubcategoryId=${subId}`)
-      return data.products as Product[]
+      return data
+    } catch (error) { console.error(error) }
+  }
+)
+
+
+export const getId = createAsyncThunk(
+  "counter/getId",
+  async () => {
+    try {
+      const { data } = await Api.get(`Cart/get-products-from-cart`)
+      return data
     } catch (error) {
-      console.error(error)
-      return []
+
     }
   }
 )
 
-// ---------------------
-// Slice
-// ---------------------
-export const productsSlice = createSlice({
-  name: 'products',
+export const adToCart = createAsyncThunk(
+  "counter/adToCart",
+  async (id) => {
+    try {
+      await Api.post(`Cart/add-product-to-cart?id=${id}`)
+    } catch (error) { console.error(error) }
+  }
+)
+
+export const delToCart = createAsyncThunk(
+  "counter/adToCart",
+  async (id) => {
+    try {
+      await Api.delete(`Cart/delete-product-from-cart?id=${id}`)
+    } catch (error) { console.error(error) }
+  }
+)
+
+
+export const products = createSlice({
+  name: 'counter',
   initialState,
-  reducers: {
-    // Агар лозим бошад, local reducers ҳам илова кун
-    clearDataById(state) {
-      state.dataById = []
-    }
-  },
+  reducers: {},
+
   extraReducers: (builder) => {
     builder
-      // GetProd
-      .addCase(GetProd.pending, (state) => { state.loading = true })
-      .addCase(GetProd.fulfilled, (state, action: PayloadAction<Product[]>) => {
-        state.loading = false
-        state.data = action.payload
+      .addCase(GetProd.pending, (state) => {
+        state.loading = true
       })
-      .addCase(GetProd.rejected, (state) => { state.loading = false })
-
-      // GetCat
-      .addCase(GetCat.pending, (state) => { state.loadingCat = true })
-      .addCase(GetCat.fulfilled, (state, action: PayloadAction<Category[]>) => {
+      .addCase(GetProd.fulfilled, (state, { payload }) => {
+        state.loading = false,
+          state.data = payload.data.products
+      })
+      .addCase(GetCat.pending, (state) => {
+        state.loadingCat = true
+      })
+      .addCase(GetCat.fulfilled, (state, { payload }) => {
         state.loadingCat = false
-        state.dataCat = action.payload
+        state.dataCat = payload.data
       })
-      .addCase(GetCat.rejected, (state) => { state.loadingCat = false })
+      .addCase(getByIdData.fulfilled, (state, { payload }) => {
+        state.dataById = payload.data.products
+      })
+      .addCase(getId.fulfilled, (state, { payload }) => {
+        state.dataId = payload?.data[0]
 
-      // getByIdData
-      .addCase(getByIdData.fulfilled, (state, action: PayloadAction<Product[]>) => {
-        state.dataById = action.payload
       })
   }
 })
 
-// ---------------------
-// Export
-// ---------------------
-export const { clearDataById } = productsSlice.actions
-export default productsSlice.reducer
+export const { } = products.actions
+
+export default products.reducer

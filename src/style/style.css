@@ -43,8 +43,8 @@ body {
 }
 
 .swiper-pagination-bullet {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 1px;
   text-align: center;
   line-height: 20px;
   font-size: 12px;
@@ -55,7 +55,7 @@ body {
 
 .swiper-pagination-bullet-active {
   color: #fff;
-  background: #007aff;
+  background: red;
 }
 
 

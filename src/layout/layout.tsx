@@ -1,6 +1,6 @@
 import { Link, NavLink, Outlet } from "react-router-dom"
 import logo from "@/assets/logo.png"
-import { ArrowDownUp, Box, Facebook, Heart, Instagram,  LogOut, Search, SendHorizontal, ShoppingCart, Twitter, User } from "lucide-react"
+import { ArrowDownUp, Box, Facebook, Heart, Instagram, LogOut, Search, SendHorizontal, ShoppingCart, Twitter, User } from "lucide-react"
 
 import {
     Dialog,
@@ -22,15 +22,18 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import { useAppSelector } from "@/app/hook"
 
 
-const Layout = ({ wish }:any) => {
+const Layout = ({ wish }: any) => {
 
     const [nav, SetNav] = useState(false)
     const [N_Hom_Med, Set_Nav_Hom_Me] = useState(false)
     const [N_Con_Med, Set_Nav_Con_Me] = useState(false)
     const [N_Abo_Med, Set_Nav_Abo_Me] = useState(false)
     const { theme, } = useTheme()
+
+    const { dataId } = useAppSelector(state => state.prod)
 
     const DrawerList = (
         <ul className={`h-[100vh] dark:bg-black bg-white dark:text-white text-black  w-[100%] m-auto -mt-[0.59px] ${theme == "dark" ? "border-[#86b9d6] border-2 " : " border-[#180c85] border-2"} `} >
@@ -135,10 +138,12 @@ const Layout = ({ wish }:any) => {
                         </div>
 
                         <div className="relative xl:-ml-0 sm:-ml-16">
-                            <div className="bg-[#DB4444] dark:bg-white dark:text-black text-white w-[20px] h-[20px] rounded-full absolute -top-2 -right-2 flex items-center justify-center text-center">
-                                0
-                            </div>
-                            <ShoppingCart />
+                            <Link to={"byId"}>
+                                <div className="bg-[#DB4444] dark:bg-white dark:text-black text-white w-[20px] h-[20px] rounded-full absolute -top-2 -right-2 flex items-center justify-center text-center">
+                                    {dataId?.productsInCart?.length || 0}
+                                </div>
+                                <ShoppingCart />
+                            </Link>
                         </div>
 
                         <Popover>

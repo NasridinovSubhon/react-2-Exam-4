@@ -11,6 +11,7 @@ import { ThemeProvider } from "./theme/theme-provider"
 
 import Login from "./components/login"
 import About from "./components/about"
+import GetId from "./components/getId"
 const ContactLazy = lazy(() => import("./components/contact"))
 
 const HomeLazy = lazy(() => import("@/components/home"));
@@ -46,8 +47,9 @@ const App = () => {
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Suspense fallback={"Loading..."} >    <Contact />  </Suspense>} />
         <Route path="signUp" element={<Suspense fallback={"Loading..."} >     <SignUp /> </Suspense>} />
-        <Route path="products" element={<Suspense fallback={"Loading..."} >   <Products />  </Suspense>} />
+        <Route path="products" element={<Suspense fallback={"Loading..."} >   <Products setWish={setWish} wish={wish} />  </Suspense>} />
         <Route path="wishlist" element={<Suspense fallback={"Loading..."}  >  <Wishlist setWish={setWish} wish={wish} />  </Suspense>} />
+        <Route path="byId" element={<GetId />} />
       </Route>
     )
   )
