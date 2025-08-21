@@ -1,6 +1,58 @@
 import { Api } from '@/utils/config'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
+// Product
+export interface Product {
+  id: number;
+  productName: string;
+  image: string;
+  color: string;
+  price: number;
+  hasDiscount: boolean;
+  discountPrice: number;
+  quantity: number;
+  productInMyCart: boolean;
+  categoryId: number;
+  categoryName: string;
+  productInfoFromCart: any | null; // агар структура маълум шавад, иваз кун
+}
+
+// Color
+export interface Color {
+  id: number;
+  colorName: string;
+}
+
+// Brand
+export interface Brand {
+  id: number;
+  brandName: string;
+}
+
+// Min & Max Price
+export interface MinMaxPrice {
+  minPrice: number;
+  maxPrice: number;
+}
+
+// Data section
+export interface ProductsData {
+  products: Product[];
+  colors: Color[];
+  brands: Brand[];
+  minMaxPrice: MinMaxPrice;
+}
+
+// Root API Response
+export interface ProductsResponse {
+  pageNumber: number;
+  pageSize: number;
+  totalPage: number;
+  totalRecord: number;
+  data: ProductsData;
+  errors: string[];
+  statusCode: number;
+}
 
 const initialState = {
   data: [],
