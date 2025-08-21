@@ -28,7 +28,9 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-// import '@/style/style.css';
+import '../style/style.css';
+
+
 import { Eye, Heart } from "lucide-react";
 import { memo, useEffect, useRef, useState } from "react";
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
