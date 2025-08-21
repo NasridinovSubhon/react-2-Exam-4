@@ -31,7 +31,7 @@ const Contact = () => {
               <Input className="xl:w-[30%] sm:w-full p-5 " placeholder="Email" type="email" />
               <Input className="xl:w-[30%] sm:w-full p-5 " placeholder="Phone" type="number" />
             </div>
-            <Textarea className="mt-4 p-5 w-full" placeholder="Your Massage" />
+            <Textarea className="mt-4 p-5 w-full max-h-[80px] " placeholder="Your Massage" />
           </div>
           <button className="text-white rounded-sm absolute xl:bottom-0 sm:-bottom-14 right-16   bg-[#DB4444] p-[10px_29px] " > Send Massage </button>
         </div>

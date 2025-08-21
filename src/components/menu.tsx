@@ -18,6 +18,7 @@ export default function TemporaryDrawer({ DrawerList }: any) {
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
     };
+
     return (
         <>
             <Menu className='dark:text-white text-black ' onClick={toggleDrawer(true)}></Menu>

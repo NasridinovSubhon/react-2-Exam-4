@@ -8,7 +8,9 @@ const initialState = {
   loadingCat: false,
   dataCat: [],
   dataById: [],
-  dataId: []
+  dataId: [],
+  loadDec: false,
+  loadCorLen: false
 }
 
 export const GetProd = createAsyncThunk(
@@ -42,8 +44,8 @@ export const getByIdData = createAsyncThunk(
 )
 
 
-export const getId = createAsyncThunk(
-  "counter/getId",
+export const corzina = createAsyncThunk(
+  "counter/corzina",
   async () => {
     try {
       const { data } = await Api.get(`Cart/get-products-from-cart`)
@@ -68,6 +70,33 @@ export const delToCart = createAsyncThunk(
   async (id) => {
     try {
       await Api.delete(`Cart/delete-product-from-cart?id=${id}`)
+    } catch (error) { console.error(error) }
+  }
+)
+
+export const inCremCart = createAsyncThunk(
+  "counter/inCremCart",
+  async (id) => {
+    try {
+      await Api.put(`Cart/increase-product-in-cart?id=${id}`)
+    } catch (error) { console.error(error) }
+  }
+)
+
+export const AllDecCart = createAsyncThunk(
+  "counter/AllDecCart",
+  async () => {
+    try {
+      await Api.delete(`Cart/clear-cart`)
+    } catch (error) { console.error(error) }
+  }
+)
+
+export const DecCart = createAsyncThunk(
+  "counter/inCremCart",
+  async (id) => {
+    try {
+      await Api.put(`Cart/reduce-product-in-cart?id=${id}`)
     } catch (error) { console.error(error) }
   }
 )
@@ -97,13 +126,22 @@ export const products = createSlice({
       .addCase(getByIdData.fulfilled, (state, { payload }) => {
         state.dataById = payload.data.products
       })
-      .addCase(getId.fulfilled, (state, { payload }) => {
+      .addCase(corzina.pending, (state) => {
+        state.loadCorLen = true
+      })
+      .addCase(corzina.fulfilled, (state, { payload }) => {
+        state.loadCorLen = false
         state.dataId = payload?.data[0]
-
+      })
+      .addCase(DecCart.pending, (state) => {
+        state.loadDec = true
+      })
+      .addCase(DecCart.fulfilled, (state) => {
+        state.loadDec = false
       })
   }
 })
 
-export const { } = products.actions
+
 
 export default products.reducer

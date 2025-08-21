@@ -1,8 +1,8 @@
 
 import iphone from "@/assets/iphone.png";
 import khdIph from "@/assets/iphTel.png";
-import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperType } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 import kal3 from "@/assets/3kalon.png";
 import dkhta from "@/assets/dkhta.png";
@@ -11,12 +11,24 @@ import kal from "@/assets/kal.png";
 import ps5 from "@/assets/ps5.png";
 import servKam from "@/assets/servisKam.png";
 
+interface SubCategory {
+  id: number;
+  subCategoryName: string;
+}
+
+interface Category {
+  id: number;
+  categoryName: string;
+  categoryImage: string;
+  subCategories: SubCategory[];
+}
+
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-import '@/style/style.css';
+// import '@/style/style.css';
 import { Eye, Heart } from "lucide-react";
 import { memo, useEffect, useRef, useState } from "react";
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
@@ -24,10 +36,9 @@ import { Input } from "./ui/input";
 
 // const categoryBtn = "w-full dark:bg-[#aaa8c097] dark:hover:bg-[#1f5ab4] hover:bg-blue-100 active:scale-95 bg-gray-50 py-2 rounded-md xl:px-5 sm:px-2 transition-all duration-200 text-sm font-medium text-center";
 
-import { adToCart, GetCat, getId, GetProd } from "@/app/productSl";
-import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hook";
-import GetId from "./getId";
+import { adToCart, corzina, GetCat, GetProd } from "@/app/productSl";
+import { Link } from "react-router-dom";
 
 
 
@@ -38,6 +49,7 @@ const Home = ({ setWish, wish }: any) => {
   useEffect(() => {
     dispatch(GetProd())
     dispatch(GetCat())
+    dispatch(corzina())
   }, [])
 
   const { data, dataCat, loading, loadingCat, dataId } = useAppSelector(state => state.prod)
@@ -71,39 +83,63 @@ const Home = ({ setWish, wish }: any) => {
 
 
 
-
-
   return (
     <div className="dark:text-white text-black" >
       <Input className="xl:hidden xl:mb-0 sm:mb-6  sm:block w-[90%] m-auto mt-[10px]" placeholder="Search..." />
       <div className="xl:w-[85%]  sm:w-[95%] m-auto flex flex-wrap items-center justify-between xl:mt-[90px] sm:mt-0">
         <div className="xl:w-1/5 pr-3 sm:w-[90%] mx-auto xl:mx-0 flex xl:block sm:flex flex-wrap items-start gap-2.5 xl:border-r sm:border-r-0 border-gray-200 max-h-[400px] overflow-y-auto" style={{ scrollbarColor: "transparent transparent" }} >
-          <ul className="w-full grid sm:grid-cols-2 xl:grid-cols-1 gap-2.5 mt-2.">
-            {dataCat?.slice(0, 4)?.map((f) => {
-              return <>
-                {loading == true ?
-                  <div>
-                    <div className="h-4 w-[80%] rounded-md mb-4 bg-gray-200 animate-pulse"></div>
-                    <div className="h-4 w-[60%] rounded-md bg-gray-200 animate-pulse"></div>
-                  </div>
-                  : f.subCategories.slice(0, 4).map((sub: any, i: number) => {
-                    return <div key={i} className="relative group w-full" onMouseEnter={() => setOpen(sub.id)} onMouseLeave={() => setOpen(null)} >
-                      <button className={` px-4 py-2 rounded-lg transition-colors duration-300 w-full ${open === sub.id ? "bg-blue-600 text-white shadow-md" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`} >
-                        {sub.subCategoryName}
-                      </button>
+          <ul className="w-full grid sm:grid-cols-2 xl:grid-cols-1 gap-2.5 mt-2">
+            {loading ? (
+              Array.from({ length: 5 }).map((_, i) => (
+                <li key={i} className="space-y-2 p-2 border rounded-lg animate-pulse">
+                  <div className="h-4 w-[80%] rounded-md bg-gray-200"></div>
+                  <div className="h-4 w-[60%] rounded-md bg-gray-200"></div>
+                </li>
+              ))
+            ) : (
+              dataCat?.slice(0, 10)?.map((f) =>
+                f.subCategories.slice(0, 4).map((sub: any, i: number) => (
+                  <li
+                    key={sub.id}
+                    className="relative group w-full"
+                    onMouseEnter={() => setOpen(sub.id)}
+                    onMouseLeave={() => setOpen(null)}
+                  >
+                    <button
+                      className={`px-4 py-2 rounded-lg transition-colors duration-300 w-full ${open === sub.id
+                        ? "bg-blue-600 text-white shadow-md"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        }`}
+                    >
+                      {sub.subCategoryName}
+                    </button>
 
-                      <Link to={`products`} state={{ categoryId: f.id, subCategoryId: sub.id }}>
-                        <div className={` absolute top-full w-40 sm:p-3 xl:p-[10px_50px] bg-white  rounded-xl shadow-lg border border-gray-100 z-50 transition-all duration-200 text-center ${open === sub.id ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"} ${i % 2 === 0 ? "xl:left-[40px]  absolute sm:-left-2 -translate-x-2" : "xl:left-[32px] sm:-left-[10px] translate-x-2"} `} >
-                          <p className=" text-gray-700 sm:text-[10px] xl:text-[15px]">
-                            {sub.subCategoryName}
-                          </p>
-                        </div>
-                      </Link>
-                    </div>
-                  })}
-              </>
-            })}
+                    <Link
+                      to={`products`}
+                      state={{ categoryId: f.id, subCategoryId: sub.id }}
+                    >
+                      <div
+                        className={`absolute top-full w-40 sm:p-3 xl:p-[10px_50px] bg-white rounded-xl shadow-lg border border-gray-100 z-50 transition-all duration-200 text-center ${open === sub.id
+                          ? "opacity-100 visible translate-y-0"
+                          : "opacity-0 invisible -translate-y-2"
+                          } ${i % 2 === 0
+                            ? "xl:left-[40px] sm:-left-2 -translate-x-2"
+                            : "xl:left-[32px] sm:-left-[10px] translate-x-2"
+                          }`}
+                      >
+                        <p className="text-gray-700 sm:text-[10px] xl:text-[15px]">
+                          {sub.subCategoryName}
+                        </p>
+                      </div>
+                    </Link>
+                  </li>
+                ))
+              )
+            )}
           </ul>
+
+
+
 
         </div>
 
@@ -119,12 +155,12 @@ const Home = ({ setWish, wish }: any) => {
             pagination={{
               clickable: true,
             }}
-            // navigation={true}
+
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper xl:mt-0 sm:mt-[30px]"
           >
             <SwiperSlide style={{ backgroundColor: "black" }}  >
-              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start">
+              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start  ">
                 <div className="xl:w-[41%] sm:w-[90%]">
                   <div className="flex items-center gap-[20px]">
                     <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-[70px]" />
@@ -201,7 +237,7 @@ const Home = ({ setWish, wish }: any) => {
           <div className="flex items-center xl:gap-4 sm:gap-2 flex-wrap xl:mt-0 sm:mt-4 ">
             <div className="flex flex-col items-center">
               <span className="text-sm font-medium">Days</span>
-              <span className="xl:text-lg sm:text-[14px]">{dateNumber}—{dayName}</span>
+              <span className="xl:text-lg sm:text-[14px]">{dateNumber}</span>
             </div>
             <span className="text-xl font-bold">:</span>
             <div className="flex flex-col items-center">
@@ -222,12 +258,12 @@ const Home = ({ setWish, wish }: any) => {
         </div>
 
         <div className="xl:w-[10%] sm:w-[90%]  m-auto xl:mt-0 sm:mt-4 flex items-center justify-between">
-          <button className="bg-[#dadddf] p-[10px_15px] rounded-full"
+          <button className="bg-[#dadddf] p-[10px_15px] rounded-full dark:invert "
             onClick={() => swiperRef.current?.slidePrev()}
           > ⏮ </button>
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className="bg-[#dadddf] p-[10px_15px] rounded-full" > ⏭ </button>
+            className="bg-[#dadddf] p-[10px_15px] rounded-full dark:invert " > ⏭ </button>
         </div>
       </div>
 
@@ -257,63 +293,78 @@ const Home = ({ setWish, wish }: any) => {
           {loading ?
             Array.from({ length: 5 }).map((_, idx) => (
               <SwiperSlide key={idx}>
-                <div className="flex flex-col mt-10 space-y-3 w-full">
+                <div className="flex flex-col mt-10 space-y-3 w-full mb-[60px]">
                   <div className="h-4 w-[80%] rounded-md bg-gray-200 animate-pulse"></div>
                   <div className="h-4 w-[70%] rounded-md bg-gray-200 animate-pulse"></div>
                   <div className="h-4 w-[50%] rounded-md bg-gray-200 animate-pulse"></div>
                   <div className="h-4 w-[34%] rounded-md bg-gray-200 animate-pulse"></div>
                 </div>
-              </SwiperSlide>
-            ))
+              </SwiperSlide>))
             : data?.slice(0, 10)?.map((e) => {
               return (
                 <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                   <div className="relative p-2 w-[95%] ">
-                    <div className="bg-[#F5F5F5] h-[90%] rounded-2xl overflow-hidden group relative transition duration-300 hover:shadow-lg hover:-translate-y-1">
+                    <div className="bg-gray-100 dark:bg-gray-300 max-h-[300px] min-h-[200px] rounded-2xl overflow-hidden group relative transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col h-full
+                  xl:h-[320px] sm:h-auto">
+
                       <div className="flex justify-between items-start p-3">
-                        <button className="bg-[#DB4444] px-4 py-1 rounded text-white text-sm font-medium shadow">
-                          -{100}%
-                        </button>
-                        <div className="space-y-2">
-                          <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
+                        <span className="bg-red-600 text-white text-xs font-medium px-3 py-1 rounded">
+                          -100%
+                        </span>
+                        <div className="flex flex-col gap-2">
+                          <button className="bg-white p-2 rounded-full hover:bg-gray-200 transition">
                             <Heart
-                              className={`${wish.some((el: any) => el.id === e.id) ? "text-red-800 border-3  border-red-700 rounded-full  " : "text-black "
-                                }`}
+                              className={`${wish.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black"}`}
                               onClick={() => {
                                 const id = wish.find((el: any) => el.id === e.id);
-                                if (!id && wish.length < WISHLIST_LIMIT) {
-                                  const update = [...wish, e];
-                                  setWish(update);
-                                  localStorage.setItem("wish", JSON.stringify(update));
+                                if (id) {
+                                  const newWish = wish.filter(el => el.id !== id.id);
+                                  setWish(newWish);
+                                  localStorage.setItem("wish", JSON.stringify(newWish));
+                                } else {
+                                  if (wish.length < WISHLIST_LIMIT) {
+                                    const update = [...wish, e];
+                                    setWish(update);
+                                    localStorage.setItem("wish", JSON.stringify(update));
+                                  } else {
+                                    alert("Di dostig limita");
+                                  }
                                 }
-                                else if (id) {
-                                  alert("U tebya Ushe est etot Produkt")
-                                }
-                                else if (wish.length < WISHLIST_LIMIT) {
-                                  alert("Di dostig limita")
-                                }
-
                               }}
                             />
                           </button>
-                          <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
+                          <button className="bg-white p-2 rounded-full hover:bg-gray-200 text-black transition">
                             <Eye />
                           </button>
                         </div>
                       </div>
-                      <img src={`http://37.27.29.18:8002/images/${e.image}`} alt={e.productName} className="w-[75%]   mix-blend-multiply  mx-auto object-cover" style={{ height: "160px" }} />
+
+
+                      <div className="flex-1 flex items-center justify-center">
+                        <img
+                          src={`http://37.27.29.18:8002/images/${e.image}`}
+                          alt={e.productName}
+                          className="xl:max-h-[140px] sm:max-h-[190px] w-auto object-contain mix-blend-multiply"
+                        />
+                      </div>
+
+
                       <button
-                        onClick={() => { dispatch(adToCart(e.id)) }}
-                        className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
+                        onClick={() => { dispatch(adToCart(e.id)), dispatch(corzina()) }}
+                        className="w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300"
+                      >
                         Add To Cart
                       </button>
                     </div>
 
-                    <div className="text-start mt-3">
-                      <h1>{e.productName}</h1>
-                      <span className="text-[red]">${e.price}</span>
+                    <div className="mt-3 text-start">
+                      <h1 className="text-sm font-medium text-gray-800 dark:text-white truncate">{e.productName}</h1>
+                      <span className="text-red-600 font-semibold">${e.price}</span>
                     </div>
                   </div>
+
+
+
                 </SwiperSlide>
               )
             })}
@@ -321,7 +372,7 @@ const Home = ({ setWish, wish }: any) => {
         </Swiper>
         <div className="xl:w-[12%] m-auto mt-3 sm:w-[45%]">
           <ul>
-            <Link to={"/products"} >
+            <Link to={"products"} >
               <button className="w-[100%] m-auto py-3 xl:text-[16px] sm:text-[14px] text-white bg-[#DB4444] rounded-[6px]"> View All Products </button>
             </Link>
           </ul>
@@ -338,15 +389,15 @@ const Home = ({ setWish, wish }: any) => {
           </h1>
         </div>
         <div className="w-[10%] xl:flex items-center justify-between sm:hidden">
-          <button onClick={() => {
-            console.log("Prev clicked, swiperRef2:", swiperRef2.current); // Логирование
+          <button className="bg-[#dadddf] p-[10px_15px] rounded-full dark:invert" onClick={() => {
+
             swiperRef2.current?.slidePrev();
           }}>
             ⏮
           </button>
 
-          <button onClick={() => {
-            console.log("Next clicked, swiperRef2:", swiperRef2.current); // Логирование
+          <button className="bg-[#dadddf] p-[10px_15px] rounded-full dark:invert" onClick={() => {
+
             swiperRef2.current?.slideNext();
           }}>
             ⏭
@@ -354,12 +405,13 @@ const Home = ({ setWish, wish }: any) => {
         </div>
       </div>
 
-      <div className="w-[85%] m-auto">
+      <div className="w-[90%] m-auto">
         <Swiper
           onSwiper={(swiper) => {
             swiperRef2.current = swiper;
           }}
-          slidesPerView={slidesPerView}
+          slidesPerView={2}
+          spaceBetween={15}
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,
@@ -369,41 +421,55 @@ const Home = ({ setWish, wish }: any) => {
           }}
           breakpoints={{
             0: {
-              slidesPerView: 1,
-              spaceBetween: 27,
+              slidesPerView: 3,
+              spaceBetween: 15,
             },
             511: {
-              slidesPerView: 5,
-              spaceBetween: 30,
-            },
+              slidesPerView: 6,
+              spaceBetween: 15,
+
+            }
           }}
           modules={[Autoplay]}
           className="mySwiper"
         >
-          {loadingCat ?
-            Array.from({ length: 10 }).map((_, idx) => (
+          {loadingCat ? (
+            Array.from({ length: 6 }).map((_, idx) => (
               <SwiperSlide key={idx}>
-                <div className="flex flex-col mt-10 space-y-3 w-full">
-                  <div className="h-4 w-[80%] rounded-md bg-gray-200 animate-pulse"></div>
-                  <div className="h-4 w-[70%] rounded-md bg-gray-200 animate-pulse"></div>
-                  <div className="h-4 w-[50%] rounded-md bg-gray-200 animate-pulse"></div>
-                  <div className="h-4 w-[34%] rounded-md bg-gray-200 animate-pulse"></div>
+                <div className="flex flex-col items-center mt-6 space-y-3 w-full mb-[100px] ">
+                  <div className="h-20 w-20 rounded-full bg-gray-200 animate-pulse"></div>
+                  <div className="h-3 w-[60%] rounded-md bg-gray-200 animate-pulse"></div>
                 </div>
               </SwiperSlide>
             ))
-            : dataCat?.map((iCat, i) => {
-              return <SwiperSlide key={i} className="border text-center  rounded-xl duration-900  hover:bg-[#DB4444] hover:text-white " style={{ height: "150px", transition: "0.3s" }} >
-                <div className="xl:w-[100px]  sm:w-[10px] m-auto">
-                  <img src={`http://37.27.29.18:8002/images/${iCat.categoryImage}`} alt="" className="w-[100px] mix-blend-multiply m-auto scale-65" />
-                  {iCat.subCategories.map((iCatSyb: any, i: number) => {
-                    <h1 key={i} className=""> {iCatSyb.subCategoryName} </h1>
-                  })}
+          ) : (
+            dataCat.slice(0, 7)?.map((iCat, i) => (
+              <SwiperSlide
+                key={i}
+                className="group border rounded-xl bg-white dark:bg-gray-300 text-center cursor-pointer
+                     transition duration-300 hover:bg-[#DB4444] dark:hover:bg-[#6fe9acad] hover:text-white p-3 mb-[100px] "
+              >
+                <div className="flex flex-col items-center dark:invert   h-[130px] ">
+                  <img
+                    src={`http://37.27.29.18:8002/images/${iCat.categoryImage}`}
+                    alt={iCat.categoryName}
+                    className="w-20 h-20 object-contain dark:invert mix-blend-multiply transition-transform duration-300 group-hover:scale-110"
+                  />
+                  {iCat.subCategories.slice(0, 1).map((iCatSyb: any, idx: number) => (
+                    <h1
+                      key={idx}
+                      className="text-xs sm:text-sm mt-2 font-medium group-hover:text-white truncate max-w-[90px]"
+                    >
+                      {iCatSyb.subCategoryName}
+                    </h1>
+                  ))}
                 </div>
               </SwiperSlide>
-            })}
-
+            ))
+          )}
         </Swiper>
       </div>
+
 
       <div className="w-[85%]  flex items-center m-auto gap-4 " >
         <div className="h-[40px] xl:w-[20px] sm:w-[20px] rounded-[4px] bg-[#DB4444] ">
@@ -454,48 +520,70 @@ const Home = ({ setWish, wish }: any) => {
                   </div>
                 </SwiperSlide>
               ))
-              : data?.slice(4, 10)?.map((e) => {
+              : data?.slice(4, 8)?.map((e) => {
                 return (
                   <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                     <div className="relative p-2 w-[95%] ">
-                      <div className="bg-[#F5F5F5] h-[90%] rounded-2xl overflow-hidden group relative transition duration-300 hover:shadow-lg hover:-translate-y-1">
+                      <div className="bg-gray-100 dark:bg-gray-300 max-h-[300px] min-h-[300px] rounded-2xl overflow-hidden group relative transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col h-full
+                  xl:h-[320px] sm:h-auto">
+
                         <div className="flex justify-between items-start p-3">
-                          <button className="bg-[#DB4444] px-4 py-1 rounded text-white text-sm font-medium shadow">
-                            -{100}%
-                          </button>
-                          <div className="space-y-2">
-                            <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
+                          <span className="bg-red-600 text-white text-xs font-medium px-3 py-1 rounded">
+                            -100%
+                          </span>
+                          <div className="flex flex-col gap-2">
+                            <button className="bg-white p-2 rounded-full hover:bg-gray-200 transition">
                               <Heart
-                                className={`${wish.some((el: any) => el.id === e.id) ? "text-red-800 border-3  border-red-700 rounded-full  " : "text-black "
-                                  }`}
+                                className={`${wish.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black"}`}
                                 onClick={() => {
                                   const id = wish.find((el: any) => el.id === e.id);
-                                  if (!id && wish.length < WISHLIST_LIMIT) {
-                                    const update = [...wish, e];
-                                    setWish(update);
-                                    localStorage.setItem("wish", JSON.stringify(update));
+                                  if (id) {
+                                    const newWish = wish.filter(el => el.id !== id.id);
+                                    setWish(newWish);
+                                    localStorage.setItem("wish", JSON.stringify(newWish));
+                                  } else {
+                                    if (wish.length < WISHLIST_LIMIT) {
+                                      const update = [...wish, e];
+                                      setWish(update);
+                                      localStorage.setItem("wish", JSON.stringify(update));
+                                    } else {
+                                      alert("Di dostig limita");
+                                    }
                                   }
                                 }}
                               />
                             </button>
-                            <button className="rounded-full block bg-white p-2 shadow hover:bg-gray-100 transition text-black ">
+                            <button className="bg-white p-2 rounded-full hover:bg-gray-200 text-black transition">
                               <Eye />
                             </button>
                           </div>
                         </div>
-                        <img src={`http://37.27.29.18:8002/images/${e.image}`} alt={e.productName} className="w-[75%]   mix-blend-multiply  mx-auto object-cover  " style={{ height: "160px" }} />
+
+
+                        <div className="flex-1 flex items-center justify-center">
+                          <img
+                            src={`http://37.27.29.18:8002/images/${e.image}`}
+                            alt={e.productName}
+                            className="xl:max-h-[140px] sm:max-h-[190px] w-auto object-contain mix-blend-multiply"
+                          />
+                        </div>
+
+
                         <button
                           onClick={() => dispatch(adToCart(e.id))}
-                          className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300">
+                          className="w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300"
+                        >
                           Add To Cart
                         </button>
                       </div>
 
-                      <div className="text-start mt-3">
-                        <h1>{e.productName}</h1>
-                        <span className="text-[red]">${e.price}</span>
+                      <div className="mt-3 text-start">
+                        <h1 className="text-sm font-medium text-gray-800 dark:text-white truncate">{e.productName}</h1>
+                        <span className="text-red-600 font-semibold">${e.price}</span>
                       </div>
                     </div>
+
+
 
                   </SwiperSlide>
                 )
@@ -549,74 +637,111 @@ const Home = ({ setWish, wish }: any) => {
           <h1 className="text-[36px]" > Explore Our Products </h1>
         </div>
       </div>
-
       <div className="w-[85%] m-auto mt-[20px] mb-[90px] " >
-        <div className="flex justify-between items-center flex-wrap" >
+        <Swiper
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          breakpoints={{
+            0: {
+              slidesPerView: 1,
+              spaceBetween: 27,
+            },
+            511: {
+              slidesPerView: 3.4,
+              spaceBetween: 30,
+            },
+          }}
+          modules={[Autoplay]}
+          className="mySwiper">
+          {
+            loading ?
+              Array.from({ length: 5 }).map((_, idx) => (
+                <SwiperSlide key={idx}>
+                  <div className="flex flex-col mt-10 space-y-3 w-full">
+                    <div className="h-4 w-[80%] rounded-md bg-gray-200 animate-pulse"></div>
+                    <div className="h-4 w-[70%] rounded-md bg-gray-200 animate-pulse"></div>
+                    <div className="h-4 w-[50%] rounded-md bg-gray-200 animate-pulse"></div>
+                    <div className="h-4 w-[34%] rounded-md bg-gray-200 animate-pulse"></div>
+                  </div>
+                </SwiperSlide>
+              ))
+              : data?.slice(2, 5)?.map((e) => {
+                return (
+                  <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
+                    <div className="relative p-2 w-[95%] ">
+                      <div className="bg-gray-100 dark:bg-gray-300 max-h-[300px] min-h-[300px] rounded-2xl overflow-hidden group relative transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col h-full
+                  xl:h-[320px] sm:h-auto">
 
-          {data?.slice(0, 1)?.map((e) => {
-            return (
-              <div className="mr-12 h-[370px] w-[310px]">
-                <div className="relative p-2 py-4 w-[95%] mx-auto xl:ml-0 sm:ml-10">
-                  <div className="bg-[#F5F5F5] h-[90%] rounded-2xl overflow-hidden group relative transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
+                        <div className="flex justify-between items-start p-3">
+                          <span className="bg-red-600 text-white text-xs font-medium px-3 py-1 rounded">
+                            -100%
+                          </span>
+                          <div className="flex flex-col gap-2">
+                            <button className="bg-white p-2 rounded-full hover:bg-gray-200 transition">
+                              <Heart
+                                className={`${wish.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black"}`}
+                                onClick={() => {
+                                  const id = wish.find((el: any) => el.id === e.id);
+                                  if (id) {
+                                    const newWish = wish.filter(el => el.id !== id.id);
+                                    setWish(newWish);
+                                    localStorage.setItem("wish", JSON.stringify(newWish));
+                                  } else {
+                                    if (wish.length < WISHLIST_LIMIT) {
+                                      const update = [...wish, e];
+                                      setWish(update);
+                                      localStorage.setItem("wish", JSON.stringify(update));
+                                    } else {
+                                      alert("Di dostig limita");
+                                    }
+                                  }
+                                }}
+                              />
+                            </button>
+                            <button className="bg-white p-2 rounded-full hover:bg-gray-200 text-black transition">
+                              <Eye />
+                            </button>
+                          </div>
+                        </div>
 
 
-                    <div className="flex justify-between items-start p-3">
-                      <button className="bg-[#DB4444] rounded text-white text-sm font-medium shadow ">
-
-                      </button>
-                      <div className="space-y-2 flex flex-col">
-                        <button className="rounded-full bg-white p-2 shadow hover:bg-gray-100 transition text-black">
-                          <Heart
-                            className={`${wish.some((el: any) => el.id === e.id) ? "text-red-800 border-3  border-red-700 rounded-full  " : "text-black "
-                              }`}
-                            onClick={() => {
-                              const id = wish.find((el: any) => el.id === e.id);
-                              if (!id && wish.length < WISHLIST_LIMIT) {
-                                const update = [...wish, e];
-                                setWish(update);
-                                localStorage.setItem("wish", JSON.stringify(update));
-                              }
-                            }}
+                        <div className="flex-1 flex items-center justify-center">
+                          <img
+                            src={`http://37.27.29.18:8002/images/${e.image}`}
+                            alt={e.productName}
+                            className="xl:max-h-[140px] sm:max-h-[190px] w-auto object-contain mix-blend-multiply"
                           />
+                        </div>
+
+
+                        <button
+                          onClick={() => dispatch(adToCart(e.id))}
+                          className="w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition duration-300"
+                        >
+                          Add To Cart
                         </button>
-                        <button className="rounded-full bg-white p-2 shadow hover:bg-gray-100 transition text-black">
-                          <Eye />
-                        </button>
+                      </div>
+
+                      <div className="mt-3 text-start">
+                        <h1 className="text-sm font-medium text-gray-800 dark:text-white truncate">{e.productName}</h1>
+                        <span className="text-red-600 font-semibold">${e.price}</span>
                       </div>
                     </div>
 
 
-                    <img
-                      src={`http://37.27.29.18:8002/images/${e.image}`}
-                      alt={e.productName}
-                      className="w-3/4 mx-auto object-cover mix-blend-multiply"
-                      style={{ height: "160px" }}
-                    />
 
+                  </SwiperSlide>
+                )
+              })}
 
-                    <button
-                      onClick={() => dispatch(adToCart(e.id))}
-                      className="absolute bottom-0 left-0 w-full py-3 bg-black text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      Add To Cart
-                    </button>
-                  </div>
-
-
-                  <div className="text-start mt-3">
-                    <h1 className="font-semibold text-lg">{e.name}</h1>
-                    <div className="flex items-center gap-2">
-                      <span className="text-red-500 font-medium">${e.price}</span>
-                      <span className="text-gray-400 line-through">${e.kharid}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-            )
-          })}
-        </div>
+        </Swiper>
       </div>
+
 
       <div className="w-[85%]  flex  m-auto gap-4 items-center " >
         <div className="h-[40px] xl:w-[20px] sm:w=[30px] rounded-[4px] bg-[#DB4444] ">

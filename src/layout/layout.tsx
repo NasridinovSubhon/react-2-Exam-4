@@ -33,7 +33,7 @@ const Layout = ({ wish }: any) => {
     const [N_Abo_Med, Set_Nav_Abo_Me] = useState(false)
     const { theme, } = useTheme()
 
-    const { dataId } = useAppSelector(state => state.prod)
+    const { dataId, loadCorLen } = useAppSelector(state => state.prod)
 
     const DrawerList = (
         <ul className={`h-[100vh] dark:bg-black bg-white dark:text-white text-black  w-[100%] m-auto -mt-[0.59px] ${theme == "dark" ? "border-[#86b9d6] border-2 " : " border-[#180c85] border-2"} `} >
@@ -140,7 +140,8 @@ const Layout = ({ wish }: any) => {
                         <div className="relative xl:-ml-0 sm:-ml-16">
                             <Link to={"byId"}>
                                 <div className="bg-[#DB4444] dark:bg-white dark:text-black text-white w-[20px] h-[20px] rounded-full absolute -top-2 -right-2 flex items-center justify-center text-center">
-                                    {dataId?.productsInCart?.length || 0}
+                                    {loadCorLen ? <span className="w-3 h-3 border-2 border-white dark:border-black  border-t-transparent dark:border-t-transparent rounded-full animate-spin inline-block"></span> :
+                                        dataId?.productsInCart?.length || 0}
                                 </div>
                                 <ShoppingCart />
                             </Link>

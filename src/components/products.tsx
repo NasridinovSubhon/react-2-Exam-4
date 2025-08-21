@@ -14,7 +14,7 @@ interface LocationState {
 
 const Products = ({ setWish, wish }) => {
   const location = useLocation();
-  const { categoryId, subCategoryId } = location.state as LocationState;
+  const { categoryId, subCategoryId } = location.state as LocationState || { categoryId: "", subCategoryId: "" };
   const dispatch = useAppDispatch();
 
   const { dataById: products, dataCat: categories } = useAppSelector((state) => state.prod);
@@ -133,18 +133,16 @@ const Products = ({ setWish, wish }) => {
                               setWish(update);
                               localStorage.setItem("wish", JSON.stringify(update));
                             }
-                            else  {
+                            else {
                               alert("U tebya uzhe est ")
                             }
                           }}
-
                         />
                       </button>
                       <button className="rounded-full bg-white p-2 shadow hover:bg-gray-100 transition text-black dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
                         <Eye className="w-5 h-5" />
                       </button>
                     </div>
-
 
                     <button className="xl:opacity-0 group-hover:opacity-100 absolute bottom-0 w-full sm:opacity-100 rounded-b-lg bg-black text-white py-3 transition-all duration-300 hover:bg-gray-800 dark:bg-blue-600 dark:hover:bg-blue-700">
                       Add To Cart
