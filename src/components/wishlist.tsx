@@ -7,23 +7,22 @@ import "swiper/css/pagination";
 import { Autoplay } from "swiper/modules";
 
 import { Trash2 } from 'lucide-react';
-import { adToCart } from "@/app/productSl";
-import { useAppDispatch } from "@/app/hook";
+import { AddWishRed, adToCart, clearWish } from "@/app/productSl";
+import { useAppDispatch, useAppSelector } from "@/app/hook";
 
 
-const Wishlist = ({ setWish, wish }: any) => {
+const Wishlist = () => {
 
+  const { dataWish } = useAppSelector(state => state.prod)
   const dispatch = useAppDispatch()
-
-
   return (
     <div className="h-[100vh]" >
       <div className="flex items-center justify-between w-[85%] m-auto mt-[100px] mb-16" >
         <h1 className="xl:text-3xl sm:text-xl " >
-          Wishlist ({wish?.length})
+          Wishlist ({dataWish?.length})
         </h1>
         <button
-          onClick={() => { localStorage.setItem("wish", JSON.stringify([])), setWish([]) }}
+          onClick={() => { dispatch(clearWish()) }}
           className="border-2 border-black p-[13px_40px] rounded-md " >
           Move All To Bag
         </button>
@@ -51,7 +50,7 @@ const Wishlist = ({ setWish, wish }: any) => {
           modules={[Autoplay]}
           className="mySwiper" >
 
-          {wish?.slice(0, 10)?.map((e: any) => {
+          {dataWish?.slice(0, 10)?.map((e: any) => {
             return (
               <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                 <div className="relative p-2 w-[95%] ">
@@ -61,9 +60,7 @@ const Wishlist = ({ setWish, wish }: any) => {
                       <Trash2 size={18}
                         className="text-black"
                         onClick={() => {
-                          const update = wish.filter((el: any) => el.id !== e.id);
-                          setWish(update);
-                          localStorage.setItem("wish", JSON.stringify(update));
+                          dispatch(AddWishRed(e))
                         }}
                       />
                     </button>

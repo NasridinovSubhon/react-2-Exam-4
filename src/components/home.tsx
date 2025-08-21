@@ -36,17 +36,15 @@ import { memo, useEffect, useRef, useState } from "react";
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Input } from "./ui/input";
 
-// const categoryBtn = "w-full dark:bg-[#aaa8c097] dark:hover:bg-[#1f5ab4] hover:bg-blue-100 active:scale-95 bg-gray-50 py-2 rounded-md xl:px-5 sm:px-2 transition-all duration-200 text-sm font-medium text-center";
-
 import { useAppDispatch, useAppSelector } from "@/app/hook";
-import { adToCart, corzina, GetCat, GetProd } from "@/app/productSl";
+import { AddWishRed, adToCart, corzina, GetCat, GetProd } from "@/app/productSl";
 import { Link } from "react-router-dom";
 
 
 
 
 
-const Home = ({ setWish, wish }: any) => {
+const Home = () => {
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(GetProd())
@@ -54,7 +52,7 @@ const Home = ({ setWish, wish }: any) => {
     dispatch(corzina())
   }, [])
 
-  const { data, dataCat, loading, loadingCat, dataId } = useAppSelector(state => state.prod)
+  const { data, dataCat, loading, loadingCat, dataWish } = useAppSelector(state => state.prod)
 
   const [slidesPerView] = useState(
     window.innerWidth > 510 ? 3.6 : 1
@@ -89,7 +87,7 @@ const Home = ({ setWish, wish }: any) => {
     <div className="dark:text-white text-black" >
       <Input className="xl:hidden xl:mb-0 sm:mb-6  sm:block w-[90%] m-auto mt-[10px]" placeholder="Search..." />
       <div className="xl:w-[85%]  sm:w-[95%] m-auto flex flex-wrap items-center justify-between xl:mt-[90px] sm:mt-0">
-        <div className="xl:w-1/5 pr-3 sm:w-[90%] mx-auto xl:mx-0 flex xl:block sm:flex flex-wrap items-start gap-2.5 xl:border-r sm:border-r-0 border-gray-200 max-h-[400px] overflow-y-auto" style={{ scrollbarColor: "transparent transparent" }} >
+        <div className="xl:w-1/5 pr-3 sm:w-[90%] mx-auto xl:mx-0 flex xl:block sm:flex flex-wrap items-start text-center gap-2.5 xl:border-r sm:border-r-0 border-gray-200 xl:max-h-[400px] sm:max-h-[200px] overflow-y-auto" style={{ scrollbarColor: "transparent transparent" }} >
           <ul className="w-full grid sm:grid-cols-2 xl:grid-cols-1 gap-2.5 mt-2">
             {loading ? (
               Array.from({ length: 5 }).map((_, i) => (
@@ -103,7 +101,7 @@ const Home = ({ setWish, wish }: any) => {
                 f.subCategories.slice(0, 4).map((sub: any, i: number) => (
                   <li
                     key={sub.id}
-                    className="relative group w-full"
+                    className="relative group w-full  "
                     onMouseEnter={() => setOpen(sub.id)}
                     onMouseLeave={() => setOpen(null)}
                   >
@@ -113,7 +111,7 @@ const Home = ({ setWish, wish }: any) => {
                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                         }`}
                     >
-                      {sub.subCategoryName}
+                      {sub.subCategoryName.slice(0, 5)}
                     </button>
 
                     <Link
@@ -129,7 +127,7 @@ const Home = ({ setWish, wish }: any) => {
                             : "xl:left-[32px] sm:-left-[10px] translate-x-2"
                           }`}
                       >
-                        <p className="text-gray-700 sm:text-[10px] xl:text-[15px]">
+                        <p className="text-gray-700  sm:text-[10px] xl:text-[15px]  ">
                           {sub.subCategoryName}
                         </p>
                       </div>
@@ -162,22 +160,10 @@ const Home = ({ setWish, wish }: any) => {
             className="mySwiper xl:mt-0 sm:mt-[30px]"
           >
             <SwiperSlide style={{ backgroundColor: "black" }}  >
-              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start  ">
+              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start h-[370px]  ">
                 <div className="xl:w-[41%] sm:w-[90%]">
                   <div className="flex items-center gap-[20px]">
-                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-[70px]" />
-                    <h1 className="text-white">iPhone 14 Series</h1>
-                  </div>
-                  <h1 className="xl:text-[64px] sm:text-2xl text-white xl:mt-0 sm:mt-5 xl:mb-0 sm:mb-5  ">Up to 10% off Voucher</h1>
-                </div>
-                <img src={khdIph} alt="" className="xl:w-[56%] sm:w-[100%]" />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide style={{ backgroundColor: "black" }} >
-              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start">
-                <div className="xl:w-[41%] sm:w-[90%]">
-                  <div className="flex items-center gap-[20px]">
-                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-[70px]" />
+                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-auto " />
                     <h1 className="text-white">iPhone 14 Series</h1>
                   </div>
                   <h1 className="xl:text-[64px] sm:text-2xl text-white xl:mt-0 sm:mt-5 xl:mb-0 sm:mb-5  ">Up to 10% off Voucher</h1>
@@ -186,10 +172,10 @@ const Home = ({ setWish, wish }: any) => {
               </div>
             </SwiperSlide>
             <SwiperSlide style={{ backgroundColor: "black" }}  >
-              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start">
+              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start h-[370px]  ">
                 <div className="xl:w-[41%] sm:w-[90%]">
                   <div className="flex items-center gap-[20px]">
-                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-[70px]" />
+                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-auto " />
                     <h1 className="text-white">iPhone 14 Series</h1>
                   </div>
                   <h1 className="xl:text-[64px] sm:text-2xl text-white xl:mt-0 sm:mt-5 xl:mb-0 sm:mb-5  ">Up to 10% off Voucher</h1>
@@ -198,10 +184,10 @@ const Home = ({ setWish, wish }: any) => {
               </div>
             </SwiperSlide>
             <SwiperSlide style={{ backgroundColor: "black" }}  >
-              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start">
+              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start h-[370px]  ">
                 <div className="xl:w-[41%] sm:w-[90%]">
                   <div className="flex items-center gap-[20px]">
-                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-[70px]" />
+                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-auto " />
                     <h1 className="text-white">iPhone 14 Series</h1>
                   </div>
                   <h1 className="xl:text-[64px] sm:text-2xl text-white xl:mt-0 sm:mt-5 xl:mb-0 sm:mb-5  ">Up to 10% off Voucher</h1>
@@ -210,10 +196,22 @@ const Home = ({ setWish, wish }: any) => {
               </div>
             </SwiperSlide>
             <SwiperSlide style={{ backgroundColor: "black" }}  >
-              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start">
+              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start h-[370px]  ">
                 <div className="xl:w-[41%] sm:w-[90%]">
                   <div className="flex items-center gap-[20px]">
-                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-[70px]" />
+                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-auto " />
+                    <h1 className="text-white">iPhone 14 Series</h1>
+                  </div>
+                  <h1 className="xl:text-[64px] sm:text-2xl text-white xl:mt-0 sm:mt-5 xl:mb-0 sm:mb-5  ">Up to 10% off Voucher</h1>
+                </div>
+                <img src={khdIph} alt="" className="xl:w-[56%] sm:w-[100%]" />
+              </div>
+            </SwiperSlide>
+            <SwiperSlide style={{ backgroundColor: "black" }}  >
+              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start h-[370px]  ">
+                <div className="xl:w-[41%] sm:w-[90%]">
+                  <div className="flex items-center gap-[20px]">
+                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-auto " />
                     <h1 className="text-white">iPhone 14 Series</h1>
                   </div>
                   <h1 className="xl:text-[64px] sm:text-2xl text-white xl:mt-0 sm:mt-5 xl:mb-0 sm:mb-5  ">Up to 10% off Voucher</h1>
@@ -260,12 +258,15 @@ const Home = ({ setWish, wish }: any) => {
         </div>
 
         <div className="xl:w-[10%] sm:w-[90%]  m-auto xl:mt-0 sm:mt-4 flex items-center justify-between">
-          <button className="bg-[#dadddf] p-[10px_15px] rounded-full dark:invert "
-            onClick={() => swiperRef.current?.slidePrev()}
-          > ⏮ </button>
+          <button className="bg-[#dadddf]  text-black p-[10px_15px] rounded-full "
+            onClick={() => swiperRef.current?.slidePrev()}>
+            ←
+          </button>
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className="bg-[#dadddf] p-[10px_15px] rounded-full dark:invert " > ⏭ </button>
+            className="bg-[#dadddf]  text-black p-[10px_15px] rounded-full " >
+            →
+          </button>
         </div>
       </div>
 
@@ -316,22 +317,9 @@ const Home = ({ setWish, wish }: any) => {
                         <div className="flex flex-col gap-2">
                           <button className="bg-white p-2 rounded-full hover:bg-gray-200 transition">
                             <Heart
-                              className={`${wish.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black"}`}
+                              className={`${dataWish?.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black"}`}
                               onClick={() => {
-                                const id = wish.find((el: any) => el.id === e.id);
-                                if (id) {
-                                  const newWish = wish.filter(el => el.id !== id.id);
-                                  setWish(newWish);
-                                  localStorage.setItem("wish", JSON.stringify(newWish));
-                                } else {
-                                  if (wish.length < WISHLIST_LIMIT) {
-                                    const update = [...wish, e];
-                                    setWish(update);
-                                    localStorage.setItem("wish", JSON.stringify(update));
-                                  } else {
-                                    alert("Di dostig limita");
-                                  }
-                                }
+                                dispatch(AddWishRed(e))
                               }}
                             />
                           </button>
@@ -391,18 +379,19 @@ const Home = ({ setWish, wish }: any) => {
           </h1>
         </div>
         <div className="w-[10%] xl:flex items-center justify-between sm:hidden">
-          <button className="bg-[#dadddf] p-[10px_15px] rounded-full dark:invert" onClick={() => {
+          <button className="bg-[#dadddf]  text-black p-[10px_15px] rounded-full " onClick={() => {
 
             swiperRef2.current?.slidePrev();
           }}>
-            ⏮
+            ←
           </button>
 
-          <button className="bg-[#dadddf] p-[10px_15px] rounded-full dark:invert" onClick={() => {
+          <button className="bg-[#dadddf]  text-black p-[10px_15px] rounded-full " onClick={() => {
 
             swiperRef2.current?.slideNext();
           }}>
-            ⏭
+
+            →
           </button>
         </div>
       </div>
@@ -433,7 +422,7 @@ const Home = ({ setWish, wish }: any) => {
             }
           }}
           modules={[Autoplay]}
-          className="mySwiper"
+          className="mySwiper hSw "
         >
           {loadingCat ? (
             Array.from({ length: 6 }).map((_, idx) => (
@@ -451,20 +440,23 @@ const Home = ({ setWish, wish }: any) => {
                 className="group border rounded-xl bg-white dark:bg-gray-300 text-center cursor-pointer
                      transition duration-300 hover:bg-[#DB4444] dark:hover:bg-[#6fe9acad] hover:text-white p-3 mb-[100px] "
               >
-                <div className="flex flex-col items-center dark:invert   h-[130px] ">
-                  <img
-                    src={`http://37.27.29.18:8002/images/${iCat.categoryImage}`}
-                    alt={iCat.categoryName}
-                    className="w-20 h-20 object-contain dark:invert mix-blend-multiply transition-transform duration-300 group-hover:scale-110"
-                  />
-                  {iCat.subCategories.slice(0, 1).map((iCatSyb: any, idx: number) => (
-                    <h1
-                      key={idx}
-                      className="text-xs sm:text-sm mt-2 font-medium group-hover:text-white truncate max-w-[90px]"
-                    >
-                      {iCatSyb.subCategoryName}
-                    </h1>
-                  ))}
+                <div className="flex items-center dark:invert w-full  h-[130px] justify-center">
+                  <div>
+
+                    <img
+                      src={`http://37.27.29.18:8002/images/${iCat.categoryImage}`}
+                      alt=""
+                      className="w-20 h-20 object-contain m-auto dark:invert mix-blend-multiply  transition-transform duration-300 group-hover:scale-110"
+                    />
+                    {iCat.subCategories.slice(0, 1).map((iCatSyb: any, idx: number) => (
+                      <h1
+                        key={idx}
+                        className="text-xs sm:text-sm mt-2 font-medium group-hover:text-white truncate max-w-[90px]"
+                      >
+                        {iCatSyb.subCategoryName}
+                      </h1>
+                    ))}
+                  </div>
                 </div>
               </SwiperSlide>
             ))
@@ -536,22 +528,9 @@ const Home = ({ setWish, wish }: any) => {
                           <div className="flex flex-col gap-2">
                             <button className="bg-white p-2 rounded-full hover:bg-gray-200 transition">
                               <Heart
-                                className={`${wish.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black"}`}
+                                className={`${dataWish?.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black"}`}
                                 onClick={() => {
-                                  const id = wish.find((el: any) => el.id === e.id);
-                                  if (id) {
-                                    const newWish = wish.filter(el => el.id !== id.id);
-                                    setWish(newWish);
-                                    localStorage.setItem("wish", JSON.stringify(newWish));
-                                  } else {
-                                    if (wish.length < WISHLIST_LIMIT) {
-                                      const update = [...wish, e];
-                                      setWish(update);
-                                      localStorage.setItem("wish", JSON.stringify(update));
-                                    } else {
-                                      alert("Di dostig limita");
-                                    }
-                                  }
+                                  dispatch(AddWishRed(e))
                                 }}
                               />
                             </button>
@@ -686,22 +665,9 @@ const Home = ({ setWish, wish }: any) => {
                           <div className="flex flex-col gap-2">
                             <button className="bg-white p-2 rounded-full hover:bg-gray-200 transition">
                               <Heart
-                                className={`${wish.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black"}`}
+                                className={`${dataWish?.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black"}`}
                                 onClick={() => {
-                                  const id = wish.find((el: any) => el.id === e.id);
-                                  if (id) {
-                                    const newWish = wish.filter(el => el.id !== id.id);
-                                    setWish(newWish);
-                                    localStorage.setItem("wish", JSON.stringify(newWish));
-                                  } else {
-                                    if (wish.length < WISHLIST_LIMIT) {
-                                      const update = [...wish, e];
-                                      setWish(update);
-                                      localStorage.setItem("wish", JSON.stringify(update));
-                                    } else {
-                                      alert("Di dostig limita");
-                                    }
-                                  }
+                                  dispatch(AddWishRed(e))
                                 }}
                               />
                             </button>

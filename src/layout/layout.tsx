@@ -25,7 +25,7 @@ import {
 import { useAppSelector } from "@/app/hook"
 
 
-const Layout = ({ wish }: any) => {
+const Layout = () => {
 
     const [nav, SetNav] = useState(false)
     const [N_Hom_Med, Set_Nav_Hom_Me] = useState(false)
@@ -33,7 +33,7 @@ const Layout = ({ wish }: any) => {
     const [N_Abo_Med, Set_Nav_Abo_Me] = useState(false)
     const { theme, } = useTheme()
 
-    const { dataId, loadCorLen } = useAppSelector(state => state.prod)
+    const { dataId, loadCorLen, dataWish } = useAppSelector(state => state.prod)
 
     const DrawerList = (
         <ul className={`h-[100vh] dark:bg-black bg-white dark:text-white text-black  w-[100%] m-auto -mt-[0.59px] ${theme == "dark" ? "border-[#86b9d6] border-2 " : " border-[#180c85] border-2"} `} >
@@ -99,7 +99,6 @@ const Layout = ({ wish }: any) => {
                                     </NavLink>
                                 </li>
                             </ul>
-
                         </div>
                     </div>
                     <div className="xl:w-[37%] flex items-center justify-between sm:w-[10%] ml-5">
@@ -131,7 +130,7 @@ const Layout = ({ wish }: any) => {
                         <div className="relative xl:block sm:hidden ">
                             <Link to={"wishlist"} >
                                 <div className="bg-[#DB4444] dark:bg-white dark:text-black text-white w-[20px] h-[20px] rounded-full absolute -top-2 -right-2.5 flex items-center justify-center text-center">
-                                    {wish.length || 0}
+                                    {dataWish.length || 0}
                                 </div>
                                 <Heart />
                             </Link>
@@ -164,7 +163,7 @@ const Layout = ({ wish }: any) => {
                                 <div className="relative xl:hidden sm:block  mt-6">
                                     <Link to={"wishlist"} className="flex items-center gap-6" >
                                         <div className="bg-[#DB4444] dark:bg-white dark:text-black text-white w-[20px] h-[20px] rounded-full absolute -top-2 left-2.5 flex items-center justify-center text-center ">
-                                            {wish.length || 0}
+                                            {dataWish.length || 0}
                                         </div>
                                         <Heart />
                                         <span>Wishlist</span>
@@ -183,11 +182,7 @@ const Layout = ({ wish }: any) => {
                     </div>
                 </div>
                 <hr className="mt-4" />
-
                 <Outlet />
-
-
-
                 <footer className="dark:bg-gray-900 bg-black  border-white border-2  text-white py-10   w-full  xl:mb-0 sm:-mb-[200px]  ">
                     <div className="w-[90%] mt-[20px] m-auto py-[10px] flex  justify-between flex-wrap " >
                         <div className="xl:w-[20%] sm:w-[90%]">

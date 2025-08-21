@@ -10,7 +10,8 @@ const initialState = {
   dataById: [],
   dataId: [],
   loadDec: false,
-  loadCorLen: false
+  loadCorLen: false,
+  dataWish: JSON.parse(localStorage.getItem("wishRed")) || []
 }
 
 export const GetProd = createAsyncThunk(
@@ -105,7 +106,28 @@ export const DecCart = createAsyncThunk(
 export const products = createSlice({
   name: 'counter',
   initialState,
-  reducers: {},
+
+  reducers: {
+    AddWishRed: (state, { payload: e }) => {
+      const wish = state.dataWish
+      const id = wish.find((el: any) => el.id === e.id);
+      if (id) {
+        const newWish = wish.filter((el: any) => el.id !== id.id);
+        state.dataWish = newWish
+        localStorage.setItem("wishRed", JSON.stringify(newWish));
+      } else {
+        const update = [...wish, e];
+        state.dataWish = update
+        localStorage.setItem("wishRed", JSON.stringify(update));
+      }
+    },
+    clearWish: (state) => {
+      state.dataWish = [],
+        localStorage.setItem("wishRed", JSON.stringify([]))
+    }
+  },
+
+
 
   extraReducers: (builder) => {
     builder
@@ -142,6 +164,7 @@ export const products = createSlice({
   }
 })
 
+export const { AddWishRed, clearWish } = products.actions
 
 
 export default products.reducer

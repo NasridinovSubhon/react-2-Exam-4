@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import { Eye, Heart, Search, Filter } from "lucide-react";
 import { useLocation } from "react-router-dom";
-import { getByIdData, GetCat } from "@/app/productSl";
+import { AddWishRed, getByIdData, GetCat } from "@/app/productSl";
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 
 
@@ -12,12 +12,12 @@ interface LocationState {
   subCategoryId: string;
 }
 
-const Products = ({ setWish, wish }) => {
+const Products = () => {
   const location = useLocation();
   const { categoryId, subCategoryId } = location.state as LocationState || { categoryId: "", subCategoryId: "" };
   const dispatch = useAppDispatch();
 
-  const { dataById: products, dataCat: categories } = useAppSelector((state) => state.prod);
+  const { dataById: products, dataCat: categories, dataWish } = useAppSelector((state) => state.prod);
 
   const [selectedCategory, setSelectedCategory] = useState<any>(categoryId || "");
   const [selectedSubCategory, setSelectedSubCategory] = useState<any>(subCategoryId || "");
@@ -88,11 +88,11 @@ const Products = ({ setWish, wish }) => {
           </div>
         </div>
 
-        {/* Products Grid */}
+
         <div className="xl:w-[76%] sm:w-full">
           <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white hidden xl:block">Our Products</h2>
 
-          {/* Results count */}
+
           <div className="mb-6 flex justify-between items-center">
             <p className="text-gray-600 dark:text-gray-400">
               Showing {products.length} of {products?.length} products
@@ -124,20 +124,12 @@ const Products = ({ setWish, wish }) => {
                     <div className="absolute top-3 right-3 flex flex-col gap-2">
                       <button className="rounded-full bg-white p-2 shadow hover:bg-gray-100 transition text-black dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
                         <Heart
-                          className={`${wish.some((el: any) => el.id === product.id) ? "text-red-800 border-3  border-red-700 rounded-full  " : ""
-                            }`}
+                          className={`${dataWish?.some((el: any) => el.id === product.id) ? "text-red-600 fill-red-600" : "text-black"}`}
                           onClick={() => {
-                            const id = wish.find((el: any) => el.id === product.id);
-                            if (!id && wish.length < WISHLIST_LIMIT) {
-                              const update = [...wish, product];
-                              setWish(update);
-                              localStorage.setItem("wish", JSON.stringify(update));
-                            }
-                            else {
-                              alert("U tebya uzhe est ")
-                            }
+                            dispatch(AddWishRed(product))
                           }}
                         />
+
                       </button>
                       <button className="rounded-full bg-white p-2 shadow hover:bg-gray-100 transition text-black dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
                         <Eye className="w-5 h-5" />
