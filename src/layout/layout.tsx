@@ -105,8 +105,8 @@ const Layout = () => {
                     </div>
                     <div className="xl:w-[37%] flex items-center justify-between sm:w-[48%] ml-5">
                         <Dialog>
-                            <DialogTrigger className="xl:w-[60%] sm:w-[1900px]  xl:ml-0 sm:-ml-[130px] ">
-                                <div className="flex  items-center  xl:w-[100%]   sm:w-[73%]   justify-between bg-gray-100 dark:bg-blue-800 px-4 py-3 rounded-xl cursor-pointer hover:shadow-md transition-all duration-200 border border-transparent hover:border-blue-300 dark:hover:border-blue-600">
+                            <DialogTrigger className="xl:w-[60%] sm:w-[230px]  xl:ml-0 sm:-ml-[150px] ">
+                                <div className="flex  items-center  xl:w-[100%]   sm:w-[73%]   justify-between bg-gray-100 dark:bg-blue-800 px-4 py-2 rounded-xl cursor-pointer hover:shadow-md transition-all duration-200 border border-transparent hover:border-blue-300 dark:hover:border-blue-600">
                                     <span className="text-gray-500 dark:text-gray-300 text-sm font-medium">
                                         Что вы ищете?
                                     </span>
@@ -115,12 +115,11 @@ const Layout = () => {
                             </DialogTrigger>
                             <DialogContent className="p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
                                 <form onSubmit={(e) => { e.preventDefault() }} >
-
                                     <DialogHeader>
                                         <DialogTitle>
                                             <div className="flex items-center gap-2 p-1 bg-blue-50 dark:bg-blue-900/30 rounded-xl border border-blue-100 dark:border-blue-700/50 shadow-sm transition-all duration-200 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 hover:shadow-md  mt-3 mb-2">
                                                 <input
-                                                    onInput={(el:any) => { dispatch(SearProduct(el.target.value)) }}
+                                                    onInput={(el: any) => { dispatch(SearProduct(el.target.value)) }}
                                                     className="flex-1 border-none outline-none bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 text-base px-3 py-2 focus:ring-0"
                                                     placeholder="Поиск товаров..."
                                                 />
@@ -132,7 +131,7 @@ const Layout = () => {
                                     </DialogHeader>
                                     <div className="p-3 max-h-90 ">
                                         {dataSea.length === 0 ?
-                                            data.slice(0, 5).map((e:any) => (
+                                            data.slice(0, 5).map((e: any) => (
                                                 <div key={e.id} className="border-b border-gray-100 dark:border-gray-700 last:border-0">
                                                     <Link to={"/info/" + e.id}>
                                                         <DialogClose className="w-full">
@@ -157,7 +156,7 @@ const Layout = () => {
                                                 <div className="flex justify-center py-6">
                                                     <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                                                 </div>
-                                                : dataSea.slice(0, 5).map((e:any) => (
+                                                : dataSea.slice(0, 5).map((e: any) => (
                                                     <div key={e.id} className="border-b border-gray-100 dark:border-gray-700 last:border-0">
                                                         <Link to={"/info/" + e.id}>
                                                             <DialogClose className="w-full">
