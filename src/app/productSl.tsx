@@ -54,23 +54,23 @@ export interface ProductsResponse {
   statusCode: number;
 }
 
-const initialState = {
-  data: [],
-  loading: false,
-  loadingCat: false,
-  dataCat: [],
-  dataById: [],
-  dataId: [],
-  loadDec: false,
-  loadCorLen: false,
-  dataWish: JSON.parse(localStorage.getItem("wishRed")|| "") || [],
-  dataInfo: [],
-  loadInfo: false,
-  dataSea: "",
-  loadSear: false,
-  dataprofile: {},
-  loadiProfile: false
-}
+  const initialState = {
+    data: [],
+    loading: false,
+    loadingCat: false,
+    dataCat: [],
+    dataById: [],
+    dataId: [],
+    loadDec: false,
+    loadCorLen: false,
+    dataWish: JSON.parse(localStorage.getItem("wishRed") || "[]"),
+    dataInfo: [],
+    loadInfo: false,
+    dataSea: "",
+    loadSear: false,
+    dataprofile: {},
+    loadiProfile: false
+  }
 
 export const GetProd = createAsyncThunk(
   "products/GetProd",
