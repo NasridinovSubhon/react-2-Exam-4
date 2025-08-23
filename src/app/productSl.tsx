@@ -1,7 +1,7 @@
 import { Api } from '@/utils/config'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-// Product
+
 export interface Product {
   id: number;
   productName: string;
@@ -14,28 +14,28 @@ export interface Product {
   productInMyCart: boolean;
   categoryId: number;
   categoryName: string;
-  productInfoFromCart: any | null; // агар структура маълум шавад, иваз кун
+  productInfoFromCart: any | null;
 }
 
-// Color
+
 export interface Color {
   id: number;
   colorName: string;
 }
 
-// Brand
+
 export interface Brand {
   id: number;
   brandName: string;
 }
 
-// Min & Max Price
+
 export interface MinMaxPrice {
   minPrice: number;
   maxPrice: number;
 }
 
-// Data section
+
 export interface ProductsData {
   products: Product[];
   colors: Color[];
@@ -43,7 +43,7 @@ export interface ProductsData {
   minMaxPrice: MinMaxPrice;
 }
 
-// Root API Response
+
 export interface ProductsResponse {
   pageNumber: number;
   pageSize: number;
@@ -63,7 +63,13 @@ const initialState = {
   dataId: [],
   loadDec: false,
   loadCorLen: false,
-  dataWish: JSON.parse(localStorage.getItem("wishRed")) || []
+  dataWish: JSON.parse(localStorage.getItem("wishRed")|| "") || [],
+  dataInfo: [],
+  loadInfo: false,
+  dataSea: "",
+  loadSear: false,
+  dataprofile: {},
+  loadiProfile: false
 }
 
 export const GetProd = createAsyncThunk(
@@ -85,7 +91,6 @@ export const GetCat = createAsyncThunk(
   }
 )
 
-
 export const getByIdData = createAsyncThunk(
   "counter/getById",
   async ({ catId, subId }: { catId: string | number, subId: string | number }) => {
@@ -95,7 +100,6 @@ export const getByIdData = createAsyncThunk(
     } catch (error) { console.error(error) }
   }
 )
-
 
 export const corzina = createAsyncThunk(
   "counter/corzina",
@@ -119,7 +123,7 @@ export const adToCart = createAsyncThunk(
 )
 
 export const delToCart = createAsyncThunk(
-  "counter/adToCart",
+  "counter/delToCart",
   async (id) => {
     try {
       await Api.delete(`Cart/delete-product-from-cart?id=${id}`)
@@ -154,6 +158,48 @@ export const DecCart = createAsyncThunk(
   }
 )
 
+export const GetInfo = createAsyncThunk(
+  "counter/GetInfo",
+  async (id) => {
+
+    try {
+      const { data } = await Api.get(`Product/get-product-by-id?id=${id}`)
+      return data
+    } catch (error) {
+
+    }
+  }
+)
+
+
+export const SearProduct = createAsyncThunk(
+  "counter/SearProduct",
+  async (val) => {
+    try {
+      const { data } = await Api.get(`Product/get-products?ProductName=${val}`)
+      return data
+    } catch (error) { console.error(error) }
+  }
+)
+
+export const getMyProfile = createAsyncThunk(
+  "counter/getMyProfile",
+  async (id) => {
+    try {
+      const { data } = await Api.get(`UserProfile/get-user-profile-by-id?id=${id}`)
+      return data
+    } catch (error) { console.error(error) }
+  }
+)
+
+export const editProfile = createAsyncThunk(
+  "counter/editProfile",
+  async (fd) => {
+    try {
+      await Api.put(`UserProfile/update-user-profile`, fd)
+    } catch (error) { console.error(error) }
+  }
+)
 
 export const products = createSlice({
   name: 'counter',
@@ -178,9 +224,6 @@ export const products = createSlice({
         localStorage.setItem("wishRed", JSON.stringify([]))
     }
   },
-
-
-
   extraReducers: (builder) => {
     builder
       .addCase(GetProd.pending, (state) => {
@@ -201,9 +244,11 @@ export const products = createSlice({
         state.dataById = payload.data.products
       })
       .addCase(corzina.pending, (state) => {
+        console.log("corzina pending")
         state.loadCorLen = true
       })
       .addCase(corzina.fulfilled, (state, { payload }) => {
+        console.log("corzina fulfilled")
         state.loadCorLen = false
         state.dataId = payload?.data[0]
       })
@@ -213,6 +258,29 @@ export const products = createSlice({
       .addCase(DecCart.fulfilled, (state) => {
         state.loadDec = false
       })
+      .addCase(GetInfo.pending, (state) => {
+        state.loadInfo = true
+      })
+      .addCase(GetInfo.fulfilled, (state, { payload }) => {
+        state.loadInfo = false
+        state.dataInfo = payload?.data
+      })
+      .addCase(SearProduct.pending, (state) => {
+        state.loadSear = true
+      })
+      .addCase(SearProduct.fulfilled, (state, { payload }) => {
+        state.loadSear = false
+        state.dataSea = payload?.data.products
+      })
+      .addCase(getMyProfile.pending, (state) => {
+        state.loadiProfile = true
+      })
+      .addCase(getMyProfile.fulfilled, (state, { payload }) => {
+        state.loadiProfile = false
+        state.dataprofile = payload.data
+
+      })
+
   }
 })
 

@@ -8,8 +8,8 @@ import { NumberTicker } from "./magicui/number-ticker"
 
 const Corzina = () => {
   const dispatch = useAppDispatch()
-  const { dataId } = useAppSelector(state => state.prod)
-
+  const { dataId: dataIId } = useAppSelector(state => state.prod)
+  const dataId = dataIId as any
   const [load, setLoad] = useState(false)
   const [loadIn, setLoadIn] = useState({
     loading: false,
@@ -27,9 +27,11 @@ const Corzina = () => {
 
 
   const subtotal = dataId?.productsInCart?.reduce(
-    (acc, item) => acc + item.product.price * item.quantity,
+    (acc: number, item: any) => acc + item.product.price * item.quantity,
     0
   ) || 0;
+
+
 
   return (
     <div>
@@ -52,12 +54,11 @@ const Corzina = () => {
                   </td>
                 </tr>
               ) : (
-                dataId?.productsInCart?.map((elI) => (
+                dataId?.productsInCart?.map((elI:any) => (
                   <tr
                     key={elI.id}
                     className="hover:bg-gray-50 dark:hover:bg-gray-900 transition"
                   >
-                    {/* Product */}
                     <td className="p-4">
                       <div className="flex items-center gap-4">
                         <img
@@ -71,15 +72,14 @@ const Corzina = () => {
                       </div>
                     </td>
 
-                    {/* Price */}
+
                     <td className="p-4 font-medium text-gray-700 dark:text-gray-300">
                       {elI.product.price} $
                     </td>
 
-                    {/* Quantity */}
+
                     <td className="p-4">
                       <div className="flex items-center gap-2">
-                        {/* Decrement button */}
                         <button
                           disabled={load}
                           onClick={async () => {
@@ -99,12 +99,10 @@ const Corzina = () => {
                           )}
                         </button>
 
-                        {/* Quantity number */}
                         <span className="w-8 text-center font-semibold text-gray-800 dark:text-gray-200">
                           {elI.quantity}
                         </span>
 
-                        {/* Increment button */}
                         <button
                           disabled={load}
                           onClick={async () => {
@@ -126,7 +124,6 @@ const Corzina = () => {
                       </div>
                     </td>
 
-                    {/* Subtotal + Delete */}
                     <td className="p-4">
                       <div className="flex gap-3 items-center">
                         <span className="font-semibold text-blue-600 dark:text-blue-400">

@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from "react";
 import { Eye, Heart, Search, Filter } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AddWishRed, getByIdData, GetCat } from "@/app/productSl";
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 
@@ -32,8 +32,6 @@ const Products = () => {
     dispatch(GetCat())
   }, [categoryId, subCategoryId, selectedCategory, selectedSubCategory]);
 
-  const WISHLIST_LIMIT = parseInt(import.meta.env.VITE_WISHLIST_LIMIT || "5");
-
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -52,6 +50,8 @@ const Products = () => {
 
 
         <div className={`xl:w-[20%] sm:w-full space-y-3 xl:block ${isFilterOpen ? 'block' : 'hidden'}`}>
+
+
           <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Categories</h2>
 
 
@@ -73,7 +73,7 @@ const Products = () => {
           <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ">Categories</h3>
           <div className="overflow-y-auto h-[200px]" style={{ scrollbarColor: "transparent transparent" }} >
 
-            {categories.map((cat, i) => (
+            {categories.map((cat:any, i) => (
               <div
                 key={i}
                 className={`cursor-pointer py-2 px-3 rounded-lg transition ${selectedCategory === cat
@@ -87,7 +87,6 @@ const Products = () => {
             ))}
           </div>
         </div>
-
 
         <div className="xl:w-[76%] sm:w-full">
           <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white hidden xl:block">Our Products</h2>
@@ -105,7 +104,7 @@ const Products = () => {
             </div>
           ) : (
             <div className="grid xl:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-6">
-              {products.map((product) => (
+              {products.map((product:any) => (
                 <div
                   key={product.id}
                   className="group relative bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
@@ -122,18 +121,24 @@ const Products = () => {
 
 
                     <div className="absolute top-3 right-3 flex flex-col gap-2">
-                      <button className="rounded-full bg-white p-2 shadow hover:bg-gray-100 transition text-black dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-                        <Heart
-                          className={`${dataWish?.some((el: any) => el.id === product.id) ? "text-red-600 fill-red-600" : "text-black"}`}
-                          onClick={() => {
-                            dispatch(AddWishRed(product))
-                          }}
-                        />
+                      <button className="rounded-full bg-white  shadow hover:bg-gray-100 transition text-black dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                        <button className={`p-2.5 rounded-full border transition-colors ${dataWish?.some((el: any) => el.id === product?.id)
+                          ? "bg-red-100 border-red-200 text-red-600"
+                          : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-red-300"}`}>
+                          <Heart
+                            className={`${dataWish?.some((el: any) => el.id === product.id) ? "text-red-600 fill-red-600" : "dark:text-white text-black "}`}
+                            onClick={() => {
+                              dispatch(AddWishRed(product))
+                            }}
+                          />
+                        </button>
 
                       </button>
-                      <button className="rounded-full bg-white p-2 shadow hover:bg-gray-100 transition text-black dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-                        <Eye className="w-5 h-5" />
-                      </button>
+                      <Link to={"/info/" + product.id}>
+                        <button className="bg-white dark:bg-gray-800 dark:text-white p-3 rounded-full hover:bg-gray-200 text-black transition">
+                          <Eye />
+                        </button>
+                      </Link>
                     </div>
 
                     <button className="xl:opacity-0 group-hover:opacity-100 absolute bottom-0 w-full sm:opacity-100 rounded-b-lg bg-black text-white py-3 transition-all duration-300 hover:bg-gray-800 dark:bg-blue-600 dark:hover:bg-blue-700">

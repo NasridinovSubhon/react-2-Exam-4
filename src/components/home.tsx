@@ -11,17 +11,8 @@ import kal from "@/assets/kal.png";
 import ps5 from "@/assets/ps5.png";
 import servKam from "@/assets/servisKam.png";
 
-interface SubCategory {
-  id: number;
-  subCategoryName: string;
-}
 
-interface Category {
-  id: number;
-  categoryName: string;
-  categoryImage: string;
-  subCategories: SubCategory[];
-}
+
 
 
 import 'swiper/css';
@@ -29,15 +20,14 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import '../style/style.css';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 
 import { Eye, Heart } from "lucide-react";
 import { memo, useEffect, useRef, useState } from "react";
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
-import { Input } from "./ui/input";
 
 import { useAppDispatch, useAppSelector } from "@/app/hook";
-import { AddWishRed, adToCart, corzina, GetCat, GetProd } from "@/app/productSl";
+import { AddWishRed, adToCart, corzina, GetCat,  GetProd } from "@/app/productSl";
 import { Link } from "react-router-dom";
 
 
@@ -67,9 +57,6 @@ const Home = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const days = ["Якшанбе", "Душанбе", "Сешанбе", "Чоршанбе", "Панҷшанбе", "Ҷумъа", "Шанбе"];
-
-  const dayName = days[time.getDay()];
   const dateNumber = time.getDate().toString().padStart(2, "0");
   const hours = time.getHours().toString().padStart(2, "0");
   const minutes = time.getMinutes().toString().padStart(2, "0");
@@ -77,15 +64,12 @@ const Home = () => {
   const swiperRef = useRef<SwiperType | null>(null);
   const swiperRef2 = useRef<SwiperType | null>(null);
 
-  const WISHLIST_LIMIT = parseInt(import.meta.env.VITE_WISHLIST_LIMIT || "3");
-
   const [open, setOpen] = useState<boolean | null>(false)
 
 
 
   return (
     <div className="dark:text-white text-black" >
-      <Input className="xl:hidden xl:mb-0 sm:mb-6  sm:block w-[90%] m-auto mt-[10px]" placeholder="Search..." />
       <div className="xl:w-[85%]  sm:w-[95%] m-auto flex flex-wrap items-center justify-between xl:mt-[90px] sm:mt-0">
         <div className="xl:w-1/5 pr-3 sm:w-[90%] mx-auto xl:mx-0 flex xl:block sm:flex flex-wrap items-start text-center gap-2.5 xl:border-r sm:border-r-0 border-gray-200 xl:max-h-[400px] sm:max-h-[200px] overflow-y-auto" style={{ scrollbarColor: "transparent transparent" }} >
           <ul className="w-full grid sm:grid-cols-2 xl:grid-cols-1 gap-2.5 mt-2">
@@ -97,7 +81,7 @@ const Home = () => {
                 </li>
               ))
             ) : (
-              dataCat?.slice(0, 10)?.map((f) =>
+              dataCat?.slice(0, 10)?.map((f:any) =>
                 f.subCategories.slice(0, 4).map((sub: any, i: number) => (
                   <li
                     key={sub.id}
@@ -116,19 +100,17 @@ const Home = () => {
 
                     <Link
                       to={`products`}
-                      state={{ categoryId: f.id, subCategoryId: sub.id }}
-                    >
-                      <div
-                        className={`absolute top-full w-40 sm:p-3 xl:p-[10px_50px] bg-white rounded-xl shadow-lg border border-gray-100 z-50 transition-all duration-200 text-center ${open === sub.id
-                          ? "opacity-100 visible translate-y-0"
-                          : "opacity-0 invisible -translate-y-2"
-                          } ${i % 2 === 0
-                            ? "xl:left-[40px] sm:-left-2 -translate-x-2"
-                            : "xl:left-[32px] sm:-left-[10px] translate-x-2"
-                          }`}
+                      state={{ categoryId: f.id, subCategoryId: sub.id }} >
+                      <div className={`absolute top-full w-40 sm:p-3  xl:p-[10px_50px] bg-white rounded-xl shadow-lg border border-gray-100 z-50 transition-all duration-200 text-center ${open === sub.id
+                        ? "opacity-100 visible translate-y-1"
+                        : "opacity-0 invisible -translate-y-2"
+                        } ${i % 2 === 0
+                          ? "xl:left-[40px] sm:-left-2 -translate-x-2"
+                          : "xl:left-[32px] sm:-left-[10px] translate-x-2"
+                        }`}
                       >
-                        <p className="text-gray-700  sm:text-[10px] xl:text-[15px]  ">
-                          {sub.subCategoryName}
+                        <p className={`text-gray-700  sm:text-[10px] xl:text-[15px]    `}>
+                          {sub.subCategoryName.slice(0, 13)}
                         </p>
                       </div>
                     </Link>
@@ -159,66 +141,20 @@ const Home = () => {
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper xl:mt-0 sm:mt-[30px]"
           >
-            <SwiperSlide style={{ backgroundColor: "black" }}  >
-              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start h-[370px]  ">
-                <div className="xl:w-[41%] sm:w-[90%]">
-                  <div className="flex items-center gap-[20px]">
-                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-auto " />
-                    <h1 className="text-white">iPhone 14 Series</h1>
+            {Array.from({ length: 6 }).map((_) => (
+              <SwiperSlide className="bg-black border dark:border-white " >
+                <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start h-[370px]  ">
+                  <div className="xl:w-[41%] sm:w-[90%]">
+                    <div className="flex items-center gap-[20px]">
+                      <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-auto " />
+                      <h1 className="text-white">iPhone 14 Series</h1>
+                    </div>
+                    <h1 className="xl:text-[64px] sm:text-2xl text-white xl:mt-0 sm:mt-5 xl:mb-0 sm:mb-5  ">Up to 10% off Voucher</h1>
                   </div>
-                  <h1 className="xl:text-[64px] sm:text-2xl text-white xl:mt-0 sm:mt-5 xl:mb-0 sm:mb-5  ">Up to 10% off Voucher</h1>
+                  <img src={khdIph} alt="" className="xl:w-[56%] sm:w-[100%] " />
                 </div>
-                <img src={khdIph} alt="" className="xl:w-[56%] sm:w-[100%]" />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide style={{ backgroundColor: "black" }}  >
-              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start h-[370px]  ">
-                <div className="xl:w-[41%] sm:w-[90%]">
-                  <div className="flex items-center gap-[20px]">
-                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-auto " />
-                    <h1 className="text-white">iPhone 14 Series</h1>
-                  </div>
-                  <h1 className="xl:text-[64px] sm:text-2xl text-white xl:mt-0 sm:mt-5 xl:mb-0 sm:mb-5  ">Up to 10% off Voucher</h1>
-                </div>
-                <img src={khdIph} alt="" className="xl:w-[56%] sm:w-[100%]" />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide style={{ backgroundColor: "black" }}  >
-              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start h-[370px]  ">
-                <div className="xl:w-[41%] sm:w-[90%]">
-                  <div className="flex items-center gap-[20px]">
-                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-auto " />
-                    <h1 className="text-white">iPhone 14 Series</h1>
-                  </div>
-                  <h1 className="xl:text-[64px] sm:text-2xl text-white xl:mt-0 sm:mt-5 xl:mb-0 sm:mb-5  ">Up to 10% off Voucher</h1>
-                </div>
-                <img src={khdIph} alt="" className="xl:w-[56%] sm:w-[100%]" />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide style={{ backgroundColor: "black" }}  >
-              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start h-[370px]  ">
-                <div className="xl:w-[41%] sm:w-[90%]">
-                  <div className="flex items-center gap-[20px]">
-                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-auto " />
-                    <h1 className="text-white">iPhone 14 Series</h1>
-                  </div>
-                  <h1 className="xl:text-[64px] sm:text-2xl text-white xl:mt-0 sm:mt-5 xl:mb-0 sm:mb-5  ">Up to 10% off Voucher</h1>
-                </div>
-                <img src={khdIph} alt="" className="xl:w-[56%] sm:w-[100%]" />
-              </div>
-            </SwiperSlide>
-            <SwiperSlide style={{ backgroundColor: "black" }}  >
-              <div className="flex items-center justify-between flex-wrap w-[90%] m-auto text-start h-[370px]  ">
-                <div className="xl:w-[41%] sm:w-[90%]">
-                  <div className="flex items-center gap-[20px]">
-                    <img src={iphone} alt="" className="xl:w-[70px] sm:w-[50px] h-auto " />
-                    <h1 className="text-white">iPhone 14 Series</h1>
-                  </div>
-                  <h1 className="xl:text-[64px] sm:text-2xl text-white xl:mt-0 sm:mt-5 xl:mb-0 sm:mb-5  ">Up to 10% off Voucher</h1>
-                </div>
-                <img src={khdIph} alt="" className="xl:w-[56%] sm:w-[100%]" />
-              </div>
-            </SwiperSlide>
+              </SwiperSlide>
+            ))}
           </Swiper>
         </div>
       </div>
@@ -303,29 +239,32 @@ const Home = () => {
                   <div className="h-4 w-[34%] rounded-md bg-gray-200 animate-pulse"></div>
                 </div>
               </SwiperSlide>))
-            : data?.slice(0, 10)?.map((e) => {
+            : data?.slice(0, 10)?.map((e:any) => {
               return (
                 <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                   <div className="relative p-2 w-[95%] ">
                     <div className="bg-gray-100 dark:bg-gray-300 max-h-[300px] min-h-[200px] rounded-2xl overflow-hidden group relative transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col h-full
                   xl:h-[320px] sm:h-auto">
-
                       <div className="flex justify-between items-start p-3">
                         <span className="bg-red-600 text-white text-xs font-medium px-3 py-1 rounded">
                           -100%
                         </span>
                         <div className="flex flex-col gap-2">
-                          <button className="bg-white p-2 rounded-full hover:bg-gray-200 transition">
+                          <button className={`p-2.5 rounded-full border transition-colors ${dataWish?.some((el: any) => el.id === e?.id)
+                            ? "bg-red-100 border-red-200 text-red-600"
+                            : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-red-300"}`}>
                             <Heart
-                              className={`${dataWish?.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black"}`}
+                              className={`${dataWish?.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "dark:text-white text-black "}`}
                               onClick={() => {
                                 dispatch(AddWishRed(e))
                               }}
                             />
                           </button>
-                          <button className="bg-white p-2 rounded-full hover:bg-gray-200 text-black transition">
-                            <Eye />
-                          </button>
+                          <Link to={"/info/" + e.id}>
+                            <button className="bg-white p-2.5 dark:bg-gray-800 dark:text-white rounded-full hover:bg-gray-200 text-black transition">
+                              <Eye />
+                            </button>
+                          </Link>
                         </div>
                       </div>
 
@@ -412,7 +351,7 @@ const Home = () => {
           }}
           breakpoints={{
             0: {
-              slidesPerView: 3,
+              slidesPerView: 2,
               spaceBetween: 15,
             },
             511: {
@@ -434,7 +373,7 @@ const Home = () => {
               </SwiperSlide>
             ))
           ) : (
-            dataCat.slice(0, 7)?.map((iCat, i) => (
+            dataCat.slice(0, 7)?.map((iCat:any, i:number) => (
               <SwiperSlide
                 key={i}
                 className="group border rounded-xl bg-white dark:bg-gray-300 text-center cursor-pointer
@@ -514,7 +453,7 @@ const Home = () => {
                   </div>
                 </SwiperSlide>
               ))
-              : data?.slice(4, 8)?.map((e) => {
+              : data?.slice(4, 8)?.map((e:any) => {
                 return (
                   <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                     <div className="relative p-2 w-[95%] ">
@@ -526,17 +465,21 @@ const Home = () => {
                             -100%
                           </span>
                           <div className="flex flex-col gap-2">
-                            <button className="bg-white p-2 rounded-full hover:bg-gray-200 transition">
+                            <button className={`p-2.5 rounded-full border transition-colors ${dataWish?.some((el: any) => el.id === e?.id)
+                              ? "bg-red-100 border-red-200 text-red-600"
+                              : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-red-300"}`}>
                               <Heart
-                                className={`${dataWish?.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black"}`}
+                                className={`${dataWish?.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black dark:text-white"}`}
                                 onClick={() => {
                                   dispatch(AddWishRed(e))
                                 }}
                               />
                             </button>
-                            <button className="bg-white p-2 rounded-full hover:bg-gray-200 text-black transition">
-                              <Eye />
-                            </button>
+                            <Link to={"/info/" + e.id}>
+                              <button className="bg-white p-2.5 border  dark:bg-gray-800 dark:text-white rounded-full hover:bg-gray-200 text-black transition  ">
+                                <Eye />
+                              </button>
+                            </Link>
                           </div>
                         </div>
 
@@ -651,7 +594,7 @@ const Home = () => {
                   </div>
                 </SwiperSlide>
               ))
-              : data?.slice(2, 5)?.map((e) => {
+              : data?.slice(2, 5)?.map((e:any) => {
                 return (
                   <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                     <div className="relative p-2 w-[95%] ">
@@ -663,17 +606,21 @@ const Home = () => {
                             -100%
                           </span>
                           <div className="flex flex-col gap-2">
-                            <button className="bg-white p-2 rounded-full hover:bg-gray-200 transition">
+                            <button className={`p-2.5 rounded-full border transition-colors ${dataWish?.some((el: any) => el.id === e?.id)
+                              ? "bg-red-100 border-red-200 text-red-600"
+                              : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-red-300"}`}>
                               <Heart
-                                className={`${dataWish?.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black"}`}
+                                className={`${dataWish?.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "dark:text-white text-black "}`}
                                 onClick={() => {
                                   dispatch(AddWishRed(e))
                                 }}
                               />
                             </button>
-                            <button className="bg-white p-2 rounded-full hover:bg-gray-200 text-black transition">
-                              <Eye />
-                            </button>
+                            <Link to={"/info/" + e.id}>
+                              <button className="bg-white dark:bg-gray-800 dark:text-white p-2.5 rounded-full hover:bg-gray-200 text-black transition">
+                                <Eye />
+                              </button>
+                            </Link>
                           </div>
                         </div>
 

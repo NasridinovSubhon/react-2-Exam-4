@@ -7,13 +7,15 @@ import "swiper/css/pagination";
 import { Autoplay } from "swiper/modules";
 
 import { Trash2 } from 'lucide-react';
-import { AddWishRed, adToCart, clearWish } from "@/app/productSl";
+import { AddWishRed, adToCart, clearWish, corzina } from "@/app/productSl";
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 
 
 const Wishlist = () => {
 
   const { dataWish } = useAppSelector(state => state.prod)
+  console.log(dataWish);
+
   const dispatch = useAppDispatch()
   return (
     <div className="h-[100vh]" >
@@ -49,44 +51,61 @@ const Wishlist = () => {
           }}
           modules={[Autoplay]}
           className="mySwiper" >
-
           {dataWish?.slice(0, 10)?.map((e: any) => {
             return (
-              <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
-                <div className="relative p-2 w-[95%] ">
-                  <div className="bg-gray-100 dark:bg-gray-800 max-h-[300px] min-h-[200px] rounded-2xl overflow-hidden group relative transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col h-full
-                  xl:h-[320px] sm:h-auto">
-                    <button className="absolute right-3 top-4 bg-gray-200 rounded-full p-[10px] hover:bg-gray-300 " >
-                      <Trash2 size={18}
-                        className="text-black"
-                        onClick={() => {
-                          dispatch(AddWishRed(e))
-                        }}
-                      />
+              <SwiperSlide className="!w-[310px] !h-[340px]">
+                <div className="relative p-2 w-full h-full">
+                  <div
+                    className="bg-white dark:bg-gray-300 rounded-2xl shadow-sm overflow-hidden
+                 flex flex-col justify-between h-full transition duration-300"
+                  >
+                    {/* Remove button */}
+                    <button
+                      onClick={() => dispatch(AddWishRed(e))}
+                      className="absolute right-3 top-3 z-10 bg-gray-200 dark:bg-gray-700
+                   rounded-full p-2 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+                    >
+                      <Trash2 size={18} className="text-black dark:text-white" />
                     </button>
-                    <div className="flex-1 flex items-center justify-center">
+
+                    {/* Image */}
+                    <div className="flex-1 flex items-center justify-center p-4">
                       <img
-                        src={`http://37.27.29.18:8002/images/${e.image}`}
+                        src={
+                          e.image
+                            ? `http://37.27.29.18:8002/images/${e.image}`
+                            : e.images?.[0]?.images
+                              ? `http://37.27.29.18:8002/images/${e.images[0].images}`
+                              : "/fallback.png"
+                        }
                         alt={e.productName}
-                        className="xl:max-h-[140px] sm:max-h-[190px] w-auto object-contain mix-blend-multiply"
+                        className="max-h-[200px] object-contain mix-blend-multiply"
                       />
                     </div>
 
-
+                    {/* Add to Cart */}
                     <button
-                      onClick={() => dispatch(adToCart(e.id))}
-                      className="w-full py-3 bg-black text-white text-sm font-medium  transition duration-300"
+                      onClick={() => {
+                        dispatch(adToCart(e.id));
+                        dispatch(corzina());
+                      }}
+                      className="w-full py-2.5 bg-black text-white text-sm font-medium
+                   hover:bg-gray-900 transition"
                     >
                       Add To Cart
                     </button>
                   </div>
 
+                  {/* Title + Price */}
                   <div className="mt-3 text-start">
-                    <h1 className="text-sm font-medium text-gray-800 dark:text-white truncate">{e.productName}</h1>
+                    <h1 className="text-sm font-medium text-gray-800 dark:text-white truncate">
+                      {e.productName}
+                    </h1>
                     <span className="text-red-600 font-semibold">${e.price}</span>
                   </div>
                 </div>
               </SwiperSlide>
+
             )
           })}
 

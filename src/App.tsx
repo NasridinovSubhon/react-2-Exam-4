@@ -1,4 +1,4 @@
-import { lazy, memo, Suspense, useState } from "react"
+import { lazy, memo, Suspense } from "react"
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom"
 import Layout from "./layout/layout"
 import { ThemeProvider } from "./theme/theme-provider"
@@ -12,6 +12,8 @@ import About from "./components/about"
 
 import Login from "./components/login"
 import Corzina from "./components/corzina"
+import MyAcount from "./components/myAcount"
+import Info from "./components/info"
 const ContactLazy = lazy(() => import("./components/contact"))
 
 const HomeLazy = lazy(() => import("@/components/home"));
@@ -40,6 +42,8 @@ const App = () => {
         <Route path="products" element={<Suspense fallback={"Loading..."} >   <Products />  </Suspense>} />
         <Route path="wishlist" element={<Suspense fallback={"Loading..."}  >  <Wishlist />  </Suspense>} />
         <Route path="byId" element={<Corzina />} />
+        <Route path="info/:id" element={<Info />} />
+        <Route path="acount" element={<MyAcount />} />
       </Route>
     )
   )
