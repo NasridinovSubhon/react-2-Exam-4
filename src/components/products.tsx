@@ -109,7 +109,7 @@ const Products = () => {
                   key={product.id}
                   className="group relative bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
                 >
-                  <div className="relative bg-[#F5F5F5] dark:bg-gray-700 py-8 rounded-lg">
+                  <div className="relative bg-[white] dark:bg-gray-700 py-8 rounded-lg">
                     <img
                       src={`http://37.27.29.18:8002/images/${product.image}`}
                       alt={product.productName}
@@ -118,7 +118,6 @@ const Products = () => {
                         (e.target as HTMLImageElement).src = "https://via.placeholder.com/300x300?text=Product+Image";
                       }}
                     />
-
 
                     <div className="absolute top-3 right-3 flex flex-col gap-2">
                       <button className="rounded-full bg-white  shadow hover:bg-gray-100 transition text-black dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">

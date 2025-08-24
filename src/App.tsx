@@ -14,6 +14,7 @@ import Login from "./components/login"
 import Corzina from "./components/corzina"
 import MyAcount from "./components/myAcount"
 import Info from "./components/info"
+import ErorrPage from "./components/ErorrPage"
 const ContactLazy = lazy(() => import("./components/contact"))
 
 const HomeLazy = lazy(() => import("@/components/home"));
@@ -44,6 +45,8 @@ const App = () => {
         <Route path="byId" element={<Corzina />} />
         <Route path="info/:id" element={<Info />} />
         <Route path="acount" element={<MyAcount />} />
+        <Route path="*" element={<ErorrPage />} />
+
       </Route>
     )
   )

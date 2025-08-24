@@ -19,6 +19,7 @@ const Info = () => {
   const { dataInfo: dataIInfo, dataWish, data, loading } = useAppSelector(state => state.prod)
   const { id } = useParams() as any
   const dataInfo = dataIInfo as any
+
   useEffect(() => {
     if (id) {
       dispatch(GetInfo(id)),
