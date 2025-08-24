@@ -1,7 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import { Eye, Heart, Search, Filter } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { AddWishRed, getByIdData, GetCat } from "@/app/productSl";
+import { AddWishRed, adToCart, corzina, getByIdData, GetCat } from "@/app/productSl";
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 
 
@@ -73,7 +73,7 @@ const Products = () => {
           <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ">Categories</h3>
           <div className="overflow-y-auto h-[200px]" style={{ scrollbarColor: "transparent transparent" }} >
 
-            {categories.map((cat:any, i) => (
+            {categories.map((cat: any, i) => (
               <div
                 key={i}
                 className={`cursor-pointer py-2 px-3 rounded-lg transition ${selectedCategory === cat
@@ -104,7 +104,7 @@ const Products = () => {
             </div>
           ) : (
             <div className="grid xl:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-6">
-              {products.map((product:any) => (
+              {products.map((product: any) => (
                 <div
                   key={product.id}
                   className="group relative bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
@@ -141,7 +141,9 @@ const Products = () => {
                       </Link>
                     </div>
 
-                    <button className="xl:opacity-0 group-hover:opacity-100 absolute bottom-0 w-full sm:opacity-100 rounded-b-lg bg-black text-white py-3 transition-all duration-300 hover:bg-gray-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                    <button
+                      onClick={() => { dispatch(adToCart(product.id)), dispatch(corzina()) }}
+                      className="xl:opacity-0 group-hover:opacity-100 absolute bottom-0 w-full sm:opacity-100 rounded-b-lg bg-black text-white py-3 transition-all duration-300 hover:bg-gray-800 dark:bg-blue-600 dark:hover:bg-blue-700">
                       Add To Cart
                     </button>
                   </div>

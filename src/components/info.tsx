@@ -16,7 +16,7 @@ import { Autoplay } from 'swiper/modules';
 const Info = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { dataInfo: dataIInfo, dataWish,  data, loading } = useAppSelector(state => state.prod)
+  const { dataInfo: dataIInfo, dataWish, data, loading } = useAppSelector(state => state.prod)
   const { id } = useParams() as any
   const dataInfo = dataIInfo as any
   useEffect(() => {
@@ -40,7 +40,7 @@ const Info = () => {
   const [hover, setHover] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e:any) => {
+  const handleMouseMove = (e: any) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
@@ -65,7 +65,7 @@ const Info = () => {
             <div className="flex flex-col-reverse lg:flex-row gap-4">
 
               <div className="flex lg:flex-col gap-3 order-2 lg:order-1 overflow-x-auto lg:overflow-visible py-2">
-                {dataInfo?.images?.map((image:any, index:number) => (
+                {dataInfo?.images?.map((image: any, index: number) => (
                   <div
                     key={index}
                     className={`flex-shrink-0 w-16 h-16 lg:w-20 lg:h-20 rounded-lg bg-gray-100 dark:bg-gray-300 flex items-center justify-center cursor-pointer border-2 ${mainImageIndex === index ? 'border-blue-500' : 'border-transparent'}`}
@@ -285,7 +285,7 @@ const Info = () => {
                   <div className="h-4 w-[34%] rounded-md bg-gray-200 animate-pulse"></div>
                 </div>
               </SwiperSlide>))
-            : data?.slice(0, 10)?.map((e:any) => {
+            : data?.slice(0, 10)?.map((e: any) => {
               return (
                 <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                   <div className="relative p-2 w-[95%] ">
@@ -296,18 +296,18 @@ const Info = () => {
                           -100%
                         </span>
                         <div className="flex flex-col gap-2">
-                          <button className={`p-2.5 rounded-full border transition-colors ${dataWish?.some((el: any) => el.id === e?.id)
+                          <button className={`p-2.5 rounded-full  border transition-colors ${dataWish?.some((el: any) => el.id === e?.id)
                             ? "bg-red-100 border-red-200 text-red-600"
                             : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-red-300"}`}>
                             <Heart
-                              className={`${dataWish?.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black"}`}
+                              className={`${dataWish?.some((el: any) => el.id === e.id) ? "text-red-600 fill-red-600" : "text-black dark:text-white"}`}
                               onClick={() => {
                                 dispatch(AddWishRed(e))
                               }}
                             />
                           </button>
                           <Link to={"/info/" + e.id}>
-                            <button className="bg-white p-2 rounded-full hover:bg-gray-200 text-black transition">
+                            <button className="bg-white p-2.5 dark:bg-gray-800 dark:text-white rounded-full hover:bg-gray-200 text-black transition">
                               <Eye />
                             </button>
                           </Link>

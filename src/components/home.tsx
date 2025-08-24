@@ -27,7 +27,7 @@ import { Eye, Heart } from "lucide-react";
 import { memo, useEffect, useRef, useState } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/app/hook";
-import { AddWishRed, adToCart, corzina, GetCat,  GetProd } from "@/app/productSl";
+import { AddWishRed, adToCart, corzina, GetCat, GetProd } from "@/app/productSl";
 import { Link } from "react-router-dom";
 
 
@@ -81,23 +81,27 @@ const Home = () => {
                 </li>
               ))
             ) : (
-              dataCat?.slice(0, 10)?.map((f:any) =>
-                f.subCategories.slice(0, 4).map((sub: any, i: number) => (
+              dataCat?.slice(0, 10)?.map((f: any) =>
+                f.subCategories.slice(0, 7).map((sub: any) => (
                   <li
                     key={sub.id}
                     className="relative group w-full  "
                     onMouseEnter={() => setOpen(sub.id)}
                     onMouseLeave={() => setOpen(null)}
                   >
-                    <button
-                      className={`px-4 py-2 rounded-lg transition-colors duration-300 w-full ${open === sub.id
-                        ? "bg-blue-600 text-white shadow-md"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        }`}
-                    >
-                      {sub.subCategoryName.slice(0, 5)}
-                    </button>
+                    <Link
+                      to={`products`} state={{ categoryId: f.id, subCategoryId: sub.id }}  >
 
+                      <button
+                        className={`px-4 py-2 rounded-lg transition-colors duration-300 w-full ${open === sub.id
+                          ? "bg-blue-600 text-white shadow-md"
+                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                          }`}
+                      >
+                        {sub.subCategoryName.slice(0, 12)}
+                      </button>
+                    </Link>
+                    {/*
                     <Link
                       to={`products`}
                       state={{ categoryId: f.id, subCategoryId: sub.id }} >
@@ -113,7 +117,7 @@ const Home = () => {
                           {sub.subCategoryName.slice(0, 13)}
                         </p>
                       </div>
-                    </Link>
+                    </Link> */}
                   </li>
                 ))
               )
@@ -131,7 +135,7 @@ const Home = () => {
             spaceBetween={30}
             centeredSlides={true}
             autoplay={{
-              delay: 2500,
+              delay: 3500,
               disableOnInteraction: false,
             }}
             pagination={{
@@ -211,7 +215,7 @@ const Home = () => {
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           slidesPerView={slidesPerView}
           autoplay={{
-            delay: 2500,
+            delay: 3500,
             disableOnInteraction: false,
           }}
           pagination={{
@@ -239,7 +243,7 @@ const Home = () => {
                   <div className="h-4 w-[34%] rounded-md bg-gray-200 animate-pulse"></div>
                 </div>
               </SwiperSlide>))
-            : data?.slice(0, 10)?.map((e:any) => {
+            : data?.slice(0, 10)?.map((e: any) => {
               return (
                 <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                   <div className="relative p-2 w-[95%] ">
@@ -343,7 +347,7 @@ const Home = () => {
           slidesPerView={2}
           spaceBetween={15}
           autoplay={{
-            delay: 2500,
+            delay: 3500,
             disableOnInteraction: false,
           }}
           pagination={{
@@ -373,7 +377,7 @@ const Home = () => {
               </SwiperSlide>
             ))
           ) : (
-            dataCat.slice(0, 7)?.map((iCat:any, i:number) => (
+            dataCat.slice(0, 7)?.map((iCat: any, i: number) => (
               <SwiperSlide
                 key={i}
                 className="group border rounded-xl bg-white dark:bg-gray-300 text-center cursor-pointer
@@ -423,7 +427,7 @@ const Home = () => {
       <div className="w-[85%] m-auto mt-[20px] mb-[90px] " >
         <Swiper
           autoplay={{
-            delay: 2500,
+            delay: 3500,
             disableOnInteraction: false,
           }}
           pagination={{
@@ -453,7 +457,7 @@ const Home = () => {
                   </div>
                 </SwiperSlide>
               ))
-              : data?.slice(4, 8)?.map((e:any) => {
+              : data?.slice(4, 8)?.map((e: any) => {
                 return (
                   <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                     <div className="relative p-2 w-[95%] ">
@@ -564,7 +568,7 @@ const Home = () => {
       <div className="w-[85%] m-auto mt-[20px] mb-[90px] " >
         <Swiper
           autoplay={{
-            delay: 2500,
+            delay: 3500,
             disableOnInteraction: false,
           }}
           pagination={{
@@ -594,7 +598,7 @@ const Home = () => {
                   </div>
                 </SwiperSlide>
               ))
-              : data?.slice(2, 5)?.map((e:any) => {
+              : data?.slice(2, 5)?.map((e: any) => {
                 return (
                   <SwiperSlide className="mr-[50px]" style={{ height: "370px", width: "310px", }} >
                     <div className="relative p-2 w-[95%] ">
