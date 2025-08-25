@@ -1,10 +1,9 @@
 import axios from "axios"
 
 export const Api = axios.create({
-
   baseURL: `https://store-api.softclub.tj/`,
-  
 })
+
 
 Api.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
@@ -22,4 +21,3 @@ Api.interceptors.response.use(
     }
   }
 )
-
