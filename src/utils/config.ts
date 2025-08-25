@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export const Api = axios.create({
-  baseURL: `https://store-api.softclub.tj/`,
+  baseURL: `http://37.27.29.18:8002/`,
 })
 
 Api.interceptors.request.use((config) => {
