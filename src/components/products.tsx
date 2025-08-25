@@ -86,7 +86,7 @@ const Products = () => {
           <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ">Categories</h3>
           <div className="overflow-y-auto h-[200px]" style={{ scrollbarColor: "transparent transparent" }} >
 
-            {categories.filter((el) => searchQuery ? el?.categoryName.toLowerCase().includes(searchQuery.toLowerCase().trim()) : el).map((cat: any, i) => (
+            {categories.filter((el: any) => searchQuery ? el?.categoryName.toLowerCase().includes(searchQuery.toLowerCase().trim()) : el).map((cat: any, i) => (
               <div
                 key={i}
                 className={`cursor-pointer py-2 px-3 rounded-lg transition ${selectedCategory === cat
@@ -128,7 +128,7 @@ const Products = () => {
             </div>
           ) : (
             <div className="grid xl:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-6">
-              {products.filter((el) => el.price < ran).map((product: any) => (
+              {products.filter((el: any) => el.price < ran).map((product: any) => (
                 <div
                   key={product.id}
                   className="group relative bg-white dark:bg-gray-400 rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden"
