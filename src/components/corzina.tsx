@@ -54,7 +54,7 @@ const Corzina = () => {
                   </td>
                 </tr>
               ) : (
-                dataId?.productsInCart?.map((elI:any) => (
+                dataId?.productsInCart?.map((elI: any) => (
                   <tr
                     key={elI.id}
                     className="hover:bg-gray-50 dark:hover:bg-gray-900 transition"

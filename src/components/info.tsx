@@ -320,7 +320,7 @@ const Info = () => {
                         <img
                           src={`http://37.27.29.18:8002/images/${e.image}`}
                           alt={e.productName}
-                          className="xl:max-h-[140px] sm:max-h-[190px] w-auto object-contain mix-blend-multiply"
+                          className="xl:max-h-[140px] sm:max-h-[120px] w-auto object-contain mix-blend-multiply"
                         />
                       </div>
 

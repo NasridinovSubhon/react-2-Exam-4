@@ -136,6 +136,7 @@ const Home = () => {
             autoplay={{
               delay: 3500,
               disableOnInteraction: false,
+              pauseOnMouseEnter: true,
             }}
             pagination={{
               clickable: true,
@@ -216,6 +217,7 @@ const Home = () => {
           autoplay={{
             delay: 3500,
             disableOnInteraction: false,
+            pauseOnMouseEnter: true,
           }}
           pagination={{
             clickable: true,
@@ -322,7 +324,6 @@ const Home = () => {
         </div>
         <div className="w-[10%] xl:flex items-center justify-between sm:hidden">
           <button className="bg-[#dadddf]  text-black p-[10px_15px] rounded-full " onClick={() => {
-
             swiperRef2.current?.slidePrev();
           }}>
             ←
@@ -348,6 +349,7 @@ const Home = () => {
           autoplay={{
             delay: 3500,
             disableOnInteraction: false,
+            pauseOnMouseEnter: true,
           }}
           pagination={{
             clickable: true,
@@ -382,24 +384,28 @@ const Home = () => {
                 className="group border rounded-xl bg-white dark:bg-gray-300 text-center cursor-pointer
                      transition duration-300 hover:bg-[#DB4444] dark:hover:bg-[#6fe9acad] hover:text-white p-3 mb-[100px] "
               >
-                <div className="flex items-center dark:invert w-full  h-[130px] justify-center">
-                  <div>
 
+                <div className="flex items-center dark:invert w-full group h-[130px] justify-center">
+                  <div>
                     <img
                       src={`http://37.27.29.18:8002/images/${iCat.categoryImage}`}
                       alt=""
                       className="w-20 h-20 object-contain m-auto dark:invert mix-blend-multiply  transition-transform duration-300 group-hover:scale-110"
                     />
                     {iCat.subCategories.slice(0, 1).map((iCatSyb: any, idx: number) => (
-                      <h1
-                        key={idx}
-                        className="text-xs sm:text-sm mt-2 font-medium group-hover:text-white truncate max-w-[90px]"
-                      >
-                        {iCatSyb.subCategoryName}
-                      </h1>
+                      <Link
+                        to={`products`} state={{ categoryId: iCat.id, subCategoryId: iCatSyb.id }}  >
+                        <h1
+                          key={idx}
+                          className="text-xs sm:text-sm mt-2 font-medium group-hover:text-white truncate max-w-[90px]"
+                        >
+                          {iCatSyb.subCategoryName}
+                        </h1>
+                      </Link>
                     ))}
                   </div>
                 </div>
+
               </SwiperSlide>
             ))
           )}
@@ -428,6 +434,7 @@ const Home = () => {
           autoplay={{
             delay: 3500,
             disableOnInteraction: false,
+            pauseOnMouseEnter: true,
           }}
           pagination={{
             clickable: true,
@@ -569,6 +576,7 @@ const Home = () => {
           autoplay={{
             delay: 3500,
             disableOnInteraction: false,
+            pauseOnMouseEnter: true,
           }}
           pagination={{
             clickable: true,
