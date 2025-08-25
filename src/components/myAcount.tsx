@@ -16,14 +16,13 @@ import {
 } from "@/components/ui/dialog"
 import { DialogClose } from "@radix-ui/react-dialog"
 
-
-
-
 const MyAcount = () => {
   const { dataprofile, loadiProfile } = useAppSelector(state => state.prod) as any
   const dispatch = useAppDispatch()
 
   const token = jwtDecode(localStorage.getItem("accessToken") || "") as any
+
+
   useEffect(() => {
     dispatch(getMyProfile(token.sid))
   }, [])
@@ -31,7 +30,7 @@ const MyAcount = () => {
   const Edit_Use_f = useForm()
 
 
-  async function handleEdit(e:any) {
+  async function handleEdit(e: any) {
     const fd = new FormData() as any
     fd.append("Image", e.Image[0])
     fd.append("FirstName", e.FirstName)

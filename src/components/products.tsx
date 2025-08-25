@@ -35,12 +35,6 @@ const Products = () => {
 
   const [ran, setRan] = useState(100)
 
-
-
-
-
-
-
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="flex xl:w-[85%] sm:w-[95%] m-auto gap-10 sm:mt-[60px] xl:mt-[120px] mb-[120px] flex-wrap">

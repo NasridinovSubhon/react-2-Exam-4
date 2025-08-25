@@ -211,9 +211,14 @@ const Corzina = () => {
               <NumberTicker value={subtotal} className="text-lg font-semibold text-[#DB4444]" />
             </div>
 
-            <button disabled={load} className="w-full bg-[#DB4444] text-white py-3 mt-6 rounded-xl font-medium transition duration-300 hover:bg-red-600 active:scale-95 disabled:opacity-50">
-              {load ? "Processing..." : "Proceed to Checkout"}
-            </button>
+
+            <Link to={"/checkout"} >
+              <button disabled={load} className="w-full bg-[#DB4444] text-white py-3 mt-6 rounded-xl font-medium transition duration-300 hover:bg-red-600 active:scale-95 disabled:opacity-50">
+                {load ? "Processing..." : "Proceed to Checkout"}
+              </button>
+            </Link>
+
+
           </div>
         </div>
       </div>

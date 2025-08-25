@@ -29,9 +29,10 @@ import ErrorPage from './components/erorrPage';
 const Contact = memo(ContactLazy)
 const Home = memo(HomeLazy);
 const Products = memo(ProductsLazy)
-
-
+const Checkout = lazy(() => import("@/components/checkgout"))
 const App = () => {
+
+  
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -47,7 +48,7 @@ const App = () => {
         <Route path="info/:id" element={<Info />} />
         <Route path="acount" element={<MyAcount />} />
         <Route path="*" element={<ErrorPage />} />
-
+        <Route path="checkout" element={<Checkout />} />
       </Route>
     )
   )
@@ -57,6 +58,7 @@ const App = () => {
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <RouterProvider router={router} />
       </ThemeProvider>
+
 
     </div>
   )

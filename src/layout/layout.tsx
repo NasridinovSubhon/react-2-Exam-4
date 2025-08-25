@@ -23,9 +23,9 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import { useAppDispatch, useAppSelector } from "@/app/hook"
-import { SearProduct } from "@/app/productSl"
-
-
+import { corzina, SearProduct } from "@/app/productSl"
+import { Toaster } from "@/components/ui/sonner"
+import { toast } from "sonner"
 const Layout = () => {
 
     const [nav, SetNav] = useState(false)
@@ -37,6 +37,7 @@ const Layout = () => {
     const { dataId, loadCorLen, dataWish, data, dataSea, loadSear } = useAppSelector(state => state.prod) as any
 
     const dispatch = useAppDispatch()
+
 
     const DrawerList = (
         <ul className={`h-[100vh] dark:bg-black bg-white dark:text-white text-black  w-[100%] m-auto -mt-[0.59px] ${theme == "dark" ? "border-[#86b9d6] border-2 " : " border-[#180c85] border-2"} `} >
@@ -66,8 +67,11 @@ const Layout = () => {
         </ul >
     );
 
+
+
     return (
         <div className="text-black" >
+            <Toaster />
             <div className="dark:text-white text-black " >
                 <div className="xl:w-[90%] m-auto mt-[20px] flex items-center justify-between sm:w-[90%]  ">
                     <div className="sm:flex items-center justify-between w-[25%] xl:hidden text-center">
@@ -240,7 +244,7 @@ const Layout = () => {
                                 <Link to={"/"}
                                 >
                                     <div
-                                        onClick={() => localStorage.clear()}
+                                        onClick={() => { localStorage.clear(), dispatch(corzina()), toast("succes Lo out") }}
                                         className="flex items-center gap-6 mt-6" >
                                         <LogOut />
                                         <h1>Logout</h1>

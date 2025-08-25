@@ -30,10 +30,6 @@ import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { AddWishRed, adToCart, corzina, GetCat, GetProd } from "@/app/productSl";
 import { Link } from "react-router-dom";
 
-
-
-
-
 const Home = () => {
   const dispatch = useAppDispatch()
   useEffect(() => {
@@ -65,11 +61,8 @@ const Home = () => {
   const swiperRef2 = useRef<SwiperType | null>(null);
 
   const [open, setOpen] = useState<boolean | null>(false)
-
-
-
   return (
-    <div className="dark:text-white text-black" >
+    <div className="dark:text-white text-black">
       <div className="xl:w-[85%]  sm:w-[95%] m-auto flex flex-wrap items-center justify-between xl:mt-[90px] sm:mt-0">
         <div className="xl:w-1/5 pr-3 sm:w-[90%] mx-auto xl:mx-0 flex xl:block sm:flex flex-wrap items-start text-center gap-2.5 xl:border-r sm:border-r-0 border-gray-200 xl:max-h-[400px] sm:max-h-[200px] overflow-y-auto" style={{ scrollbarColor: "transparent transparent" }} >
           <ul className="w-full grid sm:grid-cols-2 xl:grid-cols-1 gap-2.5 mt-2">

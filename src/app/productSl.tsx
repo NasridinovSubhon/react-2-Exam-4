@@ -201,6 +201,15 @@ export const editProfile = createAsyncThunk(
   }
 )
 
+export const registerAcount = createAsyncThunk(
+  "counter/registerAcount",
+  async (obj) => {
+    try {
+      await Api.post(`Account/register`, obj)
+    } catch (error) { console.error(error) }
+  }
+)
+
 export const products = createSlice({
   name: 'counter',
   initialState,
